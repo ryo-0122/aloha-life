@@ -333,3 +333,39 @@ function aloha_redirect_old_plan_categories() {
 	}
 }
 add_action( 'template_redirect', 'aloha_redirect_old_plan_categories' );
+
+/**
+ * 施工例のタクソノミー（スタイル・特徴・ライフスタイル）を登録する。
+ * 本番サイトと同じ URL（/cases/cases_category/◯◯/ など）になるようにしている。
+ * すでにプラグイン等で登録済みの環境では何もしない。
+ * ※登録後、初回だけ「設定 → パーマリンク」を開いて「変更を保存」を押す（URLの反映）。
+ */
+function aloha_register_case_taxonomies() {
+	$taxonomies = array(
+		'cases_category' => array( 'label' => 'スタイル', 'hierarchical' => true ),
+		'feature'        => array( 'label' => '特徴', 'hierarchical' => false ),
+		'life_style'     => array( 'label' => 'ライフスタイル', 'hierarchical' => false ),
+	);
+	foreach ( $taxonomies as $taxonomy => $args ) {
+		if ( taxonomy_exists( $taxonomy ) ) {
+			continue;
+		}
+		register_taxonomy(
+			$taxonomy,
+			'cases',
+			array(
+				'label'             => $args['label'],
+				'labels'            => array(
+					'name'          => $args['label'],
+					'singular_name' => $args['label'],
+				),
+				'public'            => true,
+				'hierarchical'      => $args['hierarchical'],
+				'show_admin_column' => true,
+				'show_in_rest'      => true,
+				'rewrite'           => array( 'slug' => 'cases/' . $taxonomy, 'with_front' => false ),
+			)
+		);
+	}
+}
+add_action( 'init', 'aloha_register_case_taxonomies', 20 );
