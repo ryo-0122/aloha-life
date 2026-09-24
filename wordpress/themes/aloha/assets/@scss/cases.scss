@@ -5,5 +5,6 @@
 // styles.css とは別にコンパイルする（styles.css には Sass に無い直接編集が含まれるため）
 // ===============================================
 @import "./mixin/mixin";
+@import "./components/palette";
 @import "./components/caseDetail";
 @import "./components/caseList";

@@ -186,3 +186,82 @@ function aloha_news_label( $post_id = null ) {
 	$type = get_post_type_object( get_post_type( $post_id ) );
 	return $type ? $type->labels->singular_name : '';
 }
+
+/**
+ * 住宅プランの5カテゴリ（plan_category）。
+ * 管理画面でカテゴリが作成済みならその一覧の URL、未作成なら住宅プラン一覧の URL を返す。
+ *
+ * @return array<int, array{en: string, label: string, slug: string, url: string}>
+ */
+function aloha_plan_categories() {
+	$fallback = get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link( 'plan' ) : home_url( '/plan/' );
+	$items    = array(
+		array( 'en' => "SURFER'S HOUSE", 'label' => 'サーファーズハウス', 'slug' => 'surfers_house' ),
+		array( 'en' => 'RESORT MODERN', 'label' => 'リゾートモダン', 'slug' => 'resort_modern' ),
+		array( 'en' => 'MID-CENTURY MODERN', 'label' => 'ミッドセンチュリーモダン', 'slug' => 'midcentury_modern' ),
+		array( 'en' => 'RENOVATION', 'label' => 'リノベーション', 'slug' => 'renovation' ),
+		array( 'en' => 'APARTMENT', 'label' => 'アパート', 'slug' => 'apartment' ),
+	);
+	foreach ( $items as &$item ) {
+		$term        = taxonomy_exists( 'plan_category' ) ? get_term_by( 'slug', $item['slug'], 'plan_category' ) : false;
+		$link        = $term ? get_term_link( $term ) : $fallback;
+		$item['url'] = is_wp_error( $link ) ? $fallback : $link;
+	}
+	unset( $item );
+	return $items;
+}
+
+/**
+ * グローバルナビ（header.php の PC・スマホ共通）。
+ * cta: 'reserve'（見学予約）/ 'contact'（お問い合わせ）はボタン表示。
+ */
+function aloha_global_nav() {
+	$plans = array();
+	foreach ( aloha_plan_categories() as $plan ) {
+		$plans[] = array(
+			'label' => $plan['label'],
+			'url'   => $plan['url'],
+		);
+	}
+	$plan_url = get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link( 'plan' ) : home_url( '/plan/' );
+	array_unshift(
+		$plans,
+		array(
+			'label' => '住宅プラン一覧',
+			'url'   => $plan_url,
+		)
+	);
+
+	return array(
+		array(
+			'label'    => 'コンセプト',
+			'url'      => home_url( '/concept/' ),
+			'children' => array(
+				array( 'label' => 'コンセプト', 'url' => home_url( '/concept/' ) ),
+				array( 'label' => 'ハワイアンドア', 'url' => home_url( '/hawaiian-door/' ) ),
+				array( 'label' => '会社概要', 'url' => home_url( '/company/' ) ),
+			),
+		),
+		array( 'label' => '施工事例', 'url' => home_url( '/cases/' ) ),
+		array(
+			'label'    => '住宅プラン',
+			'url'      => $plan_url,
+			'children' => $plans,
+		),
+		array( 'label' => 'モデルハウス', 'url' => home_url( '/modelhouse/' ) ),
+		array( 'label' => '家づくりの流れ', 'url' => home_url( '/flow/' ) ),
+		array( 'label' => '県外で建てる', 'url' => home_url( '/housedesign/' ) ),
+		array( 'label' => 'ハワイ不動産', 'url' => home_url( '/hawaii/' ) ),
+		array(
+			'label'    => '見学予約',
+			'url'      => 'https://www.ie-miru.jp/cms/yoyaku/seibukensetsu/events/4847',
+			'cta'      => 'reserve',
+			'external' => true,
+		),
+		array(
+			'label' => 'お問い合わせ',
+			'url'   => home_url( '/contact/' ),
+			'cta'   => 'contact',
+		),
+	);
+}

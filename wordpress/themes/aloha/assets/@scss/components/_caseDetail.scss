@@ -30,14 +30,15 @@ $cd-font-en: "Archivo", $cd-font-jp;
 }
 
 .CaseDetail {
-  --cd-ink: #141414;
-  --cd-ink-soft: #4a4a4a;
-  --cd-mute: #8c8c8c;
-  --cd-line: #e2e2e2;
-  --cd-paper: #fafafa;
-  --cd-paper-shade: #f2f2f2;
+  --cd-ink: #{$pal-ink};
+  --cd-ink-soft: #{$pal-ink-soft};
+  --cd-mute: #{$pal-mute};
+  --cd-line: #{$pal-line};
+  --cd-paper: #{$pal-paper};
+  --cd-paper-shade: #{$pal-shade};
   --cd-white: #ffffff;
-  --cd-accent: #1fa198;
+  --cd-accent: #{$pal-accent};
+  --cd-brand: #{$pal-brand};
   background: var(--cd-paper);
   color: var(--cd-ink);
   font-family: $cd-font-jp;
@@ -67,7 +68,7 @@ $cd-font-en: "Archivo", $cd-font-jp;
   &__btn,
   &__btn--outline {
     display: inline-block;
-    background: var(--cd-ink);
+    background: var(--cd-brand);
     color: var(--cd-white);
     @include cd-en(700);
     font-size: 13px;
@@ -81,11 +82,11 @@ $cd-font-en: "Archivo", $cd-font-jp;
   }
   &__btn--outline {
     background: none;
-    color: var(--cd-ink);
-    border: 1.5px solid var(--cd-ink);
+    color: var(--cd-brand);
+    border: 1.5px solid var(--cd-brand);
     padding: 12.5px 38.5px;
     &:hover {
-      background: var(--cd-ink);
+      background: var(--cd-brand);
       color: var(--cd-white);
     }
   }
@@ -220,7 +221,7 @@ $cd-font-en: "Archivo", $cd-font-jp;
     }
     &--style .CaseDetail__tag-group-tags span,
     &--style .CaseDetail__tag-group-tags a {
-      background: var(--cd-ink);
+      background: var(--cd-brand);
       color: #fff;
     }
   }

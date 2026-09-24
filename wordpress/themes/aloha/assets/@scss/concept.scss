@@ -4,4 +4,5 @@
 // [出力先] assets/css/concept.css（固定ページ /concept/ でのみ読み込み）
 // ===============================================
 @import "./mixin/mixin";
+@import "./components/palette";
 @import "./components/concept";

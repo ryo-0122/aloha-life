@@ -42,14 +42,15 @@ $home-font-en: "Archivo", $home-font-jp;
 }
 
 .Home {
-  --home-ink: #141414;
-  --home-ink-soft: #4a4a4a;
-  --home-mute: #8c8c8c;
-  --home-line: #e2e2e2;
-  --home-paper: #fafafa;
-  --home-paper-shade: #f2f2f2;
+  --home-ink: #{$pal-ink};
+  --home-ink-soft: #{$pal-ink-soft};
+  --home-mute: #{$pal-mute};
+  --home-line: #{$pal-line};
+  --home-paper: #{$pal-paper};
+  --home-paper-shade: #{$pal-shade};
   --home-white: #ffffff;
-  --home-accent: #1fa198;
+  --home-accent: #{$pal-accent};
+  --home-brand: #{$pal-brand};
   background: var(--home-paper);
   color: var(--home-ink);
   font-family: $home-font-jp;
@@ -88,7 +89,7 @@ $home-font-en: "Archivo", $home-font-jp;
     transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
   }
   &__btn {
-    background: var(--home-ink);
+    background: var(--home-brand);
     color: var(--home-white);
     &:hover {
       background: var(--home-accent);
@@ -96,10 +97,10 @@ $home-font-en: "Archivo", $home-font-jp;
     }
   }
   &__btn--outline {
-    border: 1.5px solid var(--home-ink);
-    color: var(--home-ink);
+    border: 1.5px solid var(--home-brand);
+    color: var(--home-brand);
     &:hover {
-      background: var(--home-ink);
+      background: var(--home-brand);
       color: var(--home-white);
     }
   }
@@ -117,7 +118,7 @@ $home-font-en: "Archivo", $home-font-jp;
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(20, 20, 20, 0.15) 0%, rgba(20, 20, 20, 0.1) 45%, rgba(20, 20, 20, 0.82) 100%);
+      background: linear-gradient(180deg, rgba(43, 38, 36, 0.15) 0%, rgba(43, 38, 36, 0.1) 45%, rgba(43, 38, 36, 0.8) 100%);
       pointer-events: none;
     }
   }
@@ -435,8 +436,8 @@ $home-font-en: "Archivo", $home-font-jp;
 
   // ---------- Works ----------
   &__works {
-    background: var(--home-ink);
-    color: #fff;
+    background: var(--home-paper-shade);
+    color: var(--home-ink);
     padding: 52px 0 56px;
   }
   &__works-head {
@@ -454,7 +455,7 @@ $home-font-en: "Archivo", $home-font-jp;
   }
   &__works-head-jp {
     font-size: 13px;
-    color: #a8a8a8;
+    color: var(--home-mute);
     letter-spacing: 0.04em;
   }
   &__works-grid {
@@ -476,7 +477,7 @@ $home-font-en: "Archivo", $home-font-jp;
     }
     h3 {
       font-size: 14px;
-      color: #fff;
+      color: var(--home-ink);
       margin-bottom: 10px;
       line-height: 1.6;
       font-weight: 500;
@@ -493,7 +494,7 @@ $home-font-en: "Archivo", $home-font-jp;
   }
   &__work-card-tags {
     font-size: 11.5px;
-    color: #9a9a9a;
+    color: var(--home-mute);
     span {
       color: var(--home-accent);
     }
@@ -503,8 +504,8 @@ $home-font-en: "Archivo", $home-font-jp;
     padding-top: 44px;
     a {
       display: inline-block;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      color: #fff;
+      border: 1.5px solid var(--home-brand);
+      color: var(--home-brand);
       @include home-en(500);
       font-size: 12.5px;
       letter-spacing: 0.04em;
@@ -513,8 +514,9 @@ $home-font-en: "Archivo", $home-font-jp;
       padding: 11px 30px;
       transition: background 0.2s ease, border-color 0.2s ease;
       &:hover {
-        background: var(--home-accent);
-        border-color: var(--home-accent);
+        background: var(--home-brand);
+        border-color: var(--home-brand);
+        color: #fff;
       }
     }
   }
@@ -626,7 +628,7 @@ $home-font-en: "Archivo", $home-font-jp;
 
   // ---------- Contact ----------
   &__contact {
-    background: var(--home-ink);
+    background: var(--home-brand);
     color: #fff;
     padding: 56px 0;
   }
@@ -652,7 +654,7 @@ $home-font-en: "Archivo", $home-font-jp;
   }
   &__contact-text {
     font-size: 13.5px;
-    color: #c9c9c9;
+    color: rgba(255, 255, 255, 0.85);
     margin-top: 10px;
   }
   &__contact-actions {
@@ -670,7 +672,7 @@ $home-font-en: "Archivo", $home-font-jp;
     .Home__btn {
       background: var(--home-accent);
       &:hover {
-        background: #17827b;
+        background: #{$pal-accent-dark};
       }
     }
     .Home__btn--outline {
@@ -678,7 +680,7 @@ $home-font-en: "Archivo", $home-font-jp;
       color: #fff;
       &:hover {
         background: #fff;
-        color: var(--home-ink);
+        color: var(--home-brand);
       }
     }
   }
@@ -783,7 +785,7 @@ $home-font-en: "Archivo", $home-font-jp;
     padding: 3px 12px;
     &--dark {
       color: var(--home-ink);
-      border-color: rgba(20, 20, 20, 0.5);
+      border-color: rgba(43, 38, 36, 0.5);
     }
   }
   &__banner-ttl {

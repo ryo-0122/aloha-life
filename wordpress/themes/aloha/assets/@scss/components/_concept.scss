@@ -28,14 +28,14 @@ $cc-font-en: "Archivo", $cc-font-jp;
 }
 
 .Concept {
-  --cc-ink: #2B2624;
-  --cc-ink-soft: #4A4441;
-  --cc-mute: #6B645F;
-  --cc-line: #E6E3E0;
-  --cc-paper: #FFFFFF;
-  --cc-shade: #F4F3F1;
-  --cc-brand: #5E5755;
-  --cc-accent: #15766E;
+  --cc-ink: #{$pal-ink};
+  --cc-ink-soft: #{$pal-ink-soft};
+  --cc-mute: #{$pal-mute};
+  --cc-line: #{$pal-line};
+  --cc-paper: #{$pal-paper};
+  --cc-shade: #{$pal-shade};
+  --cc-brand: #{$pal-brand};
+  --cc-accent: #{$pal-accent};
   background: var(--cc-paper);
   color: var(--cc-ink);
   font-family: $cc-font-jp;

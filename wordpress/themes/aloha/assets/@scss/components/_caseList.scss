@@ -29,13 +29,14 @@ $cl-font-en: "Archivo", $cl-font-jp;
 }
 
 .CaseList {
-  --cl-ink: #141414;
-  --cl-ink-soft: #4a4a4a;
-  --cl-mute: #8c8c8c;
-  --cl-line: #e2e2e2;
-  --cl-paper: #fafafa;
-  --cl-paper-shade: #f2f2f2;
-  --cl-accent: #1fa198;
+  --cl-ink: #{$pal-ink};
+  --cl-ink-soft: #{$pal-ink-soft};
+  --cl-mute: #{$pal-mute};
+  --cl-line: #{$pal-line};
+  --cl-paper: #{$pal-paper};
+  --cl-paper-shade: #{$pal-shade};
+  --cl-accent: #{$pal-accent};
+  --cl-brand: #{$pal-brand};
   background: var(--cl-paper);
   color: var(--cl-ink);
   font-family: $cl-font-jp;
@@ -169,7 +170,7 @@ $cl-font-en: "Archivo", $cl-font-jp;
       font-size: 12px;
       transition: background 0.2s ease, color 0.2s ease;
       &:hover {
-        background: var(--cl-ink);
+        background: var(--cl-brand);
         color: #fff;
       }
       &.is-current {
@@ -228,7 +229,7 @@ $cl-font-en: "Archivo", $cl-font-jp;
     gap: 6px;
     margin-bottom: 8px;
     span {
-      background: var(--cl-ink);
+      background: var(--cl-brand);
       color: #fff;
       font-size: 11px;
       padding: 2px 10px;
@@ -295,14 +296,14 @@ $cl-font-en: "Archivo", $cl-font-jp;
     }
     .wp-pagenavi a:hover,
     a.page-numbers:hover {
-      background: var(--cl-ink);
-      border-color: var(--cl-ink);
+      background: var(--cl-brand);
+      border-color: var(--cl-brand);
       color: #fff;
     }
     .wp-pagenavi .current,
     .page-numbers.current {
-      background: var(--cl-ink);
-      border-color: var(--cl-ink);
+      background: var(--cl-brand);
+      border-color: var(--cl-brand);
       color: #fff;
       font-weight: 700;
     }
@@ -365,18 +366,18 @@ $cl-font-en: "Archivo", $cl-font-jp;
     transition: background 0.2s ease, color 0.2s ease;
   }
   &__btn {
-    background: var(--cl-ink);
+    background: var(--cl-brand);
     color: #fff;
     &:hover {
       background: var(--cl-accent);
     }
   }
   &__btn--outline {
-    border: 1.5px solid var(--cl-ink);
-    color: var(--cl-ink);
+    border: 1.5px solid var(--cl-brand);
+    color: var(--cl-brand);
     padding: 11.5px 28.5px;
     &:hover {
-      background: var(--cl-ink);
+      background: var(--cl-brand);
       color: #fff;
     }
   }

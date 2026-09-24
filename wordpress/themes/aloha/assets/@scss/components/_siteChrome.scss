@@ -10,11 +10,13 @@
 // PC用の指定は chrome-pc（768px以上）に閉じ込め、既存のスマホ用指定を壊さないようにしている。
 // ===============================================
 
-$chrome-ink: #141414;
-$chrome-ink-soft: #4a4a4a;
-$chrome-line: #e2e2e2;
-$chrome-paper: #fafafa;
-$chrome-accent: #1fa198;
+// 配色は components/_palette.scss（決定版「C＋海の緑・白背景」）
+$chrome-ink: $pal-ink;
+$chrome-ink-soft: $pal-ink-soft;
+$chrome-line: $pal-line;
+$chrome-paper: $pal-paper;
+$chrome-accent: $pal-accent;
+$chrome-brand: $pal-brand;
 $chrome-font-en: "Archivo", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
 $chrome-header-h: 76px;
 $chrome-header-h-sp: 64px;
@@ -44,7 +46,7 @@ $chrome-bar-h-sp: 50px;
   top: 0;
   z-index: 400;
   height: $chrome-header-h;
-  background-color: rgba(250, 250, 250, 0.94);
+  background-color: rgba(255, 255, 255, 0.95);
   background-image: none;
   border-bottom: 1px solid $chrome-line;
   backdrop-filter: blur(8px);
@@ -63,16 +65,31 @@ $chrome-bar-h-sp: 50px;
     padding: 0 20px;
   }
 }
-// 既存ロゴ画像を、明るい背景で読める黒に
+// 既存ロゴ画像の形をマスクにして、ロゴ色 #5E5755 で表示する
+// （画像は透明背景のPNGである前提。img は大きさと代替テキストのために残し、見た目だけ透明にする）
+@mixin chrome-logo-mask($file) {
+  display: inline-block;
+  line-height: 0;
+  background-color: $chrome-brand;
+  -webkit-mask: url("../images/#{$file}") no-repeat left center / contain;
+  mask: url("../images/#{$file}") no-repeat left center / contain;
+  img {
+    opacity: 0;
+  }
+}
 .Header__logo {
   line-height: 0;
-  a:hover {
-    opacity: 0.75;
+  a {
+    @include chrome-logo-mask("Header_logo.png");
+    transition: background-color 0.2s ease;
+    &:hover {
+      opacity: 1;
+      background-color: $pal-brand-dark;
+    }
   }
   img {
     width: auto;
     height: 40px;
-    filter: brightness(0);
     @include mobile {
       width: auto;
       height: 34px;
@@ -84,7 +101,7 @@ $chrome-bar-h-sp: 50px;
 @include chrome-pc {
   .Header__list {
     align-items: center;
-    gap: 26px;
+    gap: 22px;
   }
   .Header__item {
     margin: 0;
@@ -126,17 +143,27 @@ $chrome-bar-h-sp: 50px;
       }
     }
   }
-  // 最後の「お問い合わせ」をボタンに
-  .Header__item:last-child > a {
-    background: $chrome-ink;
+  // 「見学予約」「お問い合わせ」をボタンに
+  .Header__item--cta > a {
+    display: inline-block;
+    background: $chrome-brand;
     color: #fff;
     border-radius: 22px;
-    padding: 10px 22px;
+    padding: 9px 18px;
     font-weight: 700;
     &:hover {
-      background: $chrome-accent;
+      background: $pal-brand-dark;
       color: #fff;
     }
+  }
+  .Header__item--reserve > a {
+    background: $chrome-accent;
+    &:hover {
+      background: $pal-accent-dark;
+    }
+  }
+  .Header__item--cta + .Header__item--cta {
+    margin-left: -14px; // ボタン同士は少し近づける
   }
 }
 
@@ -149,7 +176,7 @@ $chrome-bar-h-sp: 50px;
     top: $chrome-header-h-sp;
     height: calc(100vh - #{$chrome-header-h-sp});
     height: calc(100dvh - #{$chrome-header-h-sp});
-    background-color: $chrome-ink;
+    background-color: $chrome-brand;
     background-image: none;
     padding: 28px 24px 40px;
     overflow-y: auto;
@@ -172,20 +199,40 @@ $chrome-bar-h-sp: 50px;
   .accordion .button:after {
     right: 4px;
     top: 16px;
-    color: $chrome-accent;
+    color: #fff;
   }
   .accordion_1 li a {
     padding: 9px 0 9px 14px;
     font-size: 1.35rem;
-    color: #cfcfcf;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  // スマホメニュー下部の大きなボタン
+  .Header__sp-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+    a {
+      display: block;
+      text-align: center;
+      border-radius: 26px;
+      padding: 13px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: #fff;
+      color: $chrome-brand;
+    }
+    a.is-reserve {
+      background: $chrome-accent;
+      color: #fff;
+    }
   }
 }
 
 // ---------------------------------------------
 // Footer（明るいグレー）
 // ---------------------------------------------
-$chrome-footer-bg: #f2f2f2;
-$chrome-mute: #8c8c8c;
+$chrome-footer-bg: $pal-shade;
+$chrome-mute: $pal-mute;
 
 .Footer {
   color: $chrome-ink-soft;
@@ -220,15 +267,21 @@ $chrome-mute: #8c8c8c;
 .Footer__top-block:first-of-type {
   padding: 0;
 }
-// 既存ロゴ画像を黒で表示（ヘッダーとそろえる）
+// フッターのロゴもロゴ色 #5E5755 で表示（PC は Footer_logo.png、スマホは Header_logo.png が表示される）
 .Footer__top .Footer__logo {
   line-height: 0;
+  a {
+    @include chrome-logo-mask("Footer_logo.png");
+    @include mobile {
+      -webkit-mask-image: url("../images/Header_logo.png");
+      mask-image: url("../images/Header_logo.png");
+    }
+  }
   img {
     width: auto;
     max-width: 220px;
     height: auto;
     max-height: 56px;
-    filter: brightness(0);
   }
 }
 .Footer__top-address {
@@ -287,7 +340,7 @@ $chrome-mute: #8c8c8c;
 }
 // 社長ブログ・スタッフブログ
 .Footer__blog-title {
-  border-bottom: 1px solid #d6d6d6;
+  border-bottom: 1px solid #DEDAD5;
   padding: 0 0 12px;
   align-items: baseline;
 }
@@ -394,7 +447,7 @@ $chrome-mute: #8c8c8c;
   background-color: $chrome-accent;
   color: #fff;
   &:hover {
-    background-color: #17827b;
+    background-color: $pal-accent-dark;
   }
 }
 .Footer__middle-contact svg {
@@ -417,7 +470,7 @@ $chrome-mute: #8c8c8c;
   }
 }
 .Footer__bottom-text {
-  border-top: 1px solid #d6d6d6;
+  border-top: 1px solid #DEDAD5;
   max-width: 1116px;
   margin: 0 auto;
   line-height: 64px;
@@ -435,7 +488,7 @@ $chrome-mute: #8c8c8c;
   height: 44px;
   border: none;
   border-radius: 50%;
-  background-color: $chrome-ink;
+  background-color: $chrome-brand;
   box-shadow: 0 6px 18px rgba(20, 20, 20, 0.2);
   right: 24px;
   bottom: $chrome-bar-h + 16px;

@@ -20,14 +20,15 @@
 }
 
 .CaseDetail {
-  --cd-ink: #141414;
-  --cd-ink-soft: #4a4a4a;
-  --cd-mute: #8c8c8c;
-  --cd-line: #e2e2e2;
-  --cd-paper: #fafafa;
-  --cd-paper-shade: #f2f2f2;
+  --cd-ink: #2B2624;
+  --cd-ink-soft: #4A4441;
+  --cd-mute: #6B645F;
+  --cd-line: #E6E3E0;
+  --cd-paper: #FFFFFF;
+  --cd-paper-shade: #F4F3F1;
   --cd-white: #ffffff;
-  --cd-accent: #1fa198;
+  --cd-accent: #15766E;
+  --cd-brand: #5E5755;
   background: var(--cd-paper);
   color: var(--cd-ink);
   font-family: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
@@ -56,7 +57,7 @@
 }
 .CaseDetail__btn, .CaseDetail__btn--outline {
   display: inline-block;
-  background: var(--cd-ink);
+  background: var(--cd-brand);
   color: var(--cd-white);
   font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 700;
@@ -71,12 +72,12 @@
 }
 .CaseDetail__btn--outline {
   background: none;
-  color: var(--cd-ink);
-  border: 1.5px solid var(--cd-ink);
+  color: var(--cd-brand);
+  border: 1.5px solid var(--cd-brand);
   padding: 12.5px 38.5px;
 }
 .CaseDetail__btn--outline:hover {
-  background: var(--cd-ink);
+  background: var(--cd-brand);
   color: var(--cd-white);
 }
 .CaseDetail__breadcrumb {
@@ -208,7 +209,7 @@
   }
 }
 .CaseDetail__tag-group--style .CaseDetail__tag-group-tags span, .CaseDetail__tag-group--style .CaseDetail__tag-group-tags a {
-  background: var(--cd-ink);
+  background: var(--cd-brand);
   color: #fff;
 }
 .CaseDetail__tag-group-label {
@@ -488,13 +489,14 @@
 }
 
 .CaseList {
-  --cl-ink: #141414;
-  --cl-ink-soft: #4a4a4a;
-  --cl-mute: #8c8c8c;
-  --cl-line: #e2e2e2;
-  --cl-paper: #fafafa;
-  --cl-paper-shade: #f2f2f2;
-  --cl-accent: #1fa198;
+  --cl-ink: #2B2624;
+  --cl-ink-soft: #4A4441;
+  --cl-mute: #6B645F;
+  --cl-line: #E6E3E0;
+  --cl-paper: #FFFFFF;
+  --cl-paper-shade: #F4F3F1;
+  --cl-accent: #15766E;
+  --cl-brand: #5E5755;
   background: var(--cl-paper);
   color: var(--cl-ink);
   font-family: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
@@ -639,7 +641,7 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 .CaseList__filter-tags a:hover {
-  background: var(--cl-ink);
+  background: var(--cl-brand);
   color: #fff;
 }
 .CaseList__filter-tags a.is-current {
@@ -698,7 +700,7 @@
   margin-bottom: 8px;
 }
 .CaseList__card-tags span {
-  background: var(--cl-ink);
+  background: var(--cl-brand);
   color: #fff;
   font-size: 11px;
   padding: 2px 10px;
@@ -765,14 +767,14 @@
 }
 .CaseList__pager .wp-pagenavi a:hover,
 .CaseList__pager a.page-numbers:hover {
-  background: var(--cl-ink);
-  border-color: var(--cl-ink);
+  background: var(--cl-brand);
+  border-color: var(--cl-brand);
   color: #fff;
 }
 .CaseList__pager .wp-pagenavi .current,
 .CaseList__pager .page-numbers.current {
-  background: var(--cl-ink);
-  border-color: var(--cl-ink);
+  background: var(--cl-brand);
+  border-color: var(--cl-brand);
   color: #fff;
   font-weight: 700;
 }
@@ -837,18 +839,18 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 .CaseList__btn {
-  background: var(--cl-ink);
+  background: var(--cl-brand);
   color: #fff;
 }
 .CaseList__btn:hover {
   background: var(--cl-accent);
 }
 .CaseList__btn--outline {
-  border: 1.5px solid var(--cl-ink);
-  color: var(--cl-ink);
+  border: 1.5px solid var(--cl-brand);
+  color: var(--cl-brand);
   padding: 11.5px 28.5px;
 }
 .CaseList__btn--outline:hover {
-  background: var(--cl-ink);
+  background: var(--cl-brand);
   color: #fff;
 }

@@ -18,18 +18,20 @@
 | `inc/cases-list.php` | 施工例一覧の共通出力（新規。上の4テンプレートから呼び出し） |
 | `page-concept.php` | コンセプト `/concept/`（**新規**。カタログの文章・写真で構成。スラッグ concept の固定ページで自動的に使われる） |
 | `assets/images/concept/` | コンセプト用の写真（カタログから書き出し・Web用に圧縮） |
+| `header.php` | グローバルナビを新しい構成に変更（項目は `inc/redesign.php` の `aloha_global_nav()` で管理。PC・スマホ共通。既存のクラス名はそのままなので、ハンバーガー・階層メニューの JavaScript はそのまま動作） |
 | `inc/redesign.php` | CSS/JS の読み込み・共通関数（**新規**。functions.php の `require_once` が読み込む） |
 | `assets/@scss/components/_home.scss` | トップページの Sass（新規） |
 | `assets/@scss/components/_caseDetail.scss` | 施工例詳細の Sass（新規） |
 | `assets/@scss/components/_caseList.scss` | 施工例一覧の Sass（新規） |
 | `assets/@scss/components/_concept.scss` / `assets/@scss/concept.scss` / `assets/css/concept.css` | コンセプトの Sass・エントリー・コンパイル済み CSS（新規） |
+| `assets/@scss/components/_palette.scss` | 決定した配色（C＋海の緑・白背景）の共通変数。home / cases / concept / site-chrome の各 CSS で使用 |
 | `assets/@scss/components/_siteChrome.scss` | ヘッダー・フッターの Sass（新規・全ページ） |
 | `assets/@scss/home.scss` / `cases.scss` / `site-chrome.scss` | 上記をコンパイルするためのエントリー（新規） |
 | `assets/@scss/mixin/_mixin.scss` | 既存と同じ内容（コンパイルに必要なため同梱） |
 | `assets/css/home.css` / `cases.css` / `site-chrome.css` | コンパイル済み CSS（新規） |
 | `assets/js/case-detail.js` | 施工例のスライダー（新規） |
 
-`functions.php`・`header.php`・`footer.php`・`styles.css` は**変更していません**。
+`functions.php`・`footer.php`・`styles.css` は**変更していません**。`header.php` はグローバルナビの部分だけ変更しています（下記）。
 （functions.php にはすでに `require_once get_theme_file_path( 'inc/redesign.php' );` があるので、`inc/redesign.php` を置けば読み込まれます。）
 
 ## 2. CSS について（重要）
@@ -50,6 +52,18 @@ npx sass --no-source-map "assets/@scss/home.scss" assets/css/home.css
 npx sass --no-source-map "assets/@scss/cases.scss" assets/css/cases.css
 npx sass --no-source-map "assets/@scss/site-chrome.scss" assets/css/site-chrome.css
 ```
+
+## 配色（決定版：C＋海の緑・白背景）
+
+| 役割 | 色 |
+| --- | --- |
+| 背景 | `#FFFFFF` |
+| 面（帯・タグ・フッター） | `#F4F3F1` |
+| ロゴ・ボタン | `#5E5755` |
+| アクセント | `#15766E` |
+| 本文 | `#2B2624` |
+
+ロゴは既存の `Header_logo.png` / `Footer_logo.png` の形をマスクにして `#5E5755` で表示しています（透明背景の PNG が前提。背景が塗られた画像だと四角く表示されるので、その場合はお知らせください）。
 
 ## 3. 既存から引き継いでいるもの
 

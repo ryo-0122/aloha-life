@@ -12,15 +12,7 @@ get_header();
 
 $cc_img = get_template_directory_uri() . '/assets/images/concept/';
 
-// 住宅プランの5カテゴリ。カテゴリが作成済みならその一覧へ、未作成なら住宅プラン一覧へリンク。
-$cc_styles = array(
-	array( 'en' => "SURFER'S HOUSE", 'jp' => 'サーファーズハウス', 'slug' => 'surfers_house' ),
-	array( 'en' => 'RESORT MODERN', 'jp' => 'リゾートモダン', 'slug' => 'resort_modern' ),
-	array( 'en' => 'MID-CENTURY MODERN', 'jp' => 'ミッドセンチュリーモダン', 'slug' => 'midcentury_modern' ),
-	array( 'en' => 'RENOVATION', 'jp' => 'リノベーション', 'slug' => 'renovation' ),
-	array( 'en' => 'APARTMENT', 'jp' => 'アパート', 'slug' => 'apartment' ),
-);
-$cc_plan_url = get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link( 'plan' ) : home_url( '/plan/' );
+$cc_styles = aloha_plan_categories(); // 住宅プランの5カテゴリ（inc/redesign.php）
 ?>
 <main class="Concept">
 
@@ -146,16 +138,11 @@ $cc_plan_url = get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link
 			<h2 id="concept-styles-heading" class="Concept__heading">スタイルで選ぶ<span class="Concept__heading-jp">住宅プラン</span></h2>
 			<ul class="Concept__styles-grid">
 				<?php foreach ( $cc_styles as $style ) : ?>
-					<?php
-					$term = taxonomy_exists( 'plan_category' ) ? get_term_by( 'slug', $style['slug'], 'plan_category' ) : false;
-					$link = $term ? get_term_link( $term ) : $cc_plan_url;
-					$link = is_wp_error( $link ) ? $cc_plan_url : $link;
-					?>
 					<li class="Concept__styles-item">
-						<a href="<?php echo esc_url( $link ); ?>">
+						<a href="<?php echo esc_url( $style['url'] ); ?>">
 							<span>
 								<span class="Concept__styles-en"><?php echo esc_html( $style['en'] ); ?></span>
-								<span class="Concept__styles-jp"><?php echo esc_html( $style['jp'] ); ?></span>
+								<span class="Concept__styles-jp"><?php echo esc_html( $style['label'] ); ?></span>
 							</span>
 							<span class="Concept__styles-more">プランを見る &rarr;</span>
 						</a>
