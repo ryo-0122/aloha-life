@@ -17,6 +17,10 @@ $cd-font-en: "Archivo", $cd-font-jp;
 }
 
 // リンクのリセットは :where() で詳細度を下げ、.CaseDetail__btn などの色指定が優先されるようにする
+// 見出し・段落の余白リセットも詳細度0にして、.CaseDetail__〇〇 側の margin 指定を優先させる
+:where(.CaseDetail) :where(h1, h2, h3, p) {
+  margin: 0;
+}
 :where(.CaseDetail) a {
   color: inherit;
   text-decoration: none;
@@ -43,12 +47,6 @@ $cd-font-en: "Archivo", $cd-font-jp;
 
   * {
     box-sizing: border-box;
-  }
-  h1,
-  h2,
-  h3,
-  p {
-    margin: 0;
   }
   img {
     display: block;

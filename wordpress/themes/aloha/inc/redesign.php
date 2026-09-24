@@ -1,12 +1,11 @@
 <?php
 /**
- * トップページ（front-page.php）・施工例詳細（single-cases.php）リニューアル用の読み込みと共通関数。
+ * リニューアル（トップページ・施工例詳細・ヘッダー/フッター）用の読み込みと共通関数。
  *
  * functions.php の末尾で読み込む:
  *   require_once get_template_directory() . '/inc/redesign.php';
  *
- * CSS は styles.css とは別ファイル（assets/css/home.css / case-detail.css）にして、
- * 該当ページでのみ読み込む。styles.css には Sass に無い直接編集が含まれているため、
+ * CSS は styles.css とは別ファイル（site-chrome.css / home.css / case-detail.css）にして読み込む。styles.css には Sass に無い直接編集が含まれているため、
  * styles.scss を再コンパイルせずに済むようにしている。
  */
 
@@ -15,25 +14,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * 該当ページでのみ CSS / JS / フォントを読み込む。
+ * CSS / JS / フォントを読み込む。
  * wp_head() は header.php の styles.css・style-ms.css より後に出力されるため、既存の指定を上書きできる。
+ *
+ * - 全ページ: ヘッダー・フッター（site-chrome.css）と欧文フォント Archivo
+ * - トップページ: home.css
+ * - 施工例詳細: case-detail.css と case-detail.js
  */
 function aloha_redesign_enqueue() {
 	$is_home = is_front_page();
 	$is_case = is_singular( 'cases' );
-	if ( ! $is_home && ! $is_case ) {
-		return;
-	}
 
 	// 欧文見出し用。読み込めない場合も游ゴシック等で表示される（外部フォントは必須ではない）。
-	wp_enqueue_style(
-		'aloha-redesign-fonts',
-		'https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap',
-		array(),
-		null
-	);
+	// 本文用の Zen Kaku Gothic New はリニューアルしたページだけで読み込む。
+	$font_url = ( $is_home || $is_case )
+		? 'https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap'
+		: 'https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&display=swap';
+	wp_enqueue_style( 'aloha-redesign-fonts', $font_url, array(), null );
 
-	$files = array();
+	$files = array( 'aloha-site-chrome' => 'assets/css/site-chrome.css' );
 	if ( $is_home ) {
 		$files['aloha-home'] = 'assets/css/home.css';
 	}

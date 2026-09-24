@@ -6,6 +6,10 @@
   }
 }
 */
+:where(.Home) :where(h1, h2, h3, p) {
+  margin: 0;
+}
+
 :where(.Home) a {
   color: inherit;
   text-decoration: none;
@@ -33,12 +37,6 @@
 }
 .Home * {
   box-sizing: border-box;
-}
-.Home h1,
-.Home h2,
-.Home h3,
-.Home p {
-  margin: 0;
 }
 .Home img {
   display: block;
