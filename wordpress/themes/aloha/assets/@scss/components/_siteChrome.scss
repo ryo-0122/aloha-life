@@ -1,0 +1,515 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] ヘッダー・フッター（リニューアル）
+// [使用ページ] 全ページ（header.php / footer.php）
+// [出力先] assets/css/site-chrome.css（assets/@scss/site-chrome.scss からコンパイル）
+//
+// styles.css の .Header / .Footer の指定を後から上書きする。
+// クラス名・構造は既存のまま（script.js のハンバーガー、階層メニュー、
+// footer.php の固定バー・ページトップの動作を維持するため）。
+// PC用の指定は chrome-pc（768px以上）に閉じ込め、既存のスマホ用指定を壊さないようにしている。
+// ===============================================
+
+// 配色は components/_palette.scss（決定版「C＋海の緑・白背景」）
+$chrome-ink: $pal-ink;
+$chrome-ink-soft: $pal-ink-soft;
+$chrome-line: $pal-line;
+$chrome-paper: $pal-paper;
+$chrome-accent: $pal-accent;
+$chrome-brand: $pal-brand;
+$chrome-font-en: "Archivo", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+$chrome-header-h: 76px;
+$chrome-header-h-sp: 64px;
+$chrome-bar-h: 56px;
+$chrome-bar-h-sp: 50px;
+
+@mixin chrome-pc {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+// ヘッダーを上部に固定（スマホは .PageContainer の overflow: hidden があると
+// sticky が効かないため、はみ出しの切り取りだけを残す clip に変更）
+.PageContainer {
+  @include mobile {
+    overflow: visible;
+    overflow-x: clip;
+  }
+}
+
+// ---------------------------------------------
+// Header
+// ---------------------------------------------
+.Header {
+  position: sticky;
+  top: 0;
+  z-index: 400;
+  height: $chrome-header-h;
+  background-color: rgba(255, 255, 255, 0.95);
+  background-image: none;
+  border-bottom: 1px solid $chrome-line;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: none;
+  @include mobile {
+    height: $chrome-header-h-sp;
+    background-image: none;
+  }
+}
+.Header__head {
+  width: 100%;
+  max-width: 1244px;
+  padding: 0 32px;
+  @include mobile {
+    padding: 0 20px;
+  }
+}
+// 既存ロゴ画像の形をマスクにして、ロゴ色 #5E5755 で表示する
+// （画像は透明背景のPNGである前提。img は大きさと代替テキストのために残し、見た目だけ透明にする）
+@mixin chrome-logo-mask($file) {
+  display: inline-block;
+  line-height: 0;
+  background-color: $chrome-brand;
+  -webkit-mask: url("../images/#{$file}") no-repeat left center / contain;
+  mask: url("../images/#{$file}") no-repeat left center / contain;
+  img {
+    opacity: 0;
+  }
+}
+.Header__logo {
+  line-height: 0;
+  a {
+    @include chrome-logo-mask("Header_logo.png");
+    transition: background-color 0.2s ease;
+    &:hover {
+      opacity: 1;
+      background-color: $pal-brand-dark;
+    }
+  }
+  img {
+    width: auto;
+    height: 40px;
+    @include mobile {
+      width: auto;
+      height: 34px;
+    }
+  }
+}
+
+// PC のグローバルナビ
+@include chrome-pc {
+  .Header__list {
+    align-items: center;
+    gap: 22px;
+  }
+  .Header__item {
+    margin: 0;
+  }
+  .Header__list a {
+    color: $chrome-ink-soft;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    &:hover {
+      color: $chrome-ink;
+      opacity: 1;
+    }
+  }
+  .Header__under-icon {
+    border-top-color: $chrome-ink-soft;
+  }
+  // ドロップダウン
+  .Header__under-list {
+    top: 38px;
+    width: 210px;
+    background-color: #fff;
+    border: 1px solid $chrome-line;
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(20, 20, 20, 0.1);
+    padding: 8px 0;
+    text-align: left;
+  }
+  .Header__under-item {
+    padding: 0;
+    a {
+      display: block;
+      padding: 9px 18px;
+      font-size: 1.3rem;
+      &:hover {
+        background: $chrome-paper;
+        color: $chrome-accent;
+      }
+    }
+  }
+  // 「見学予約」「お問い合わせ」をボタンに
+  .Header__item--cta > a {
+    display: inline-block;
+    background: $chrome-brand;
+    color: #fff;
+    border-radius: 22px;
+    padding: 9px 18px;
+    font-weight: 700;
+    &:hover {
+      background: $pal-brand-dark;
+      color: #fff;
+    }
+  }
+  .Header__item--reserve > a {
+    background: $chrome-accent;
+    &:hover {
+      background: $pal-accent-dark;
+    }
+  }
+  .Header__item--cta + .Header__item--cta {
+    margin-left: -14px; // ボタン同士は少し近づける
+  }
+}
+
+// スマホのハンバーガーとメニューパネル
+.menu-trigger span {
+  background-color: $chrome-ink;
+}
+@include mobile {
+  .Header__list {
+    top: $chrome-header-h-sp;
+    height: calc(100vh - #{$chrome-header-h-sp});
+    height: calc(100dvh - #{$chrome-header-h-sp});
+    background-color: $chrome-brand;
+    background-image: none;
+    padding: 28px 24px 40px;
+    overflow-y: auto;
+  }
+  .Header__list a,
+  .accordion .button {
+    color: #fff;
+  }
+  .accordion {
+    width: 100%;
+  }
+  .accordion > li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .accordion li a,
+  .accordion .button {
+    padding: 14px 0;
+    font-size: 1.5rem;
+  }
+  .accordion .button:after {
+    right: 4px;
+    top: 16px;
+    color: #fff;
+  }
+  .accordion_1 li a {
+    padding: 9px 0 9px 14px;
+    font-size: 1.35rem;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  // スマホメニュー下部の大きなボタン
+  .Header__sp-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+    a {
+      display: block;
+      text-align: center;
+      border-radius: 26px;
+      padding: 13px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: #fff;
+      color: $chrome-brand;
+    }
+    a.is-reserve {
+      background: $chrome-accent;
+      color: #fff;
+    }
+  }
+}
+
+// ---------------------------------------------
+// Footer（明るいグレー）
+// ---------------------------------------------
+$chrome-footer-bg: $pal-shade;
+$chrome-mute: $pal-mute;
+
+.Footer {
+  color: $chrome-ink-soft;
+  a:hover {
+    opacity: 1;
+  }
+}
+.Footer__top {
+  background-color: $chrome-footer-bg;
+  border-top: 1px solid $chrome-line;
+  padding: 64px 0 48px;
+  @include mobile {
+    padding: 48px 0 32px;
+  }
+}
+.Footer__top-inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  gap: 48px;
+  box-sizing: border-box;
+  @include mobile {
+    padding: 0 20px;
+  }
+}
+.Footer__top-block {
+  width: auto;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.Footer__top-block:first-of-type {
+  padding: 0;
+}
+// フッターのロゴもロゴ色 #5E5755 で表示（PC は Footer_logo.png、スマホは Header_logo.png が表示される）
+.Footer__top .Footer__logo {
+  line-height: 0;
+  a {
+    @include chrome-logo-mask("Footer_logo.png");
+    @include mobile {
+      -webkit-mask-image: url("../images/Header_logo.png");
+      mask-image: url("../images/Header_logo.png");
+    }
+  }
+  img {
+    width: auto;
+    max-width: 220px;
+    height: auto;
+    max-height: 56px;
+  }
+}
+.Footer__top-address {
+  color: $chrome-ink-soft;
+  font-size: 1.3rem;
+  margin: 18px 0 24px;
+}
+.Footer__top-item {
+  margin: 0 0 10px;
+  padding: 0 0 0 14px;
+  &::before {
+    width: 6px;
+    height: 6px;
+    background: none;
+    border-top: 1.5px solid $chrome-accent;
+    border-right: 1.5px solid $chrome-accent;
+    transform: rotate(45deg);
+  }
+}
+.Footer__top-list a {
+  color: $chrome-ink-soft;
+  font-size: 1.3rem;
+  &:hover {
+    color: $chrome-ink;
+  }
+}
+// 外部サイトのバナー（styles.css の div.bnr_foot p / img を上書きするため .Footer から指定）
+.Footer .bnr_foot {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+  a {
+    color: $chrome-ink-soft;
+  }
+  img {
+    display: block;
+    width: 100% !important;
+    height: auto;
+    border-radius: 6px;
+    margin: 0 !important;
+  }
+  br {
+    display: none;
+  }
+  p {
+    margin-top: 6px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: $chrome-ink-soft;
+    transition: color 0.2s ease;
+  }
+  a:hover p {
+    color: $chrome-accent;
+  }
+}
+// 社長ブログ・スタッフブログ
+.Footer__blog-title {
+  border-bottom: 1px solid #DEDAD5;
+  padding: 0 0 12px;
+  align-items: baseline;
+}
+.Footer__blog-text {
+  color: $chrome-ink;
+}
+.Footer__blog-text-eng {
+  font-family: $chrome-font-en;
+  font-weight: 700;
+  font-size: 1.8rem;
+  letter-spacing: 0.01em;
+}
+.Footer__blog-text-jap {
+  color: $chrome-mute;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.Footer__blog-list {
+  margin: 18px 0 0;
+}
+.Footer__blog-item {
+  margin: 0 0 14px;
+}
+.Footer__blog-link {
+  align-items: flex-start;
+  &:hover .Footer__blog-lead {
+    color: $chrome-accent;
+  }
+}
+.Footer__blog-pic {
+  flex: none;
+  width: 88px;
+  height: 58px;
+  border-radius: 6px;
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+.Footer__blog-text-wrap {
+  width: auto !important; // style-ms.css の width: 270px !important を解除
+  flex: 1;
+  min-width: 0;
+  color: $chrome-ink-soft;
+}
+.Footer__blog-day {
+  font-family: $chrome-font-en;
+  color: $chrome-accent;
+  font-size: 1.15rem;
+}
+.Footer__blog-lead {
+  color: $chrome-ink;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 4px 0;
+  transition: color 0.2s ease;
+}
+.Footer__blog-main {
+  font-size: 1.15rem;
+  color: $chrome-mute;
+}
+
+// 画面下の固定バー（資料請求・お問合せ / モデルハウス見学予約）
+.Footer__middle {
+  height: $chrome-bar-h;
+  background-color: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid $chrome-line;
+  box-shadow: 0 -6px 20px rgba(20, 20, 20, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  @include mobile {
+    height: $chrome-bar-h-sp;
+  }
+}
+.Footer__middle-contact:first-of-type,
+.Footer__middle-contact:last-of-type {
+  border: none;
+}
+.Footer__middle-contact a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
+  line-height: 1;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: $chrome-ink;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  &:hover {
+    background-color: $chrome-footer-bg;
+    opacity: 1;
+  }
+  @include mobile {
+    font-size: 1.3rem;
+    gap: 6px;
+    line-height: 1;
+  }
+}
+.Footer__middle-contact:first-of-type a {
+  background-color: $chrome-accent;
+  color: #fff;
+  &:hover {
+    background-color: $pal-accent-dark;
+  }
+}
+.Footer__middle-contact svg {
+  font-size: 1.5rem;
+  margin: 0;
+  @include mobile {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+}
+
+// コピーライト（固定バーの高さ分だけ下に余白をとる）
+.Footer__bottom {
+  height: auto;
+  margin-bottom: 0;
+  padding: 0 0 $chrome-bar-h;
+  background-color: $chrome-footer-bg;
+  @include mobile {
+    padding-bottom: $chrome-bar-h-sp;
+  }
+}
+.Footer__bottom-text {
+  border-top: 1px solid #DEDAD5;
+  max-width: 1116px;
+  margin: 0 auto;
+  line-height: 64px;
+  font-size: 1.1rem;
+  color: $chrome-mute;
+  @include mobile {
+    margin: 0 20px;
+    line-height: 52px;
+  }
+}
+
+// ページトップ
+#Footer__pageTop {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background-color: $chrome-brand;
+  box-shadow: 0 6px 18px rgba(20, 20, 20, 0.2);
+  right: 24px;
+  bottom: $chrome-bar-h + 16px;
+  z-index: 450;
+  @include mobile {
+    width: 40px;
+    height: 40px;
+    right: 14px;
+    bottom: $chrome-bar-h-sp + 12px;
+  }
+  a {
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Header__list,
+  .Header__list a,
+  .Footer__middle-contact a {
+    transition: none;
+  }
+}

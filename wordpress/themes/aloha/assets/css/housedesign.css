@@ -1,0 +1,1046 @@
+@charset "UTF-8";
+/*
+@mixin tab {
+  @media (min-width: $widthTab) and (max-width: ($widthPC)) {
+    @content;
+  }
+}
+*/
+:where(.Concept) :where(h1, h2, h3, p, ul, ol, figure, blockquote) {
+  margin: 0;
+  padding: 0;
+}
+
+:where(.Concept) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(.Concept) a:hover {
+  opacity: 1;
+}
+
+.Concept {
+  --cc-ink: #2B2624;
+  --cc-ink-soft: #4A4441;
+  --cc-mute: #6B645F;
+  --cc-line: #E6E3E0;
+  --cc-paper: #FFFFFF;
+  --cc-shade: #F4F3F1;
+  --cc-brand: #5E5755;
+  --cc-accent: #1fa198;
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  font-family: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-size: 15px;
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+.Concept * {
+  box-sizing: border-box;
+}
+.Concept img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.Concept__wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 767px) {
+  .Concept__wrap {
+    padding: 0 20px;
+  }
+}
+.Concept__kicker {
+  display: inline-block;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cc-accent);
+}
+.Concept__heading {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 900;
+  font-size: 34px;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--cc-ink);
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  .Concept__heading {
+    font-size: 25px;
+  }
+}
+.Concept__heading-jp {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cc-brand);
+  margin-top: 6px;
+  letter-spacing: 0.04em;
+}
+.Concept__hero {
+  position: relative;
+  height: 78vh;
+  min-height: 480px;
+  max-height: 760px;
+  background: var(--cc-brand);
+  overflow: hidden;
+}
+.Concept__hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(43, 38, 36, 0.05) 30%, rgba(43, 38, 36, 0.7) 100%);
+}
+@media (max-width: 767px) {
+  .Concept__hero {
+    height: 70vh;
+    min-height: 420px;
+  }
+}
+.Concept__hero-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  max-width: 1244px;
+  margin: 0 auto;
+  padding: 0 32px 64px;
+  color: #fff;
+}
+@media (max-width: 767px) {
+  .Concept__hero-body {
+    padding: 0 20px 40px;
+  }
+}
+.Concept__hero .Concept__kicker {
+  color: rgba(255, 255, 255, 0.85);
+}
+.Concept__hero-title {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1.1;
+  margin-top: 14px;
+}
+@media (max-width: 767px) {
+  .Concept__hero-title {
+    font-size: 34px;
+  }
+}
+.Concept__hero-lead {
+  font-size: 16px;
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.9);
+}
+@media (max-width: 767px) {
+  .Concept__hero-lead {
+    font-size: 14px;
+  }
+}
+.Concept__message {
+  padding: 110px 0;
+}
+@media (max-width: 767px) {
+  .Concept__message {
+    padding: 72px 0;
+  }
+}
+.Concept__message-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .Concept__message-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+.Concept__message .Concept__heading {
+  font-size: 30px;
+}
+@media (max-width: 767px) {
+  .Concept__message .Concept__heading {
+    font-size: 24px;
+  }
+}
+.Concept__message-text {
+  font-size: 20px;
+  line-height: 2.2;
+  font-weight: 500;
+  color: var(--cc-ink);
+  margin-top: 22px;
+}
+@media (max-width: 767px) {
+  .Concept__message-text {
+    font-size: 17px;
+  }
+}
+.Concept__message-en {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--cc-brand);
+  margin-top: 26px;
+  line-height: 1.6;
+}
+.Concept__message-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.Concept__message-photos figure {
+  aspect-ratio: 3/4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.Concept__message-photos figure:last-child {
+  margin-top: 48px;
+}
+.Concept__basics {
+  background: var(--cc-shade);
+  padding: 100px 0;
+}
+@media (max-width: 767px) {
+  .Concept__basics {
+    padding: 64px 0;
+  }
+}
+.Concept__basics-head {
+  text-align: center;
+  margin-bottom: 56px;
+}
+@media (max-width: 767px) {
+  .Concept__basics-head {
+    margin-bottom: 36px;
+  }
+}
+.Concept__style {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.Concept__style + .Concept__style {
+  margin-top: 72px;
+}
+.Concept__style--reverse .Concept__style-photo {
+  order: 2;
+}
+@media (max-width: 767px) {
+  .Concept__style {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .Concept__style + .Concept__style {
+    margin-top: 48px;
+  }
+  .Concept__style--reverse .Concept__style-photo {
+    order: 0;
+  }
+}
+.Concept__style-photo {
+  aspect-ratio: 7/5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.Concept__style-name {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 1.25;
+  color: var(--cc-ink);
+}
+@media (max-width: 767px) {
+  .Concept__style-name {
+    font-size: 21px;
+  }
+}
+.Concept__style-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cc-accent);
+  margin-top: 8px;
+}
+.Concept__style-text {
+  color: var(--cc-ink-soft);
+  margin-top: 20px;
+}
+.Concept__style-text p + p {
+  margin-top: 1em;
+}
+.Concept__hawaii {
+  padding: 100px 0;
+}
+@media (max-width: 767px) {
+  .Concept__hawaii {
+    padding: 64px 0;
+  }
+}
+.Concept__hawaii-inner {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 64px;
+  align-items: stretch;
+}
+@media (max-width: 767px) {
+  .Concept__hawaii-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.Concept__hawaii-photo {
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: 420px;
+}
+@media (max-width: 767px) {
+  .Concept__hawaii-photo {
+    min-height: 0;
+    aspect-ratio: 4/3;
+  }
+}
+.Concept__hawaii-block + .Concept__hawaii-block {
+  margin-top: 44px;
+  padding-top: 44px;
+  border-top: 1px solid var(--cc-line);
+}
+.Concept__hawaii-title {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--cc-ink);
+}
+.Concept__hawaii-text {
+  color: var(--cc-ink-soft);
+  margin-top: 14px;
+}
+.Concept__story {
+  padding: 100px 0;
+  border-top: 1px solid var(--cc-line);
+}
+@media (max-width: 767px) {
+  .Concept__story {
+    padding: 64px 0;
+  }
+}
+.Concept__story-inner {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 64px;
+  align-items: start;
+}
+@media (max-width: 767px) {
+  .Concept__story-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.Concept__story-profile {
+  position: sticky;
+  top: 110px;
+}
+@media (max-width: 767px) {
+  .Concept__story-profile {
+    position: static;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 18px;
+    align-items: end;
+  }
+}
+.Concept__story-photo {
+  aspect-ratio: 2/3;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.Concept__story-sign {
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--cc-ink-soft);
+}
+.Concept__story-sign strong {
+  display: block;
+  font-size: 20px;
+  color: var(--cc-ink);
+  margin-top: 4px;
+  letter-spacing: 0.08em;
+}
+@media (max-width: 767px) {
+  .Concept__story-sign {
+    margin-top: 0;
+  }
+}
+.Concept__story-title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--cc-ink);
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  .Concept__story-title {
+    font-size: 20px;
+  }
+}
+.Concept__story-body {
+  color: var(--cc-ink-soft);
+  margin-top: 28px;
+  max-width: 720px;
+}
+.Concept__story-body p + p {
+  margin-top: 1.4em;
+}
+.Concept__story-quote {
+  margin: 1.8em 0;
+  padding: 18px 24px;
+  border-left: 3px solid var(--cc-accent);
+  background: var(--cc-shade);
+  border-radius: 0 8px 8px 0;
+  color: var(--cc-ink);
+  font-weight: 700;
+  font-size: 16.5px;
+  line-height: 1.8;
+}
+.Concept__styles {
+  background: var(--cc-shade);
+  padding: 90px 0;
+}
+@media (max-width: 767px) {
+  .Concept__styles {
+    padding: 60px 0;
+  }
+}
+.Concept__styles-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: 36px;
+  list-style: none;
+}
+@media (max-width: 767px) {
+  .Concept__styles-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.Concept__styles-item a {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 150px;
+  padding: 22px 20px;
+  background: #fff;
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.Concept__styles-item a:hover {
+  border-color: var(--cc-accent);
+  transform: translateY(-2px);
+}
+.Concept__styles-en {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--cc-accent);
+}
+.Concept__styles-jp {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--cc-ink);
+  margin-top: 6px;
+}
+.Concept__styles-more {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+  color: var(--cc-mute);
+  margin-top: 18px;
+}
+.Concept__next {
+  padding: 90px 0 100px;
+}
+@media (max-width: 767px) {
+  .Concept__next {
+    padding: 60px 0 72px;
+  }
+}
+.Concept__next-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+  list-style: none;
+}
+@media (max-width: 767px) {
+  .Concept__next-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.Concept__next-grid a {
+  display: block;
+  padding: 24px 24px 22px;
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+.Concept__next-grid a:hover {
+  background: var(--cc-shade);
+}
+.Concept__next-grid a strong {
+  display: block;
+  font-size: 17px;
+  color: var(--cc-ink);
+}
+.Concept__next-grid a span {
+  display: block;
+  font-size: 13px;
+  color: var(--cc-mute);
+  margin-top: 6px;
+}
+.Concept__next-grid a em {
+  display: inline-block;
+  font-style: normal;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--cc-accent);
+  margin-top: 14px;
+}
+.Concept__cta {
+  margin-top: 56px;
+  padding: 44px 40px;
+  border-radius: 12px;
+  background: var(--cc-brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+@media (max-width: 767px) {
+  .Concept__cta {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 22px;
+  }
+}
+.Concept__cta-title {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.4;
+}
+.Concept__cta-text {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 6px;
+}
+.Concept__cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex: none;
+}
+@media (max-width: 767px) {
+  .Concept__cta-actions {
+    width: 100%;
+  }
+  .Concept__cta-actions a {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+.Concept__btn, .Concept__btn--outline {
+  display: inline-block;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.03em;
+  border-radius: 26px;
+  padding: 14px 30px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.Concept__btn {
+  background: #fff;
+  color: var(--cc-brand);
+}
+.Concept__btn:hover {
+  background: var(--cc-accent);
+  color: #fff;
+}
+.Concept__btn--outline {
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  color: #fff;
+  padding: 12.5px 28.5px;
+}
+.Concept__btn--outline:hover {
+  background: #fff;
+  color: var(--cc-brand);
+}
+
+@media (max-width: 767px) {
+  .Remote__pc {
+    display: none;
+  }
+}
+.Remote__narrow {
+  max-width: 860px;
+}
+.Remote__hero-title {
+  font-family: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.3;
+}
+@media (max-width: 767px) {
+  .Remote__hero-title {
+    font-size: 26px;
+  }
+}
+.Remote__note {
+  font-size: 12.5px;
+  color: var(--cc-mute);
+  margin-top: 12px;
+  line-height: 1.8;
+}
+.Remote__intro {
+  padding: 100px 0 40px;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .Remote__intro {
+    padding: 64px 0 24px;
+    text-align: left;
+  }
+}
+.Remote__lead {
+  font-size: 17px;
+  line-height: 2.1;
+  margin-top: 22px;
+  color: var(--cc-ink-soft);
+}
+@media (max-width: 767px) {
+  .Remote__lead {
+    font-size: 15px;
+  }
+}
+.Remote__how {
+  padding: 70px 0 90px;
+}
+@media (max-width: 767px) {
+  .Remote__how {
+    padding: 48px 0 64px;
+  }
+}
+.Remote__equation {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: 18px;
+  margin-top: 36px;
+}
+@media (max-width: 767px) {
+  .Remote__equation {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+.Remote__op {
+  align-self: center;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--cc-accent);
+  text-align: center;
+}
+.Remote__role {
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+  padding: 28px 26px;
+  background: var(--cc-paper);
+}
+.Remote__role strong {
+  display: block;
+  font-size: 20px;
+  line-height: 1.5;
+  margin-top: 8px;
+  color: var(--cc-ink);
+}
+.Remote__role ul {
+  list-style: none;
+  margin-top: 16px;
+}
+.Remote__role ul li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--cc-ink-soft);
+}
+.Remote__role ul li + li {
+  margin-top: 6px;
+}
+.Remote__role ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cc-accent);
+}
+.Remote__role--us {
+  border-color: var(--cc-accent);
+  box-shadow: inset 0 0 0 1px var(--cc-accent);
+}
+.Remote__role--result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--cc-brand);
+  border-color: var(--cc-brand);
+  color: #fff;
+}
+.Remote__role--result strong {
+  color: #fff;
+  font-size: 22px;
+}
+.Remote__role--result .Remote__role-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+.Remote__role-label {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cc-accent);
+}
+.Remote__free {
+  background: var(--cc-shade);
+  padding: 80px 0;
+}
+@media (max-width: 767px) {
+  .Remote__free {
+    padding: 56px 0;
+  }
+}
+.Remote__free-inner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .Remote__free-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.Remote__free-text {
+  font-size: 16px;
+  line-height: 2;
+  margin-top: 18px;
+}
+@media (max-width: 767px) {
+  .Remote__free-text {
+    font-size: 14.5px;
+  }
+}
+.Remote__free-steps {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.Remote__free-steps li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px;
+  background: var(--cc-paper);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  position: relative;
+}
+.Remote__free-steps li::after {
+  content: "無料";
+  margin-left: auto;
+  font-size: 12px;
+  color: #fff;
+  background: var(--cc-accent);
+  border-radius: 20px;
+  padding: 3px 12px;
+}
+.Remote__free-steps b {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--cc-accent);
+}
+.Remote__flow {
+  padding: 100px 0 80px;
+}
+@media (max-width: 767px) {
+  .Remote__flow {
+    padding: 64px 0 48px;
+  }
+}
+.Remote__steps {
+  list-style: none;
+  margin-top: 40px;
+  position: relative;
+}
+.Remote__steps::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--cc-line);
+}
+.Remote__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 24px;
+  padding: 0 0 40px;
+}
+.Remote__step.has-photo {
+  grid-template-columns: 48px 1fr 260px;
+}
+@media (max-width: 767px) {
+  .Remote__step {
+    gap: 16px;
+    padding-bottom: 32px;
+  }
+  .Remote__step.has-photo {
+    grid-template-columns: 48px 1fr;
+  }
+}
+.Remote__step-num {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--cc-paper);
+  border: 1.5px solid var(--cc-accent);
+  color: var(--cc-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+.Remote__step-body {
+  padding-top: 8px;
+}
+.Remote__step-body p {
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: var(--cc-ink-soft);
+  margin-top: 10px;
+}
+.Remote__step-title {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--cc-ink);
+}
+.Remote__badge {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+.Remote__badge--free {
+  background: var(--cc-accent);
+  color: #fff;
+}
+.Remote .Remote__step-body .Remote__pay {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cc-brand);
+  background: var(--cc-shade);
+  border-radius: 6px;
+  padding: 4px 12px;
+  margin-top: 12px;
+}
+.Remote__step-photo {
+  aspect-ratio: 4/3;
+  border-radius: 8px;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .Remote__step-photo {
+    grid-column: 2;
+  }
+}
+.Remote__price {
+  padding: 40px 0 90px;
+}
+@media (max-width: 767px) {
+  .Remote__price {
+    padding: 24px 0 64px;
+  }
+}
+.Remote__price-card {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .Remote__price-card {
+    grid-template-columns: 1fr;
+  }
+}
+.Remote__price-main {
+  padding: 36px 34px;
+  background: var(--cc-shade);
+}
+@media (max-width: 767px) {
+  .Remote__price-main {
+    padding: 28px 22px;
+  }
+}
+.Remote__price-label, .Remote__price-sub {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--cc-brand);
+}
+.Remote__price-num {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 1.1;
+  color: var(--cc-ink);
+  margin-top: 8px;
+}
+.Remote__price-num small {
+  font-family: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+.Remote__price-split {
+  font-size: 13px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cc-line);
+  color: var(--cc-ink-soft);
+}
+.Remote__price-detail {
+  padding: 36px 34px;
+}
+@media (max-width: 767px) {
+  .Remote__price-detail {
+    padding: 28px 22px;
+  }
+}
+.Remote__price-detail ul {
+  list-style: none;
+  margin-top: 12px;
+}
+.Remote__price-detail ul li {
+  font-size: 14px;
+  line-height: 1.8;
+  padding: 9px 0 9px 26px;
+  border-bottom: 1px solid var(--cc-line);
+  position: relative;
+}
+.Remote__price-detail ul li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1.05em;
+  width: 10px;
+  height: 5px;
+  border-left: 2px solid var(--cc-accent);
+  border-bottom: 2px solid var(--cc-accent);
+  transform: rotate(-45deg);
+}
+.Remote__faq {
+  background: var(--cc-shade);
+  padding: 90px 0;
+}
+@media (max-width: 767px) {
+  .Remote__faq {
+    padding: 60px 0;
+  }
+}
+.Remote__faq-list {
+  margin-top: 30px;
+  display: grid;
+  gap: 10px;
+}
+.Remote__faq-item {
+  background: var(--cc-paper);
+  border-radius: 10px;
+}
+.Remote__faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 52px 20px 22px;
+  font-weight: 700;
+  font-size: 15.5px;
+  position: relative;
+}
+.Remote__faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.Remote__faq-item summary span {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  color: var(--cc-accent);
+  font-size: 18px;
+}
+.Remote__faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: var(--cc-mute);
+}
+.Remote__faq-item[open] summary::after {
+  content: "−";
+}
+.Remote__faq-item p {
+  padding: 0 22px 22px 54px;
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: var(--cc-ink-soft);
+}

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>施工事例詳細 配色比較</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);padding-bottom:88px}
+  .PreviewNote{
+    background:#fff3cd;color:#664d03;font-size:12.5px;padding:10px 20px;text-align:center;
+    border-bottom:1px solid #ffe69c;
+  }
+  .SiteHeader{
+    position:sticky;top:0;z-index:50;background:var(--header-bg);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .SiteHeader__inner{max-width:1180px;margin:0 auto;padding:0 32px;height:76px;display:flex;align-items:center;justify-content:space-between}
+  .SiteHeader__logo{font-family:'Archivo',sans-serif;font-weight:900;font-size:16px;letter-spacing:.06em;color:var(--brand)}
+  .SiteHeader__logo span{color:var(--logo-amp)}
+  .SiteHeader__nav{display:flex;gap:24px;font-size:12.5px}
+  .SiteHeader__nav a{color:var(--ink-soft);text-decoration:none}
+  .SiteHeader__nav a:hover{color:var(--ink)}
+  @media (max-width:900px){.SiteHeader__nav{display:none}}
+  .SiteFooter{background:var(--footer-bg);color:var(--footer-text);border-top:1px solid var(--line);padding:50px 24px 30px;text-align:center;margin-top:0}
+  .SiteFooter__logo{font-family:'Archivo',sans-serif;font-weight:900;font-size:15px;color:var(--footer-logo);margin-bottom:8px}
+  .SiteFooter__addr{font-size:12px;color:var(--footer-mute);margin-bottom:24px}
+  .SiteFooter__bottom{border-top:1px solid var(--footer-line);padding-top:16px;font-size:11px;color:var(--footer-mute)}
+.CaseDetail {
+  --cd-ink: var(--ink);
+  --cd-ink-soft: var(--ink-soft);
+  --cd-mute: var(--mute);
+  --cd-line: var(--line);
+  --cd-paper: var(--paper);
+  --cd-paper-shade: var(--shade);
+  --cd-white: #ffffff;
+  --cd-accent: var(--accent);
+  background: var(--cd-paper);
+  color: var(--cd-ink);
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+.CaseDetail * {
+  box-sizing: border-box;
+}
+:where(.CaseDetail) a {
+  color: inherit;
+  text-decoration: none;
+}
+.CaseDetail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.CaseDetail__wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 600px) {
+  .CaseDetail__wrap {
+    padding: 0 20px;
+  }
+}
+.CaseDetail__btn {
+  display: inline-block;
+  background: var(--btn);
+  color: var(--cd-white);
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  border-radius: 24px;
+  padding: 14px 40px;
+  transition: background 0.2s ease;
+}
+.CaseDetail__btn:hover {
+  background: var(--btn-hover);
+}
+.CaseDetail__breadcrumb {
+  padding: 22px 0 0;
+  font-size: 12.5px;
+  color: var(--cd-mute);
+}
+.CaseDetail__breadcrumb a:hover {
+  color: var(--cd-ink);
+  text-decoration: underline;
+}
+.CaseDetail__slider {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  margin-top: 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--cd-paper-shade);
+}
+@media (max-width: 760px) {
+  .CaseDetail__slider {
+    height: 260px;
+  }
+}
+.CaseDetail__slider-slide {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.CaseDetail__slider-slide.is-active {
+  opacity: 1;
+  position: relative;
+}
+.CaseDetail__slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-size: 18px;
+  color: var(--cd-ink);
+  cursor: pointer;
+  border: none;
+  z-index: 2;
+}
+.CaseDetail__slider-arrow--prev {
+  left: 16px;
+}
+.CaseDetail__slider-arrow--next {
+  right: 16px;
+}
+.CaseDetail__slider-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+.CaseDetail__slider-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  display: block;
+}
+.CaseDetail__slider-dots i.is-active {
+  background: var(--cd-white);
+}
+.CaseDetail__thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.CaseDetail__thumb {
+  width: 88px;
+  height: 64px;
+  border-radius: 6px;
+  flex: none;
+  cursor: pointer;
+  opacity: 0.65;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+  border: none;
+  padding: 0;
+}
+.CaseDetail__thumb.is-active {
+  opacity: 1;
+  outline: 2px solid var(--cd-accent);
+  outline-offset: 2px;
+}
+.CaseDetail__detail {
+  padding: 44px 0 0;
+}
+.CaseDetail__tag-groups {
+  margin-bottom: 28px;
+}
+.CaseDetail__tag-group {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__tag-group {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+.CaseDetail__tag-group-label {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--cd-ink-soft);
+  flex: none;
+  width: 84px;
+  padding-top: 6px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__tag-group-label {
+    width: auto;
+  }
+}
+.CaseDetail__tag-group-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.CaseDetail__tag-group-tags span {
+  background: var(--cd-paper-shade);
+  color: var(--cd-ink-soft);
+  padding: 5px 16px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+.CaseDetail__tag-group--style .CaseDetail__tag-group-tags span {
+  background: var(--chip);
+  color: #fff;
+}
+.CaseDetail__title {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--heading);
+  margin-bottom: 20px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__title {
+    font-size: 22px;
+  }
+}
+.CaseDetail__lead {
+  color: var(--cd-ink-soft);
+  font-size: 14px;
+  line-height: 2.1;
+}
+.CaseDetail__overview {
+  margin-top: 48px;
+}
+.CaseDetail__overview-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--cd-ink);
+  margin-bottom: 16px;
+}
+.CaseDetail__overview-title::before {
+  content: "■";
+  color: var(--mark);
+  font-size: 12px;
+}
+.CaseDetail__overview-table {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--cd-line);
+  border-left: 1px solid var(--cd-line);
+}
+@media (max-width: 760px) {
+  .CaseDetail__overview-table {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.CaseDetail__overview-cell {
+  border-right: 1px solid var(--cd-line);
+  border-bottom: 1px solid var(--cd-line);
+  padding: 16px 18px;
+}
+.CaseDetail__overview-key {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--accent-text);
+  margin-bottom: 6px;
+}
+.CaseDetail__overview-value {
+  font-size: 13px;
+  color: var(--cd-ink);
+}
+.CaseDetail__cta {
+  text-align: center;
+  padding: 48px 0 8px;
+}
+.CaseDetail__related {
+  padding: 70px 0 80px;
+  margin-top: 56px;
+  border-top: 1px solid var(--cd-line);
+}
+.CaseDetail__related-head {
+  text-align: center;
+  padding: 0 24px 34px;
+}
+.CaseDetail__related-head-en {
+  color: var(--heading);
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  display: inline-block;
+}
+.CaseDetail__related-head-jp {
+  font-size: 12px;
+  color: var(--cd-mute);
+  margin-top: 6px;
+}
+.CaseDetail__related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.CaseDetail__related-card {
+  display: block;
+}
+.CaseDetail__related-card img {
+  height: 190px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  transition: transform 0.4s ease;
+}
+.CaseDetail__related-card:hover img {
+  transform: scale(1.04);
+}
+.CaseDetail__related-card h3 {
+  font-size: 14px;
+  color: var(--cd-ink);
+  margin-bottom: 10px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.CaseDetail__related-card-more {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  display: inline-block;
+}
+
+/* ===== 配色（html[data-palette] で切り替え） =====
+   --accent       : 今の緑 #1fa198（ロゴの&・■・枠線・ボタンなど「色として見せる」部分）
+   --accent-text  : 小さな文字用の緑（#1fa198 は白背景で 3.0:1 と薄いため、同じ色相を少し深くした #177871 = 5.1:1）
+*/
+:root, html[data-palette="now"]{
+  --ink:#141414; --ink-soft:#4a4a4a; --mute:#8c8c8c; --line:#e2e2e2; --paper:#fafafa; --shade:#f2f2f2;
+  --accent:#1fa198; --accent-text:#1fa198; --brand:#141414; --logo-amp:#1fa198; --heading:#141414; --btn:#141414; --btn-hover:#1fa198; --chip:#141414; --mark:#1fa198;
+  --header-bg:rgba(250,250,250,.92);
+  --footer-bg:#141414; --footer-text:#d8d1c4; --footer-logo:#ffffff; --footer-mute:#8f8f8f; --footer-line:rgba(255,255,255,.12);
+}
+/* 1. Stone & Lagoon：C（茶のモノトーン）＋今の緑 */
+html[data-palette="stone"]{
+  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
+  --accent:#1fa198; --accent-text:#177871; --brand:#5E5755; --logo-amp:#1fa198; --heading:#2B2624; --btn:#5E5755; --btn-hover:#177871; --chip:#5E5755; --mark:#1fa198;
+  --header-bg:rgba(250,250,248,.92);
+  --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
+}
+/* 2. Sand & Lagoon：砂浜のベージュ＋今の緑（ビーチの組み合わせ） */
+html[data-palette="sand"]{
+  --ink:#2E2A26; --ink-soft:#4D4640; --mute:#6E655C; --line:#E3D9C9; --paper:#F8F4ED; --shade:#EFE7DA;
+  --accent:#1fa198; --accent-text:#177871; --brand:#5E5755; --logo-amp:#1fa198; --heading:#2E2A26; --btn:#2E2A26; --btn-hover:#177871; --chip:#8A7560; --mark:#1fa198;
+  --header-bg:rgba(248,244,237,.92);
+  --footer-bg:#EFE7DA; --footer-text:#4D4640; --footer-logo:#5E5755; --footer-mute:#6E655C; --footer-line:#DDD1BF;
+}
+/* 3. Slate & Lagoon：深い青灰色＋今の緑（涼しげでモダン） */
+html[data-palette="slate"]{
+  --ink:#1E2A2E; --ink-soft:#3D4B4F; --mute:#55656A; --line:#DCE7E6; --paper:#F6F9F9; --shade:#EAF4F3;
+  --accent:#1fa198; --accent-text:#177871; --brand:#1E2A2E; --logo-amp:#1fa198; --heading:#1E2A2E; --btn:#1E2A2E; --btn-hover:#177871; --chip:#1E2A2E; --mark:#1fa198;
+  --header-bg:rgba(246,249,249,.92);
+  --footer-bg:#EAF4F3; --footer-text:#3D4B4F; --footer-logo:#1E2A2E; --footer-mute:#55656A; --footer-line:#D3E2E0;
+}
+/* 5＋白背景：C＋海の緑を白ベースに（面だけごく薄い暖かみのあるグレー） */
+html[data-palette="c1w"]{
+  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E6E3E0; --paper:#FFFFFF; --shade:#F4F3F1;
+  --accent:#15766E; --accent-text:#15766E; --brand:#5E5755; --logo-amp:#15766E; --heading:#2B2624; --btn:#5E5755; --btn-hover:#15766E; --chip:#5E5755; --mark:#15766E;
+  --header-bg:rgba(255,255,255,.94);
+  --footer-bg:#F4F3F1; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#E3DFDB;
+}
+/* 参考：C＋海の緑（前回案） */
+html[data-palette="c1"]{
+  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
+  --accent:#15766E; --accent-text:#15766E; --brand:#5E5755; --logo-amp:#15766E; --heading:#2B2624; --btn:#5E5755; --btn-hover:#15766E; --chip:#5E5755; --mark:#15766E;
+  --header-bg:rgba(250,250,248,.92);
+  --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
+}
+html{transition:background .3s}
+body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group-tags span{transition:background-color .3s,color .3s,border-color .3s}
+
+/* ===== 切り替えバー ===== */
+.Switcher{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:100;display:flex;gap:6px;padding:6px;
+  background:rgba(255,255,255,.96);border:1px solid #ddd;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.14);max-width:calc(100% - 24px);overflow-x:auto}
+.Switcher button{flex:none;display:flex;align-items:center;gap:8px;border:none;background:none;border-radius:999px;padding:9px 16px;cursor:pointer;
+  font:600 12.5px 'Zen Kaku Gothic New',sans-serif;color:#444;white-space:nowrap}
+.Switcher button:hover{background:#f3f3f3}
+.Switcher button[aria-pressed="true"]{background:#222;color:#fff}
+.Switcher i{display:flex}
+.Switcher i b{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.12);margin-left:-3px}
+.Switcher i b:first-child{margin-left:0}
+@media (max-width:760px){.Switcher{left:12px;right:12px;transform:none}.Switcher button{padding:8px 11px;font-size:11.5px}.Switcher .lbl{display:none}}
+</style>
+</head>
+<body>
+<div class="PreviewNote">今の緑 #1fa198 を活かした配色の比較ページです。画面下のボタン（またはキーボードの 1〜6）で切り替えられます。写真はプレースホルダーです。</div>
+
+<header class="SiteHeader">
+  <div class="SiteHeader__inner">
+    <div class="SiteHeader__logo">ALOHA <span>&amp;</span> STYLE</div>
+    <nav class="SiteHeader__nav">
+      <a href="#">ALOHA&amp;STYLEについて</a>
+      <a href="#">家を建てる</a>
+      <a href="#">住宅プラン</a>
+      <a href="#">施工事例</a>
+      <a href="#">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+<div class="CaseDetail">
+  <main class="CaseDetail__wrap">
+
+    <div class="CaseDetail__breadcrumb">
+      <a href="#">施工事例一覧</a>&nbsp;&rang;&nbsp;白とグレーに統一された、海辺のサーファーズハウス
+    </div>
+
+    <div class="CaseDetail__slider" data-case-slider>
+      <img class="CaseDetail__slider-slide is-active" src="https://picsum.photos/seed/aloha-case-1/1200/800" alt="外観写真1" loading="eager">
+      <img class="CaseDetail__slider-slide" src="https://picsum.photos/seed/aloha-case-2/1200/800" alt="外観写真2" loading="lazy">
+      <img class="CaseDetail__slider-slide" src="https://picsum.photos/seed/aloha-case-3/1200/800" alt="内観写真3" loading="lazy">
+      <button type="button" class="CaseDetail__slider-arrow CaseDetail__slider-arrow--prev" aria-label="前の写真">&lsaquo;</button>
+      <button type="button" class="CaseDetail__slider-arrow CaseDetail__slider-arrow--next" aria-label="次の写真">&rsaquo;</button>
+      <div class="CaseDetail__slider-dots">
+        <i class="is-active"></i><i></i><i></i>
+      </div>
+    </div>
+    <div class="CaseDetail__thumbs">
+      <button type="button" class="CaseDetail__thumb is-active" data-index="0"><img src="https://picsum.photos/seed/aloha-case-1/1200/800" alt="サムネイル1"></button>
+      <button type="button" class="CaseDetail__thumb" data-index="1"><img src="https://picsum.photos/seed/aloha-case-2/1200/800" alt="サムネイル2"></button>
+      <button type="button" class="CaseDetail__thumb" data-index="2"><img src="https://picsum.photos/seed/aloha-case-3/1200/800" alt="サムネイル3"></button>
+    </div>
+
+    <div class="CaseDetail__detail">
+      <div class="CaseDetail__tag-groups">
+        <div class="CaseDetail__tag-group CaseDetail__tag-group--style">
+          <span class="CaseDetail__tag-group-label">スタイル</span>
+          <div class="CaseDetail__tag-group-tags"><span>サーファーズハウス</span><span>ハワイ</span></div>
+        </div>
+        <div class="CaseDetail__tag-group">
+          <span class="CaseDetail__tag-group-label">特徴</span>
+          <div class="CaseDetail__tag-group-tags"><span>2階建て</span><span>大空間</span><span>吹き抜け</span><span>テラス・バルコニー</span></div>
+        </div>
+        <div class="CaseDetail__tag-group">
+          <span class="CaseDetail__tag-group-label">ライフスタイル</span>
+          <div class="CaseDetail__tag-group-tags"><span>サーフィン</span><span>アウトドア</span><span>リゾートライフ</span></div>
+        </div>
+      </div>
+
+      <h1 class="CaseDetail__title">白とグレーに統一された、海辺のサーファーズハウス</h1>
+
+      <div class="CaseDetail__lead">
+        <p>白とグレーのコントラストが美しい外観に、大きなウッドデッキを備えたサーファーズハウス。1階のリビングは吹き抜けにし、開放感のある空間に仕上げました。海からの風を感じられる暮らしを実現しています。</p>
+      </div>
+
+      <div class="CaseDetail__overview">
+        <div class="CaseDetail__overview-title">建物概要</div>
+        <div class="CaseDetail__overview-table">
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">建築場所</div><div class="CaseDetail__overview-value">岡山市中区湊</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">主要用途</div><div class="CaseDetail__overview-value">一般住宅</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">工事種別</div><div class="CaseDetail__overview-value">新築</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">用途地域</div><div class="CaseDetail__overview-value">第一種低層住居専用地域</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">容積率</div><div class="CaseDetail__overview-value">100%</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">建ぺい率</div><div class="CaseDetail__overview-value">50%</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">前面道路</div><div class="CaseDetail__overview-value">南側6M　東側6M</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">敷地面積</div><div class="CaseDetail__overview-value">282.33㎡（85.24坪）</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">建物構造</div><div class="CaseDetail__overview-value">在来木造</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">階数</div><div class="CaseDetail__overview-value">2階建て</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">1階床面積</div><div class="CaseDetail__overview-value">63.76㎡（19.29坪）</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">2階床面積</div><div class="CaseDetail__overview-value">52.17㎡（15.78坪）</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">延床面積</div><div class="CaseDetail__overview-value">115.93㎡（35.07坪）</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">施工面積</div><div class="CaseDetail__overview-value">145.73㎡（44.08坪）</div></div>
+          <div class="CaseDetail__overview-cell"><div class="CaseDetail__overview-key">家族構成</div><div class="CaseDetail__overview-value">&mdash;</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="CaseDetail__cta"><a href="#" class="CaseDetail__btn">カタログを請求する &rarr;</a></div>
+  </main>
+
+  <section class="CaseDetail__related" aria-labelledby="case-related-heading">
+    <div class="CaseDetail__related-head">
+      <h2 id="case-related-heading" class="CaseDetail__related-head-en">Related Works</h2>
+      <span class="CaseDetail__related-head-jp">関連事例</span>
+    </div>
+    <div class="CaseDetail__related-grid">
+      <a href="#" class="CaseDetail__related-card">
+        <img src="https://picsum.photos/seed/aloha-related-1/900/700" alt="将来の暮らしを見据えながらも、非日常感を愉しむ平屋の住まい">
+        <h3>将来の暮らしを見据えながらも、非日常感を愉しむ平屋の住まい</h3>
+        <span class="CaseDetail__related-card-more">More</span>
+      </a>
+      <a href="#" class="CaseDetail__related-card">
+        <img src="https://picsum.photos/seed/aloha-related-2/900/700" alt="家事ラクを叶える、便利な回遊動線のある平屋">
+        <h3>家事ラクを叶える、便利な回遊動線のある平屋</h3>
+        <span class="CaseDetail__related-card-more">More</span>
+      </a>
+      <a href="#" class="CaseDetail__related-card">
+        <img src="https://picsum.photos/seed/aloha-related-3/900/700" alt="シンプルに暮らす 家族動線を大切にしたお家">
+        <h3>シンプルに暮らす 家族動線を大切にしたお家</h3>
+        <span class="CaseDetail__related-card-more">More</span>
+      </a>
+    </div>
+  </section>
+</div>
+
+<footer class="SiteFooter">
+  <div class="SiteFooter__logo">ALOHA & STYLE Inc.</div>
+  <div class="SiteFooter__addr">岡山市南区築港新町2丁目13番20号</div>
+  <div class="SiteFooter__bottom">©2017 ALOHA & STYLE CO.,Ltd All Rights Reserved.</div>
+</footer>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.CaseDetail__slider-slide');
+  var dots = document.querySelectorAll('.CaseDetail__slider-dots i');
+  var thumbs = document.querySelectorAll('.CaseDetail__thumb');
+  var current = 0;
+  function show(i){
+    slides.forEach(function(s,idx){ s.classList.toggle('is-active', idx===i); });
+    dots.forEach(function(d,idx){ d.classList.toggle('is-active', idx===i); });
+    thumbs.forEach(function(t,idx){ t.classList.toggle('is-active', idx===i); });
+    current = i;
+  }
+  document.querySelector('.CaseDetail__slider-arrow--next').addEventListener('click', function(){ show((current+1)%slides.length); });
+  document.querySelector('.CaseDetail__slider-arrow--prev').addEventListener('click', function(){ show((current-1+slides.length)%slides.length); });
+  thumbs.forEach(function(t,idx){ t.addEventListener('click', function(){ show(idx); }); });
+})();
+</script>
+
+<nav class="Switcher" aria-label="配色の切り替え">
+  <button type="button" data-p="now"><i><b style="background:#141414"></b><b style="background:#1fa198"></b></i>現在<span class="lbl">（黒＋緑）</span></button>
+  <button type="button" data-p="stone"><i><b style="background:#5E5755"></b><b style="background:#1fa198"></b></i>1 Stone<span class="lbl"> &amp; Lagoon</span></button>
+  <button type="button" data-p="sand"><i><b style="background:#D9C9AE"></b><b style="background:#1fa198"></b></i>2 Sand<span class="lbl"> &amp; Lagoon</span></button>
+  <button type="button" data-p="slate"><i><b style="background:#1E2A2E"></b><b style="background:#1fa198"></b></i>3 Slate<span class="lbl"> &amp; Lagoon</span></button>
+  <button type="button" data-p="c1"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>5 C＋海の緑</button>
+  <button type="button" data-p="c1w"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b><b style="background:#FFFFFF"></b></i>6 5＋白背景</button>
+</nav>
+<script>
+(function(){
+  var btns=document.querySelectorAll('.Switcher button'), keys=['now','stone','sand','slate','c1','c1w'];
+  function set(p){ document.documentElement.setAttribute('data-palette',p);
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-p')===p ? 'true':'false'); });
+    try{ localStorage.setItem('aloha-palette',p); }catch(e){} }
+  btns.forEach(function(b){ b.addEventListener('click',function(){ set(b.getAttribute('data-p')); }); });
+  document.addEventListener('keydown',function(e){ var i=parseInt(e.key,10); if(i>=1&&i<=6) set(keys[i-1]); });
+  var saved=null; try{ saved=localStorage.getItem('aloha-palette'); }catch(e){}
+  set('c1w');
+})();
+</script>
+
+</body>
+</html>

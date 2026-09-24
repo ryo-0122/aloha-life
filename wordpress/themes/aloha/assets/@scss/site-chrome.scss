@@ -1,0 +1,10 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] ヘッダー・フッター用CSSのエントリー
+// [出力先] assets/css/site-chrome.css（全ページで読み込み）
+// styles.css とは別にコンパイルする（styles.css には Sass に無い直接編集が含まれるため）
+// ===============================================
+@import "./mixin/mixin";
+@import "./components/palette";
+@import "./components/siteChrome";
+@import "./components/planComingSoon";

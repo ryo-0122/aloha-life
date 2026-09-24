@@ -1,0 +1,48 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] ウィンドウ切り替え
+// ===============================================
+
+$widthPC: 1279px; //PC
+$widthTab: 899px; //タブレット
+$widthSp: 767px; //スマートフォン
+$widthMini: 480px; //スマートフォン
+/*
+@mixin tab {
+  @media (min-width: $widthTab) and (max-width: ($widthPC)) {
+    @content;
+  }
+}
+*/
+@mixin pc {
+  @media (min-width: ($widthTab)) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (max-width: ($widthTab)) {
+    @content;
+  }
+}
+@mixin mobile {
+  @media (max-width: ($widthSp)) {
+    @content;
+  }
+}
+@mixin mini {
+  @media (max-width: ($widthMini)) {
+    @content;
+  }
+}
+
+
+@mixin yoko {
+  @media screen and (orientation: landscape) {
+    @content;
+  }
+}
+@mixin tate {
+  @media screen and (orientation: portrait) {
+    @content;
+  }
+}

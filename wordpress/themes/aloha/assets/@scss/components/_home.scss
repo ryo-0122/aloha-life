@@ -1,0 +1,947 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] トップページ（リニューアル）
+// [使用ページ] front-page.php
+// [出力先] assets/css/home.css（assets/@scss/home.scss からコンパイル）
+//
+// すべて .Home 配下に閉じ込め、styles.css に残っている旧トップページの
+// クラス（.Top__news など）と衝突しないようにしている。
+// ブレイクポイントは既存の mobile ミックスイン（767px 以下）を使用。
+// 欧文フォント Archivo は読み込めなくても游ゴシック等で表示できるようにしている。
+// ===============================================
+
+$home-font-jp: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+$home-font-en: "Archivo", $home-font-jp;
+
+@mixin home-en($weight: 500) {
+  font-family: $home-font-en;
+  font-weight: $weight;
+}
+
+@mixin home-grid($cols, $gap, $max: 1180px) {
+  display: grid;
+  grid-template-columns: repeat($cols, 1fr);
+  gap: $gap;
+  max-width: $max;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+// リンクのリセットは :where() で詳細度を下げ、.Home__btn などの色指定が優先されるようにする。
+// common の a { display: block } と a:hover { opacity: .7 } もここで打ち消す。
+// 見出し・段落の余白リセットも詳細度0にして、.Home__〇〇 側の margin 指定を優先させる
+:where(.Home) :where(h1, h2, h3, p) {
+  margin: 0;
+}
+:where(.Home) a {
+  color: inherit;
+  text-decoration: none;
+}
+:where(.Home) a:hover {
+  opacity: 1;
+}
+
+.Home {
+  --home-ink: #{$pal-ink};
+  --home-ink-soft: #{$pal-ink-soft};
+  --home-mute: #{$pal-mute};
+  --home-line: #{$pal-line};
+  --home-paper: #{$pal-paper};
+  --home-paper-shade: #{$pal-shade};
+  --home-white: #ffffff;
+  --home-accent: #{$pal-accent};
+  --home-brand: #{$pal-brand};
+  background: var(--home-paper);
+  color: var(--home-ink);
+  font-family: $home-font-jp;
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-x: hidden;
+
+  * {
+    box-sizing: border-box;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @include mobile {
+      padding: 0 20px;
+    }
+  }
+
+  // ---------- Buttons ----------
+  &__btn,
+  &__btn--outline {
+    display: inline-block;
+    @include home-en(700);
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    border-radius: 24px;
+    padding: 13px 32px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  &__btn {
+    background: var(--home-brand);
+    color: var(--home-white);
+    &:hover {
+      background: var(--home-accent);
+      transform: translateY(-1px);
+    }
+  }
+  &__btn--outline {
+    border: 1.5px solid var(--home-brand);
+    color: var(--home-brand);
+    &:hover {
+      background: var(--home-brand);
+      color: var(--home-white);
+    }
+  }
+
+  // ---------- Hero ----------
+  &__hero {
+    position: relative;
+    height: 88vh;
+    min-height: 560px;
+    max-height: 820px;
+    overflow: hidden;
+    background: var(--home-ink);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(43, 38, 36, 0.15) 0%, rgba(43, 38, 36, 0.1) 45%, rgba(43, 38, 36, 0.8) 100%);
+      pointer-events: none;
+    }
+  }
+  &__hero-slide {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: contain;
+    background: var(--home-ink);
+    opacity: 0;
+    animation-duration: 32s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    filter: grayscale(0.1) brightness(0.85);
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        animation-name: homeHeroZoom#{$i};
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      animation: none !important;
+      opacity: 0;
+      &:first-child {
+        opacity: 1;
+      }
+    }
+  }
+  // 画像が6枚そろっていない場合はスライドさせず1枚目を表示
+  &__hero--static &__hero-slide {
+    animation: none;
+    &:first-child {
+      opacity: 1;
+    }
+  }
+  &__hero-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 0 32px 64px;
+    max-width: 1240px;
+    margin: 0 auto;
+    @include mobile {
+      padding: 0 20px 40px;
+    }
+  }
+  &__hero-eyebrow {
+    @include home-en(500);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  &__hero-heading {
+    @include home-en(900);
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.82);
+    @include mobile {
+      font-size: 38px;
+    }
+  }
+  &__hero-tagline {
+    @include home-en(500);
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 14px;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    margin-top: 22px;
+    max-width: 440px;
+  }
+  &__hero-ctas {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+
+    .Home__btn,
+    .Home__btn--outline {
+      background: none;
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.82);
+      padding: 0 0 8px;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      &:hover {
+        color: #fff;
+        border-color: #fff;
+        transform: none;
+      }
+    }
+  }
+
+  // ---------- About ----------
+  &__about {
+    padding: 64px 0;
+  }
+  &__about-grid {
+    @include home-grid(3, 6px);
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+      .Home__about-text,
+      .Home__about-cell:nth-child(2) {
+        grid-column: 1 / -1;
+      }
+      .Home__about-cell:not(.Home__about-text) {
+        height: 170px;
+      }
+      .Home__about-cell:nth-child(2) {
+        height: 220px;
+      }
+      .Home__about-cell-overlay {
+        padding: 16px;
+      }
+      .Home__about-cell-cap {
+        font-size: 14px;
+      }
+    }
+  }
+  &__about-cell {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 6px;
+    display: block;
+    @include mobile {
+      height: 220px;
+    }
+    img {
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+    &:hover img {
+      transform: scale(1.06);
+    }
+    &:hover .Home__about-cell-more::after {
+      background: var(--home-accent);
+    }
+  }
+  &__about-cell.is-soon img {
+    filter: grayscale(0.6);
+    opacity: 0.75;
+  }
+  &__about-text-link {
+    display: inline-block;
+    margin-top: 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--home-accent);
+    &:hover {
+      color: #{$pal-accent-dark};
+    }
+  }
+  .Home__lifestyle-text .Home__lifestyle-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+    .Home__btn--outline {
+      margin-top: 0;
+    }
+  }
+  &__about-cell-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 26px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.08) 55%, rgba(0, 0, 0, 0) 78%);
+  }
+  &__about-cell-cap {
+    @include home-en(700);
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  &__about-cell-jp {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 16px;
+  }
+  &__about-cell-more {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    @include home-en(500);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: background 0.25s ease;
+    }
+  }
+  &__about-text {
+    background: var(--home-paper-shade);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    @include mobile {
+      height: auto;
+      padding: 28px 22px;
+    }
+    p {
+      color: var(--home-ink-soft);
+      font-size: 13.5px;
+      line-height: 1.95;
+    }
+  }
+  &__about-text-label {
+    @include home-en(700);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--home-ink);
+    margin-bottom: 14px;
+    display: inline-block;
+  }
+
+  // ---------- Section head（共通見出し） ----------
+  &__section-head {
+    text-align: center;
+    padding: 0 24px 36px;
+  }
+  &__section-head-en {
+    @include home-en(700);
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    color: var(--home-ink);
+    display: inline-block;
+  }
+  &__section-head-jp {
+    font-size: 12px;
+    color: var(--home-mute);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  // ---------- Lifestyle ----------
+  &__lifestyle {
+    padding: 70px 0;
+    border-top: 1px solid var(--home-line);
+  }
+  &__lifestyle-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__lifestyle-photo {
+    height: 380px;
+    border-radius: 8px;
+    overflow: hidden;
+    @include mobile {
+      height: 260px;
+    }
+  }
+  &__lifestyle-text {
+    .Home__lifestyle-en {
+      @include home-en(700);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--home-accent);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    h2 {
+      @include home-en(900);
+      font-size: 26px;
+      letter-spacing: -0.01em;
+      color: var(--home-ink);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    p {
+      color: var(--home-ink-soft);
+      font-size: 14px;
+      line-height: 2.1;
+    }
+    .Home__btn--outline {
+      margin-top: 26px;
+    }
+  }
+
+  // ---------- Works ----------
+  &__works {
+    background: var(--home-paper-shade);
+    color: var(--home-ink);
+    padding: 52px 0 56px;
+  }
+  &__works-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 0 32px 28px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  &__works-head-en {
+    @include home-en(900);
+    font-size: 28px;
+    display: inline-block;
+  }
+  &__works-head-jp {
+    font-size: 13px;
+    color: var(--home-mute);
+    letter-spacing: 0.04em;
+  }
+  &__works-grid {
+    @include home-grid(3, 26px);
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__work-card {
+    display: block;
+    img {
+      height: 200px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      transition: transform 0.4s ease;
+    }
+    &:hover img {
+      transform: scale(1.04);
+    }
+    h3 {
+      font-size: 14px;
+      color: var(--home-ink);
+      margin-bottom: 10px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+  }
+  &__work-card-more {
+    @include home-en(500);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--home-accent);
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  &__work-card-tags {
+    font-size: 11.5px;
+    color: var(--home-mute);
+    span {
+      color: var(--home-accent);
+    }
+  }
+  &__works-more {
+    text-align: center;
+    padding-top: 44px;
+    a {
+      display: inline-block;
+      border: 1.5px solid var(--home-brand);
+      color: var(--home-brand);
+      @include home-en(500);
+      font-size: 12.5px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 22px;
+      padding: 11px 30px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      &:hover {
+        background: var(--home-brand);
+        border-color: var(--home-brand);
+        color: #fff;
+      }
+    }
+  }
+
+
+  // 施工事例：スタイル別ボタン
+  &__works-styles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 1180px;
+    margin: -8px auto 28px;
+    padding: 0 32px;
+    @include mobile {
+      padding: 0 20px;
+    }
+    a {
+      font-size: 12.5px;
+      color: var(--home-ink-soft);
+      background: var(--home-paper);
+      border: 1px solid var(--home-line);
+      border-radius: 20px;
+      padding: 6px 16px;
+      transition: border-color 0.2s ease, color 0.2s ease;
+      &:hover {
+        border-color: var(--home-accent);
+        color: var(--home-accent);
+      }
+    }
+  }
+
+  // ---------- Concept：3つのこだわり ----------
+  &__points {
+    list-style: none;
+    max-width: 1180px;
+    margin: 56px auto 0;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    @include mobile {
+      grid-template-columns: 1fr;
+      margin-top: 40px;
+      padding: 0 20px;
+    }
+    li {
+      border-top: 2px solid var(--home-accent);
+      padding-top: 18px;
+    }
+    strong {
+      display: block;
+      font-size: 16px;
+      color: var(--home-ink);
+      margin-top: 4px;
+    }
+    p {
+      font-size: 13px;
+      line-height: 1.9;
+      color: var(--home-ink-soft);
+      margin-top: 8px;
+    }
+  }
+  &__points-num {
+    @include home-en(700);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--home-accent);
+  }
+
+  // ---------- News & Topics ----------
+  &__news {
+    padding: 66px 0;
+    border-top: 1px solid var(--home-line);
+  }
+  &__news-list {
+    @include home-grid(3, 28px, 1080px);
+    @include mobile {
+      grid-template-columns: 1fr;
+      padding: 0 20px;
+    }
+  }
+  &__news-item {
+    display: block;
+    img,
+    .Home__placeholder-photo {
+      height: 150px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+    &:hover .Home__news-title {
+      text-decoration: underline wavy var(--home-accent);
+    }
+  }
+  &__news-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  &__news-date {
+    @include home-en(500);
+    font-size: 12.5px;
+    color: var(--home-accent);
+  }
+  &__news-cat {
+    font-size: 11px;
+    color: var(--home-ink-soft);
+    background: var(--home-paper-shade);
+    border-radius: 10px;
+    padding: 1px 10px;
+  }
+  &__news-title {
+    font-size: 14px;
+    color: var(--home-ink);
+  }
+  &__news-more {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  // ---------- Contents ----------
+  &__contents {
+    background: var(--home-paper-shade);
+    padding: 66px 0;
+  }
+  &__contents-grid {
+    @include home-grid(3, 14px);
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  &__content-tile {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 8px;
+    display: block;
+    img {
+      height: 100%;
+      border-radius: 8px;
+    }
+  }
+  &__content-tile-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 14px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%);
+    span {
+      color: #ffffff;
+      @include home-en(700);
+      font-size: 14px;
+    }
+  }
+
+  // ---------- Events（外部ウィジェット ie-miru） ----------
+  &__events {
+    padding: 66px 0;
+    border-top: 1px solid var(--home-line);
+  }
+  &__events-widget {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @include mobile {
+      padding: 0 20px;
+    }
+    img {
+      height: auto;
+    }
+  }
+
+  // ---------- Contact ----------
+  &__contact {
+    background: var(--home-brand);
+    color: #fff;
+    padding: 56px 0;
+  }
+  &__contact-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 20px;
+    }
+  }
+  &__contact-en {
+    @include home-en(900);
+    font-size: 28px;
+    line-height: 1.2;
+    display: block;
+  }
+  &__contact-text {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 10px;
+  }
+  &__contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex: none;
+    @include mobile {
+      width: 100%;
+      a {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+    }
+    .Home__btn {
+      background: var(--home-accent);
+      &:hover {
+        background: #{$pal-accent-dark};
+      }
+    }
+    .Home__btn--outline {
+      border-color: rgba(255, 255, 255, 0.7);
+      color: #fff;
+      &:hover {
+        background: #fff;
+        color: var(--home-brand);
+      }
+    }
+  }
+
+  // ---------- Reform Blog ----------
+  // 一覧は footer.php の reformBlogData() が .Top__news-item の <li> を追加する。
+  // styles.css に残る旧 .Top__news-* の指定を、ここで上書きしている。
+  &__reform {
+    padding: 66px 0;
+    border-top: 1px solid var(--home-line);
+  }
+  &__reform-list {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+    list-style: none;
+    min-height: 60px;
+    @include mobile {
+      padding: 0 20px;
+    }
+    .Top__news-item {
+      height: auto;
+      border-top: none;
+      border-bottom: 1px solid var(--home-line);
+    }
+    .Top__news-item:last-of-type {
+      border-bottom: 1px solid var(--home-line);
+    }
+    .Top__news-link {
+      display: block;
+      height: auto;
+      padding: 15px 0;
+      color: var(--home-ink-soft);
+      &:hover .Top__news-lead {
+        text-decoration: underline wavy var(--home-accent);
+      }
+    }
+    .Top__news-text {
+      display: block;
+    }
+    .Top__news-text-inner {
+      display: flex;
+      gap: 18px;
+      @include mobile {
+        flex-direction: column;
+        gap: 2px;
+      }
+    }
+    .Top__news-day {
+      @include home-en(500);
+      font-size: 12.5px;
+      color: var(--home-accent);
+      flex: none;
+      width: 120px;
+      margin: 0;
+      @include mobile {
+        width: auto;
+      }
+    }
+    .Top__news-lead {
+      font-size: 13.5px;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+
+  // ---------- Banners ----------
+  &__banners {
+    padding: 0 0 66px;
+  }
+  &__banner-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px 28px;
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__banner-grid--single {
+    grid-template-columns: 1fr;
+  }
+  &__banner-tile {
+    position: relative;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: block;
+    img {
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+    &:hover img {
+      transform: scale(1.04);
+    }
+    // 写真の上でも文字が読めるよう、左から暗くするグラデーション
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(43, 38, 36, 0.62) 0%, rgba(43, 38, 36, 0.25) 55%, rgba(43, 38, 36, 0) 100%);
+    }
+  }
+  &__banner-tag {
+    position: absolute;
+    z-index: 1;
+    top: 14px;
+    left: 18px;
+    @include home-en(500);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    padding: 3px 12px;
+    &--dark {
+      color: var(--home-ink);
+      border-color: rgba(43, 38, 36, 0.5);
+    }
+    font-weight: 700;
+  }
+  &__banner-ttl {
+    position: absolute;
+    z-index: 1;
+    left: 18px;
+    bottom: 14px;
+    right: 18px;
+    color: #fff;
+    @include home-en(700);
+    font-size: 14px;
+    line-height: 1.5;
+    &--dark {
+      color: var(--home-ink);
+    }
+  }
+  &__campaign {
+    text-align: center;
+  }
+
+  // ---------- SNS ----------
+  &__sns {
+    padding: 62px 0;
+    border-top: 1px solid var(--home-line);
+    text-align: center;
+  }
+  &__sns-fb {
+    width: 500px;
+    max-width: calc(100% - 40px);
+    margin: 0 auto;
+  }
+}
+
+// 画像未設定時のプレースホルダー
+.Home__placeholder-photo {
+  display: block;
+  background: linear-gradient(155deg, #e2e2e2 0%, #cfcfcf 45%, #b8b8b8 100%);
+  width: 100%;
+  height: 100%;
+}
+
+// カード内のプレースホルダーは <img> と同じサイズにそろえる
+.Home__work-card .Home__placeholder-photo {
+  height: 200px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+// ---------- Hero slideshow keyframes（6枚 / 32秒ループ） ----------
+@keyframes homeHeroZoom1 {
+  0.00% { opacity: 0.5; transform: scale(1.0545); }
+  1.88% { opacity: 1; transform: scale(1.049); }
+  14.79% { opacity: 1; transform: scale(1.011); }
+  18.54% { opacity: 0; transform: scale(1); }
+  98.12% { opacity: 0.5; transform: scale(1.0545); }
+  100.00% { opacity: 0.5; transform: scale(1.0545); }
+}
+@keyframes homeHeroZoom2 {
+  14.79% { opacity: 0; transform: scale(1.06); }
+  18.54% { opacity: 1; transform: scale(1.049); }
+  31.46% { opacity: 1; transform: scale(1.011); }
+  35.21% { opacity: 0; transform: scale(1); }
+}
+@keyframes homeHeroZoom3 {
+  31.46% { opacity: 0; transform: scale(1.06); }
+  35.21% { opacity: 1; transform: scale(1.049); }
+  48.12% { opacity: 1; transform: scale(1.011); }
+  51.88% { opacity: 0; transform: scale(1); }
+}
+@keyframes homeHeroZoom4 {
+  48.12% { opacity: 0; transform: scale(1.06); }
+  51.88% { opacity: 1; transform: scale(1.049); }
+  64.79% { opacity: 1; transform: scale(1.011); }
+  68.54% { opacity: 0; transform: scale(1); }
+}
+@keyframes homeHeroZoom5 {
+  64.79% { opacity: 0; transform: scale(1.06); }
+  68.54% { opacity: 1; transform: scale(1.049); }
+  81.46% { opacity: 1; transform: scale(1.011); }
+  85.21% { opacity: 0; transform: scale(1); }
+}
+@keyframes homeHeroZoom6 {
+  0.00% { opacity: 0.5; transform: scale(1.0055); }
+  1.88% { opacity: 0; transform: scale(1); }
+  81.46% { opacity: 0; transform: scale(1.06); }
+  85.21% { opacity: 1; transform: scale(1.049); }
+  98.12% { opacity: 1; transform: scale(1.011); }
+  100.00% { opacity: 0.5; transform: scale(1.0055); }
+}

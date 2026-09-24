@@ -1,0 +1,10 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] 県外で建てる用CSSのエントリー
+// [出力先] assets/css/housedesign.css（固定ページ /housedesign/ でのみ読み込み）
+// コンセプトページの部品（.Concept__*）を共通で使うため、_concept.scss も読み込む。
+// ===============================================
+@import "./mixin/mixin";
+@import "./components/palette";
+@import "./components/concept";
+@import "./components/housedesign";

@@ -1,0 +1,555 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] コンセプト（リニューアル）
+// [使用ページ] page-concept.php（固定ページ /concept/）
+// [出力先] assets/css/concept.css（assets/@scss/concept.scss からコンパイル）
+//
+// 配色は決定版「C＋海の緑・白背景」。すべて .Concept 配下に閉じ込めている。
+// ===============================================
+
+$cc-font-jp: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+$cc-font-en: "Archivo", $cc-font-jp;
+
+@mixin cc-en($weight: 500) {
+  font-family: $cc-font-en;
+  font-weight: $weight;
+}
+
+:where(.Concept) :where(h1, h2, h3, p, ul, ol, figure, blockquote) {
+  margin: 0;
+  padding: 0;
+}
+:where(.Concept) a {
+  color: inherit;
+  text-decoration: none;
+}
+:where(.Concept) a:hover {
+  opacity: 1;
+}
+
+.Concept {
+  --cc-ink: #{$pal-ink};
+  --cc-ink-soft: #{$pal-ink-soft};
+  --cc-mute: #{$pal-mute};
+  --cc-line: #{$pal-line};
+  --cc-paper: #{$pal-paper};
+  --cc-shade: #{$pal-shade};
+  --cc-brand: #{$pal-brand};
+  --cc-accent: #{$pal-accent};
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  font-family: $cc-font-jp;
+  font-size: 15px;
+  line-height: 1.9;
+  overflow-x: hidden;
+
+  * {
+    box-sizing: border-box;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @include mobile {
+      padding: 0 20px;
+    }
+  }
+  &__kicker {
+    display: inline-block;
+    @include cc-en(700);
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--cc-accent);
+  }
+  &__heading {
+    @include cc-en(900);
+    font-size: 34px;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    color: var(--cc-ink);
+    margin-top: 10px;
+    @include mobile {
+      font-size: 25px;
+    }
+  }
+  &__heading-jp {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--cc-brand);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  // ---------- Hero ----------
+  &__hero {
+    position: relative;
+    height: 78vh;
+    min-height: 480px;
+    max-height: 760px;
+    background: var(--cc-brand);
+    overflow: hidden;
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(43, 38, 36, 0.05) 30%, rgba(43, 38, 36, 0.7) 100%);
+    }
+    @include mobile {
+      height: 70vh;
+      min-height: 420px;
+    }
+  }
+  &__hero-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    max-width: 1244px;
+    margin: 0 auto;
+    padding: 0 32px 64px;
+    color: #fff;
+    @include mobile {
+      padding: 0 20px 40px;
+    }
+  }
+  &__hero .Concept__kicker {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  &__hero-title {
+    @include cc-en(900);
+    font-size: 56px;
+    line-height: 1.1;
+    margin-top: 14px;
+    @include mobile {
+      font-size: 34px;
+    }
+  }
+  &__hero-lead {
+    font-size: 16px;
+    margin-top: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    @include mobile {
+      font-size: 14px;
+    }
+  }
+
+  // ---------- Message ----------
+  &__message {
+    padding: 110px 0;
+    @include mobile {
+      padding: 72px 0;
+    }
+  }
+  &__message-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+  &__message .Concept__heading {
+    font-size: 30px;
+    @include mobile {
+      font-size: 24px;
+    }
+  }
+  &__message-text {
+    font-size: 20px;
+    line-height: 2.2;
+    font-weight: 500;
+    color: var(--cc-ink);
+    margin-top: 22px;
+    @include mobile {
+      font-size: 17px;
+    }
+  }
+  &__message-en {
+    @include cc-en(700);
+    font-size: 15px;
+    color: var(--cc-brand);
+    margin-top: 26px;
+    line-height: 1.6;
+  }
+  &__message-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    figure {
+      aspect-ratio: 3 / 4;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    figure:last-child {
+      margin-top: 48px;
+    }
+  }
+
+  // ---------- Basics（家づくりの基本） ----------
+  &__basics {
+    background: var(--cc-shade);
+    padding: 100px 0;
+    @include mobile {
+      padding: 64px 0;
+    }
+  }
+  &__basics-head {
+    text-align: center;
+    margin-bottom: 56px;
+    @include mobile {
+      margin-bottom: 36px;
+    }
+  }
+  &__style {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    & + & {
+      margin-top: 72px;
+    }
+    &--reverse &-photo {
+      order: 2;
+    }
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      & + & {
+        margin-top: 48px;
+      }
+      &--reverse .Concept__style-photo {
+        order: 0;
+      }
+    }
+  }
+  &__style-photo {
+    aspect-ratio: 7 / 5;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  &__style-name {
+    @include cc-en(900);
+    font-size: 26px;
+    line-height: 1.25;
+    color: var(--cc-ink);
+    @include mobile {
+      font-size: 21px;
+    }
+  }
+  &__style-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cc-accent);
+    margin-top: 8px;
+  }
+  &__style-text {
+    color: var(--cc-ink-soft);
+    margin-top: 20px;
+    p + p {
+      margin-top: 1em;
+    }
+  }
+
+  // ---------- Hawaii ----------
+  &__hawaii {
+    padding: 100px 0;
+    @include mobile {
+      padding: 64px 0;
+    }
+  }
+  &__hawaii-inner {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+    align-items: stretch;
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+  &__hawaii-photo {
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 420px;
+    @include mobile {
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+    }
+  }
+  &__hawaii-block + &__hawaii-block {
+    margin-top: 44px;
+    padding-top: 44px;
+    border-top: 1px solid var(--cc-line);
+  }
+  &__hawaii-title {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--cc-ink);
+  }
+  &__hawaii-text {
+    color: var(--cc-ink-soft);
+    margin-top: 14px;
+  }
+
+  // ---------- Story（代表メッセージ） ----------
+  &__story {
+    padding: 100px 0;
+    border-top: 1px solid var(--cc-line);
+    @include mobile {
+      padding: 64px 0;
+    }
+  }
+  &__story-inner {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 64px;
+    align-items: start;
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+  &__story-profile {
+    position: sticky;
+    top: 110px;
+    @include mobile {
+      position: static;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      align-items: end;
+    }
+  }
+  &__story-photo {
+    aspect-ratio: 2 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  &__story-sign {
+    margin-top: 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--cc-ink-soft);
+    strong {
+      display: block;
+      font-size: 20px;
+      color: var(--cc-ink);
+      margin-top: 4px;
+      letter-spacing: 0.08em;
+    }
+    @include mobile {
+      margin-top: 0;
+    }
+  }
+  &__story-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--cc-ink);
+    margin-top: 10px;
+    @include mobile {
+      font-size: 20px;
+    }
+  }
+  &__story-body {
+    color: var(--cc-ink-soft);
+    margin-top: 28px;
+    max-width: 720px;
+    p + p {
+      margin-top: 1.4em;
+    }
+  }
+  &__story-quote {
+    margin: 1.8em 0;
+    padding: 18px 24px;
+    border-left: 3px solid var(--cc-accent);
+    background: var(--cc-shade);
+    border-radius: 0 8px 8px 0;
+    color: var(--cc-ink);
+    font-weight: 700;
+    font-size: 16.5px;
+    line-height: 1.8;
+  }
+
+  // ---------- Styles（スタイルで選ぶ） ----------
+  &__styles {
+    background: var(--cc-shade);
+    padding: 90px 0;
+    @include mobile {
+      padding: 60px 0;
+    }
+  }
+  &__styles-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 36px;
+    list-style: none;
+    @include mobile {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  &__styles-item a {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 150px;
+    padding: 22px 20px;
+    background: #fff;
+    border: 1px solid var(--cc-line);
+    border-radius: 10px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    &:hover {
+      border-color: var(--cc-accent);
+      transform: translateY(-2px);
+    }
+  }
+  &__styles-en {
+    @include cc-en(700);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--cc-accent);
+  }
+  &__styles-jp {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--cc-ink);
+    margin-top: 6px;
+  }
+  &__styles-more {
+    @include cc-en(500);
+    font-size: 11.5px;
+    color: var(--cc-mute);
+    margin-top: 18px;
+  }
+
+  // ---------- Next ----------
+  &__next {
+    padding: 90px 0 100px;
+    @include mobile {
+      padding: 60px 0 72px;
+    }
+  }
+  &__next-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+    list-style: none;
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__next-grid a {
+    display: block;
+    padding: 24px 24px 22px;
+    border: 1px solid var(--cc-line);
+    border-radius: 10px;
+    transition: background 0.2s ease;
+    &:hover {
+      background: var(--cc-shade);
+    }
+    strong {
+      display: block;
+      font-size: 17px;
+      color: var(--cc-ink);
+    }
+    span {
+      display: block;
+      font-size: 13px;
+      color: var(--cc-mute);
+      margin-top: 6px;
+    }
+    em {
+      display: inline-block;
+      font-style: normal;
+      @include cc-en(700);
+      font-size: 12px;
+      color: var(--cc-accent);
+      margin-top: 14px;
+    }
+  }
+  &__cta {
+    margin-top: 56px;
+    padding: 44px 40px;
+    border-radius: 12px;
+    background: var(--cc-brand);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 32px 22px;
+    }
+  }
+  &__cta-title {
+    @include cc-en(900);
+    font-size: 24px;
+    line-height: 1.4;
+  }
+  &__cta-text {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 6px;
+  }
+  &__cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex: none;
+    @include mobile {
+      width: 100%;
+      a {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+    }
+  }
+  &__btn,
+  &__btn--outline {
+    display: inline-block;
+    @include cc-en(700);
+    font-size: 13.5px;
+    letter-spacing: 0.03em;
+    border-radius: 26px;
+    padding: 14px 30px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  &__btn {
+    background: #fff;
+    color: var(--cc-brand);
+    &:hover {
+      background: var(--cc-accent);
+      color: #fff;
+    }
+  }
+  &__btn--outline {
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    color: #fff;
+    padding: 12.5px 28.5px;
+    &:hover {
+      background: #fff;
+      color: var(--cc-brand);
+    }
+  }
+}
