@@ -485,3 +485,15 @@ function aloha_clean_case_title( $title, $post_id = 0 ) {
 	return trim( preg_replace( '/[\s　]{2,}/u', ' ', $title ) );
 }
 add_filter( 'the_title', 'aloha_clean_case_title', 10, 2 );
+
+/**
+ * Local で画像を本番サーバーから読み込んでいる場合（upload_url_path が別ドメイン）、
+ * 本番の直リンク禁止に弾かれないよう Referer を送らない。本番環境では何もしない。
+ */
+function aloha_dev_remote_uploads_referrer() {
+	$upload_host = wp_parse_url( (string) get_option( 'upload_url_path' ), PHP_URL_HOST );
+	if ( $upload_host && wp_parse_url( home_url(), PHP_URL_HOST ) !== $upload_host ) {
+		echo '<meta name="referrer" content="no-referrer">' . "\n";
+	}
+}
+add_action( 'wp_head', 'aloha_dev_remote_uploads_referrer', 0 );
