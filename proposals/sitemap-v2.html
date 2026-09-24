@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALOHA &amp; STYLE サイトマップ v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* 決定した配色：C＋海の緑・白背景 */
+  :root{--ink:#2B2624;--ink-soft:#4A4441;--mute:#6B645F;--line:#E6E3E0;--paper:#FFFFFF;--shade:#F4F3F1;--brand:#5E5755;--accent:#15766E}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Zen Kaku Gothic New",sans-serif;background:var(--paper);color:var(--ink);line-height:1.75;font-size:14px}
+  .en{font-family:"Archivo","Zen Kaku Gothic New",sans-serif}
+  .doc{max-width:1120px;margin:0 auto;padding:44px 24px 96px}
+  .doc-head .kicker{font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;letter-spacing:.2em;color:var(--accent)}
+  .doc-head h1{font-family:"Archivo","Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:30px;line-height:1.3;color:var(--brand);margin-top:6px}
+  .doc-head p{color:var(--mute);margin-top:8px;max-width:760px}
+  h2.sec{font-family:"Archivo","Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:22px;margin:60px 0 6px;display:flex;align-items:baseline;gap:10px}
+  h2.sec .num{color:var(--accent)}
+  h2.sec small{font-weight:500;font-size:13px;color:var(--mute)}
+  .lead{color:var(--mute);margin-bottom:20px;max-width:820px}
+  .box{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:#fff}
+  .box + .box{margin-top:16px}
+  .box h3{font-size:15px;margin-bottom:10px}
+  code{font-size:11.5px;background:var(--shade);border-radius:4px;padding:0 5px;color:var(--brand);white-space:nowrap}
+  .st{display:inline-block;font-size:10.5px;border-radius:8px;padding:0 7px;margin-left:6px;vertical-align:1px;color:#fff;background:var(--mute);white-space:nowrap}
+  .st.new{background:var(--accent)} .st.ren{background:#8A6D3B} .st.mv{background:var(--brand)} .st.merge{background:#7A7470} .st.keep{background:#B8B1AB}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--mute);margin:-6px 0 16px}
+  .legend .st{margin-left:0;margin-right:4px}
+
+  /* palette */
+  .pal{display:flex;flex-wrap:wrap;gap:10px}
+  .pal span{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:8px 12px 8px 8px;font-size:12px;color:var(--ink-soft)}
+  .pal i{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.08)}
+  .pal b{display:block;font-size:12.5px;color:var(--ink)}
+
+  /* nav mock */
+  .navmock{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .navbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .logo{font-family:"Archivo",sans-serif;font-weight:900;letter-spacing:.05em;color:var(--brand);font-size:15px}
+  .logo em{font-style:normal;color:var(--accent)}
+  .navitems{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;font-size:12.5px;color:var(--ink-soft)}
+  .navitems .dd::after{content:" ▾";font-size:9px}
+  .btn{display:inline-block;border-radius:16px;padding:5px 13px;font-weight:700;font-size:12px;color:#fff;background:var(--brand)}
+  .btn.acc{background:var(--accent)}
+  .dropdowns{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--shade)}
+  @media (max-width:760px){.dropdowns{grid-template-columns:1fr}}
+  .dropdowns div{padding:12px 18px;font-size:12px;color:var(--ink-soft);border-right:1px solid var(--line)}
+  .dropdowns b{display:block;color:var(--ink);font-size:12.5px;margin-bottom:4px}
+
+  /* tree */
+  .tree{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:960px){.tree{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:640px){.tree{grid-template-columns:1fr}}
+  .grp{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fff}
+  .grp h3{display:flex;align-items:baseline;gap:8px;font-size:15px;padding-bottom:8px;border-bottom:2px solid var(--brand);margin-bottom:6px}
+  .grp h3 .en{font-size:11px;color:var(--accent);letter-spacing:.12em;font-weight:700}
+  .grp ul{list-style:none}
+  .grp li{padding:7px 0;border-bottom:1px solid #F0EEEC;font-size:13px}
+  .grp li:last-child{border-bottom:none}
+  .grp li small{display:block;color:var(--mute);font-size:11.5px}
+  .grp li ul{margin:4px 0 0 12px}
+  .grp li ul li{border:none;padding:1px 0;font-size:12.5px;color:var(--ink-soft)}
+  .grp li ul li::before{content:"— ";color:#C9C3BD}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11.5px;color:var(--mute);font-weight:500;background:var(--shade)}
+  td .enl{font-family:"Archivo",sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;color:var(--accent);display:block}
+  .scroll{overflow-x:auto}
+
+  /* naming cards */
+  .names{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:860px){.names{grid-template-columns:1fr}}
+  .name{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fff;position:relative}
+  .name.rec{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+  .name .badge{position:absolute;top:-10px;right:14px;background:var(--accent);color:#fff;font-size:11px;border-radius:10px;padding:1px 10px}
+  .name .navl{font-size:11px;color:var(--mute)}
+  .name .navl b{display:inline-block;color:var(--ink);font-size:13px;border:1px solid var(--line);border-radius:12px;padding:1px 10px;margin-left:4px}
+  .name h4{font-size:16px;line-height:1.5;margin:10px 0 4px}
+  .name p{font-size:12.5px;color:var(--ink-soft)}
+
+  /* concept */
+  .concept{counter-reset:c;list-style:none}
+  .concept li{counter-increment:c;display:grid;grid-template-columns:40px 1fr;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+  .concept li::before{content:counter(c,decimal-leading-zero);font-family:"Archivo",sans-serif;font-weight:900;color:var(--accent);font-size:18px}
+  .concept b{display:block}
+  .concept small{color:var(--mute);font-size:12.5px}
+  .todo{display:inline-block;font-size:11px;color:#8A6D3B;background:#F6EFE3;border-radius:8px;padding:0 8px;margin-top:4px}
+
+  .flow{list-style:none;counter-reset:s}
+  .flow li{counter-increment:s;position:relative;padding:8px 0 8px 34px;border-top:1px solid var(--line);font-size:13px}
+  .flow li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:8px;font-family:"Archivo",sans-serif;font-weight:700;color:var(--mute)}
+  .flow li small{display:block;color:var(--mute);font-size:12px}
+
+  .q{list-style:none;counter-reset:q}
+  .q li{counter-increment:q;border:1px solid var(--line);border-radius:10px;padding:14px 16px 14px 52px;position:relative;margin-bottom:10px}
+  .q li::before{content:"Q" counter(q);position:absolute;left:14px;top:14px;font-family:"Archivo",sans-serif;font-weight:900;color:var(--accent)}
+  .q li small{display:block;color:var(--mute);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <header class="doc-head">
+    <div class="kicker">SITEMAP v2</div>
+    <h1>ALOHA &amp; STYLE サイトマップ（改訂版）</h1>
+    <p>決定した配色（C＋海の緑・白背景）で、住宅プランの5カテゴリ、「設計施工管理サービス」の名称変更、コンセプトページの充実を反映して作り直しました。既存ページの URL はできるだけそのまま使います。</p>
+  </header>
+
+  <!-- 0. palette -->
+  <h2 class="sec"><span class="num">0</span>決定した配色</h2>
+  <div class="pal">
+    <span><i style="background:#FFFFFF"></i><span><b>背景</b>#FFFFFF</span></span>
+    <span><i style="background:#F4F3F1"></i><span><b>面</b>#F4F3F1</span></span>
+    <span><i style="background:#5E5755"></i><span><b>ロゴ・ボタン</b>#5E5755</span></span>
+    <span><i style="background:#15766E"></i><span><b>アクセント</b>#15766E</span></span>
+    <span><i style="background:#2B2624"></i><span><b>本文</b>#2B2624</span></span>
+    <span><i style="background:#6B645F"></i><span><b>補足文字</b>#6B645F</span></span>
+  </div>
+
+  <!-- 1. nav -->
+  <h2 class="sec"><span class="num">1</span>グローバルナビ<small>PC のヘッダー</small></h2>
+  <p class="lead">「県外で建てる」をトップの階層に出して、岡山以外の方にも最初から見つけてもらえるようにします。問い合わせ系は「見学予約」「お問い合わせ」の2つのボタンに絞ります。</p>
+  <div class="navmock">
+    <div class="navbar">
+      <span class="logo">ALOHA <em>&amp;</em> STYLE</span>
+      <span class="navitems"><span class="dd">コンセプト</span><span>施工事例</span><span class="dd">住宅プラン</span><span>モデルハウス</span><span>家づくりの流れ</span><span>県外で建てる</span><span>ハワイ不動産</span><span class="btn acc">見学予約</span><span class="btn">お問い合わせ</span></span>
+    </div>
+    <div class="dropdowns">
+      <div><b>コンセプト ▾</b>コンセプト ／ ハワイアンドア ／ 会社概要</div>
+      <div><b>住宅プラン ▾</b>サーファーズハウス ／ リゾートモダン ／ ミッドセンチュリーモダン ／ リノベーション ／ アパート</div>
+      <div><b>スマホのメニュー</b>上と同じ並び。下部に「見学予約」「お問い合わせ」「LINE」の大きなボタン</div>
+    </div>
+  </div>
+
+  <!-- 2. sitemap -->
+  <h2 class="sec"><span class="num">2</span>サイトマップ<small>目的別の5グループ</small></h2>
+  <div class="legend"><span><span class="st keep">既存</span>そのまま（デザインのみ新しく）</span><span><span class="st ren">名称変更</span>名前・見出しを変更</span><span><span class="st new">新規</span>新しく作る</span><span><span class="st merge">統合</span>他のページにまとめて転送</span></div>
+  <div class="tree">
+    <section class="grp">
+      <h3>知る<span class="en">ABOUT</span></h3>
+      <ul>
+        <li>コンセプト <code>/concept/</code><span class="st ren">内容を充実</span><small>カタログの内容を反映（下の 5 参照）</small></li>
+        <li>ハワイアンドア <code>/hawaiian-door/</code><span class="st keep">既存</span></li>
+        <li>家づくりの流れ <code>/flow/</code><span class="st ren">名称変更</span><small>旧「家ができるまで」</small></li>
+        <li>会社概要 <code>/company/</code><span class="st keep">既存</span><small>フッターのみ → コンセプト配下にも</small></li>
+      </ul>
+    </section>
+    <section class="grp">
+      <h3>見る<span class="en">WORKS</span></h3>
+      <ul>
+        <li>施工事例 <code>/cases/</code><span class="st keep">既存</span>
+          <ul><li>スタイル・特徴・ライフスタイルで絞り込み</li><li>各事例の詳細</li></ul></li>
+        <li>住宅プラン <code>/plan/</code><span class="st ren">5カテゴリに再編</span>
+          <ul><li>サーファーズハウス</li><li>リゾートモダン</li><li>ミッドセンチュリーモダン</li><li>リノベーション</li><li>アパート</li></ul></li>
+        <li>モデルハウス <code>/modelhouse/</code><span class="st keep">既存</span></li>
+        <li>施工事例の検索 <code>/cases-category/</code><span class="st merge">統合</span><small>施工事例の絞り込みに一本化</small></li>
+      </ul>
+    </section>
+    <section class="grp">
+      <h3>建てる・相談する<span class="en">CONTACT</span></h3>
+      <ul>
+        <li>県外で建てる <code>/housedesign/</code><span class="st ren">名称変更</span><small>旧「設計施工管理サービス」（下の 4 参照）</small></li>
+        <li>お問い合わせ・資料請求 <code>/contact/</code><span class="st keep">既存</span></li>
+        <li>モデルハウス見学予約・オンライン相談<span class="st keep">既存</span><small>ie-miru の予約ページ</small></li>
+        <li>LINE で相談 <code>/line/</code><span class="st keep">既存</span></li>
+      </ul>
+    </section>
+    <section class="grp">
+      <h3>ハワイ<span class="en">HAWAII</span></h3>
+      <ul>
+        <li>ハワイの不動産物件 <code>/hawaii/</code><span class="st keep">既存</span></li>
+        <li>アロハリゾート北長瀬<span class="st keep">既存</span><small>ページとブログ</small></li>
+      </ul>
+    </section>
+    <section class="grp">
+      <h3>読む<span class="en">JOURNAL</span></h3>
+      <ul>
+        <li>お知らせ（投稿）<span class="st keep">既存</span></li>
+        <li>社長ブログ ／ スタッフブログ<span class="st keep">既存</span></li>
+        <li>Aloha G ちゃんねる <code>/movie/</code><span class="st keep">既存</span></li>
+        <li>リフォームブログ<span class="st keep">外部</span><small>西部建設のサイト</small></li>
+      </ul>
+    </section>
+    <section class="grp">
+      <h3>フッターのみ<span class="en">INFO</span></h3>
+      <ul>
+        <li>会社概要 ／ プライバシーポリシー ／ サイトマップ ／ リンク<span class="st keep">既存</span></li>
+        <li>外部バナー<span class="st keep">既存</span><small>住まい夢フェア・ロコラテ・ハンドメイドフェスタ</small></li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- 3. plans -->
+  <h2 class="sec"><span class="num">3</span>住宅プランの5カテゴリ</h2>
+  <p class="lead">プランのカテゴリ（<code>plan_category</code>）を5つに再編します。管理画面で新しいカテゴリを作り、各プランに付け直す作業が必要です。URL の英語名（スラッグ）は案です。</p>
+  <div class="box scroll">
+    <table>
+      <thead><tr><th>カテゴリ</th><th>URL（案）</th><th>状態</th><th>今あるカテゴリとの関係</th></tr></thead>
+      <tbody>
+        <tr><td><span class="enl">SURFER'S HOUSE</span>サーファーズハウス</td><td><code>/plan/plan_category/surfers_house/</code></td><td><span class="st new">新規</span></td><td>—</td></tr>
+        <tr><td><span class="enl">RESORT MODERN</span>リゾートモダン</td><td><code>/plan/plan_category/resort_modern/</code></td><td><span class="st keep">既存</span></td><td>そのまま使う</td></tr>
+        <tr><td><span class="enl">MID-CENTURY MODERN</span>ミッドセンチュリーモダン</td><td><code>/plan/plan_category/midcentury_modern/</code></td><td><span class="st new">新規</span></td><td>—</td></tr>
+        <tr><td><span class="enl">RENOVATION</span>リノベーション</td><td><code>/plan/plan_category/renovation/</code></td><td><span class="st new">新規</span></td><td>施工事例のスタイルにある「リノベーション」と名前をそろえる</td></tr>
+        <tr><td><span class="enl">APARTMENT</span>アパート</td><td><code>/plan/plan_category/apartment/</code></td><td><span class="st new">新規</span></td><td>—</td></tr>
+        <tr><td style="color:var(--mute)">ハワイアンハウス ／ スタイリッシュモダン ／ スマートモダン</td><td><code>hawaiian_house</code> 他</td><td><span class="st merge">要判断</span></td><td>メニューからは外す。所属しているプランをどのカテゴリに移すか、ご指示ください（下の Q3）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lead" style="margin-top:12px">施工事例のスタイル（ハワイアン／リゾート／スタイリッシュ／スマート／リノベーション／店舗／工場）も、プランと同じ名前にそろえると「このプランの施工事例」を案内しやすくなります（Q4）。</p>
+
+  <!-- 4. naming -->
+  <h2 class="sec"><span class="num">4</span>「設計施工管理サービス」の新しい名前</h2>
+  <p class="lead">中身は「岡山から遠い方でも、ALOHA&amp;STYLE が設計と工事のチェックを担当し、お住まいの地域の工務店が建てる」サービスです。専門用語をやめ、県外の方が自分ごとだと気づける名前にします。</p>
+  <div class="names">
+    <div class="name rec"><span class="badge">おすすめ</span>
+      <div class="navl">メニュー表記<b>県外で建てる</b></div>
+      <h4>県外でも、ALOHA&amp;STYLE の家を。</h4>
+      <p>全国対応・設計監理サービス｜設計と工事のチェックは ALOHA&amp;STYLE、施工はお住まいの地域の工務店が担当します。</p>
+    </div>
+    <div class="name">
+      <div class="navl">メニュー表記<b>全国で建てる</b></div>
+      <h4>全国どこでも、アロハな家づくり。</h4>
+      <p>岡山以外にお住まいの方へ。ALOHA&amp;STYLE の設計で、地元の工務店と家を建てるサービスです。</p>
+    </div>
+    <div class="name">
+      <div class="navl">メニュー表記<b>遠方の方へ</b></div>
+      <h4>遠方にお住まいの方の家づくりサポート</h4>
+      <p>ALOHA&amp;STYLE が設計し、工事が図面どおりか現場をチェック。施工は地域の信頼できる会社にお任せします。</p>
+    </div>
+  </div>
+  <div class="box" style="margin-top:16px">
+    <h3>ページの見出し構成（案）</h3>
+    <ol class="flow">
+      <li>県外でも、ALOHA&amp;STYLE の家を。<small>近くに建てられる会社がなくても、諦めなくて大丈夫です。</small></li>
+      <li>しくみ<small>図解：ALOHA&amp;STYLE（設計・工事のチェック） ＋ 地域の工務店（施工） ＝ あなたの家</small></li>
+      <li>ファーストプランまで無料<small>ご相談・ヒアリング・最初のプラン提案まで無料（既存の内容）</small></li>
+      <li>家づくりの流れ（11ステップ）<small>既存の内容を、見やすい年表形式に</small></li>
+      <li>費用<small>設計・管理サービス 300万円（60坪程度まで）と含まれるもの（既存の内容）</small></li>
+      <li>よくある質問<small>対応エリア・打ち合わせ場所など（既存の内容）</small></li>
+      <li>相談する<small>お問い合わせ・オンライン相談</small></li>
+    </ol>
+  </div>
+
+  <!-- 5. concept -->
+  <h2 class="sec"><span class="num">5</span>コンセプトページの構成（案）</h2>
+  <p class="lead">カタログの内容を入れて、「なぜ ALOHA&amp;STYLE なのか」が伝わるページにします。<b>カタログのデータ（PDF または画像）をいただければ、下の各章に文章と写真を当てはめます。</b></p>
+  <div class="box">
+    <ol class="concept">
+      <li><div><b>ブランドメッセージ</b><small>「憧れのハワイアンライフを、岡山で」— ハワイに惹かれる理由と、ALOHA&amp;STYLE が目指す暮らし</small><br><span class="todo">カタログの冒頭の文章</span></div></li>
+      <li><div><b>ALOHA&amp;STYLE の3つのこだわり</b><small>デザイン（外観・ウッドデッキ・吹き抜け）／素材（ハワイアンドアなどの輸入建材）／暮らし方（家族・趣味・余白）</small><br><span class="todo">カタログのこだわり・特徴のページ</span></div></li>
+      <li><div><b>スタイルで選ぶ</b><small>住宅プランの5カテゴリを写真で紹介 → 各プラン・施工事例へ</small></div></li>
+      <li><div><b>性能・品質</b><small>耐震・断熱・保証など、見た目だけではない安心</small><br><span class="todo">カタログの性能・仕様のページ</span></div></li>
+      <li><div><b>一級建築士によるご提案</b><small>設計者の紹介と想い（ヘッダーの説明文にある 湯浅康則 氏）</small><br><span class="todo">カタログのプロフィール</span></div></li>
+      <li><div><b>家づくりの流れ・県外で建てる</b><small>次に読むページへの案内</small></div></li>
+      <li><div><b>資料請求・見学予約</b><small>カタログ請求への導線をここで強める</small></div></li>
+    </ol>
+  </div>
+
+  <!-- 6. top -->
+  <h2 class="sec"><span class="num">6</span>トップページの並び（改訂）</h2>
+  <div class="box">
+    <ol class="flow">
+      <li>ヒーロー<small>「施工事例を見る」「見学予約」の2導線</small></li>
+      <li>施工事例（6件）<small>スタイル別の絞り込みチップ付き</small></li>
+      <li>コンセプト<small>ブランドメッセージと3つのこだわりの要約 → コンセプトページへ</small></li>
+      <li>住宅プラン<small>5カテゴリの写真タイル（サーファーズハウス／リゾートモダン／ミッドセンチュリーモダン／リノベーション／アパート）</small></li>
+      <li>家づくりの選択肢<small>モデルハウス・ハワイアンドア・家づくりの流れ・<b>県外で建てる</b></small></li>
+      <li>イベント・見学会<small>ie-miru ウィジェット</small></li>
+      <li>お問い合わせ<small>見学予約・資料請求・LINE</small></li>
+      <li>お知らせ・ブログ<small>日付とカテゴリの一覧形式</small></li>
+      <li>ハワイ<small>ハワイの不動産・アロハリゾート北長瀬</small></li>
+      <li>SNS・外部リンク<small>Facebook・リフォームブログ</small></li>
+    </ol>
+  </div>
+
+  <!-- 7. questions -->
+  <h2 class="sec"><span class="num">7</span>決めていただきたいこと</h2>
+  <ol class="q">
+    <li>「設計施工管理サービス」の新しい名前は、おすすめの「県外で建てる／県外でも、ALOHA&amp;STYLE の家を。」でよいですか？</li>
+    <li>コンセプト用に、カタログのデータ（PDF・画像）をいただけますか？<small>いただくまでは、構成だけ作って文章は仮のまま進めます。</small></li>
+    <li>今のプランのカテゴリ（ハワイアンハウス／スタイリッシュモダン／スマートモダン）に入っているプランは、どのカテゴリに移しますか？<small>例：ハワイアンハウス → サーファーズハウス、スタイリッシュ・スマート → ミッドセンチュリーモダン など。プランの一覧をいただければ振り分け案を作ります。</small></li>
+    <li>施工事例のスタイルも、住宅プランと同じ5カテゴリ（＋店舗・工場）に名前をそろえますか？</li>
+    <li>前回見つかった問題（スマホのプランのリンク先の違い、新着情報の投稿タイプ、フッターのブログ件数、Instagram）も、あわせて直してよいですか？</li>
+  </ol>
+
+</div>
+</body>
+</html>
