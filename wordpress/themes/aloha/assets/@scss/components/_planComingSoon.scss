@@ -1,0 +1,39 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] 住宅プラン：プランが無いカテゴリの「準備中」表示
+// [使用ページ] taxonomy.php（住宅プランのカテゴリ一覧）
+// 全ページ共通の site-chrome.css に含めて出力
+// ===============================================
+.Plan__coming-soon {
+  list-style: none;
+  width: 100%;
+  padding: 56px 24px;
+  text-align: center;
+  background: $pal-shade;
+  border-radius: 10px;
+  color: $pal-ink-soft;
+}
+.Plan__coming-soon-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $pal-ink;
+}
+.Plan__coming-soon-text {
+  font-size: 1.4rem;
+  margin-top: 10px;
+  line-height: 1.9;
+}
+.Plan__coming-soon-btn {
+  display: inline-block;
+  margin-top: 22px;
+  padding: 12px 28px;
+  border-radius: 24px;
+  background: $pal-brand;
+  color: #fff !important;
+  font-size: 1.4rem;
+  font-weight: 700;
+  &:hover {
+    opacity: 1;
+    background: $pal-brand-dark;
+  }
+}

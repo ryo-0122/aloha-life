@@ -144,7 +144,7 @@ $cc_styles = aloha_plan_categories(); // 住宅プランの5カテゴリ（inc/r
 								<span class="Concept__styles-en"><?php echo esc_html( $style['en'] ); ?></span>
 								<span class="Concept__styles-jp"><?php echo esc_html( $style['label'] ); ?></span>
 							</span>
-							<span class="Concept__styles-more">プランを見る &rarr;</span>
+							<span class="Concept__styles-more"><?php echo 0 === $style['count'] ? '準備中' : 'プランを見る &rarr;'; ?></span>
 						</a>
 					</li>
 				<?php endforeach; ?>

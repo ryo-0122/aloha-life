@@ -18,6 +18,8 @@
 | `inc/cases-list.php` | 施工例一覧の共通出力（新規。上の4テンプレートから呼び出し） |
 | `page-concept.php` | コンセプト `/concept/`（**新規**。カタログの文章・写真で構成。スラッグ concept の固定ページで自動的に使われる） |
 | `assets/images/concept/` | コンセプト用の写真（カタログから書き出し・Web用に圧縮） |
+| `taxonomy.php` / `single-plan.php` | 住宅プランの見出しを新しいカテゴリに対応。プランが無いカテゴリは「準備中」を表示（既存のデザインのまま） |
+| `sidebar-plan.php` | 住宅プランのサイドバーを5カテゴリに（プランが無いカテゴリは「（準備中）」） |
 | `header.php` | グローバルナビを新しい構成に変更（項目は `inc/redesign.php` の `aloha_global_nav()` で管理。PC・スマホ共通。既存のクラス名はそのままなので、ハンバーガー・階層メニューの JavaScript はそのまま動作） |
 | `inc/redesign.php` | CSS/JS の読み込み・共通関数（**新規**。functions.php の `require_once` が読み込む） |
 | `assets/@scss/components/_home.scss` | トップページの Sass（新規） |
@@ -101,3 +103,20 @@ npx sass --no-source-map "assets/@scss/site-chrome.scss" assets/css/site-chrome.
 3. 施工例の詳細ページ（`/cases/〇〇/`）を開く
 4. 他のページ（会社概要、住宅プランなど）でヘッダー・フッターを確認する
 3. 表示が変わらない場合はスーパーリロード（Mac: ⌘+Shift+R）
+
+
+## 住宅プランのカテゴリ再編（1回だけ実行）
+
+`wordpress/scripts/migrate-plan-categories.php` で、データベース上のカテゴリとプラン名を変更します。
+
+| 変更前 | 変更後 |
+| --- | --- |
+| HAWAIIAN HOUSE（hawaiian_house）No.1〜5 | SURFER'S HOUSE（surfers_house）No.1〜5 |
+| RESORT MODERN No.1〜5 | そのまま |
+| SMART MODERN No.1〜5 | MID-CENTURY MODERN（midcentury_modern）No.1〜5 |
+| STYLISH MODERN No.1〜5 | MID-CENTURY MODERN No.6〜10 |
+| — | RENOVATION（renovation）・APARTMENT（apartment）を新規作成（準備中） |
+
+- プランの URL（`/plan/stylish-modern-no-1` など）は変わりません。
+- 旧カテゴリの URL（`/plan/plan_category/hawaiian_house/` など）は新しいカテゴリへ自動転送されます（`inc/redesign.php`）。
+- 手順：テーマのファイルを反映 → データベースをバックアップ → お試し実行 → 本番実行。元に戻すときはバックアップを読み込みます。

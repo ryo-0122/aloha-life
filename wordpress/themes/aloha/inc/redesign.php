@@ -191,7 +191,7 @@ function aloha_news_label( $post_id = null ) {
  * 住宅プランの5カテゴリ（plan_category）。
  * 管理画面でカテゴリが作成済みならその一覧の URL、未作成なら住宅プラン一覧の URL を返す。
  *
- * @return array<int, array{en: string, label: string, slug: string, url: string}>
+ * @return array<int, array{en: string, label: string, slug: string, url: string, count: int}>
  */
 function aloha_plan_categories() {
 	$fallback = get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link( 'plan' ) : home_url( '/plan/' );
@@ -206,6 +206,7 @@ function aloha_plan_categories() {
 		$term        = taxonomy_exists( 'plan_category' ) ? get_term_by( 'slug', $item['slug'], 'plan_category' ) : false;
 		$link        = $term ? get_term_link( $term ) : $fallback;
 		$item['url'] = is_wp_error( $link ) ? $fallback : $link;
+		$item['count'] = $term ? (int) $term->count : 0;
 	}
 	unset( $item );
 	return $items;
@@ -265,3 +266,70 @@ function aloha_global_nav() {
 		),
 	);
 }
+
+/**
+ * 住宅プランのカテゴリごとの見出し（英語・日本語）と説明文。
+ * taxonomy.php / single-plan.php / sidebar-plan.php で使用。
+ */
+function aloha_plan_category_meta( $slug ) {
+	$meta = array(
+		'surfers_house'     => array(
+			'en'   => "SURFER'S HOUSE",
+			'ja'   => 'サーファーズハウス',
+			'lead' => 'ハワイの美しさと懐かしさを色濃く残すプランテーションハウス。それを日本で再現したALOHA&STYLEからの他に無いご提案。',
+			'img'  => 'Plan_side_pic_01.jpg',
+		),
+		'resort_modern'     => array(
+			'en'   => 'RESORT MODERN',
+			'ja'   => 'リゾートモダン',
+			'lead' => 'リゾート感溢れるデザイン、自由な間取りの空間。理想のご要望全てにお応えした高級住宅のご提案。',
+			'img'  => 'Plan_side_pic_02.jpg',
+		),
+		'midcentury_modern' => array(
+			'en'   => 'MID-CENTURY MODERN',
+			'ja'   => 'ミッドセンチュリーモダン',
+			'lead' => '1950〜60年代のアメリカで発展した、機能性と美しさを兼ね備えたデザイン。自然素材の温かみと都会的なスタイリッシュさが調和する住まい。',
+			'img'  => 'Plan_side_pic_03.jpg',
+		),
+		'renovation'        => array(
+			'en'   => 'RENOVATION',
+			'ja'   => 'リノベーション',
+			'lead' => '住まいとこれからの暮らしを詳しくお伺いし、過去の思い出と新しい生活をより楽しく変えていく空間づくり。',
+			'img'  => 'top/contents-reform.jpg',
+		),
+		'apartment'         => array(
+			'en'   => 'APARTMENT',
+			'ja'   => 'アパート',
+			'lead' => 'ALOHA&STYLEらしさを取り入れた集合住宅のプラン。',
+			'img'  => '',
+		),
+	);
+	return isset( $meta[ $slug ] ) ? $meta[ $slug ] : null;
+}
+
+/**
+ * 住宅プランのカテゴリの旧URLを新URLへ転送する（カテゴリ名変更前のリンク・ブックマーク対策）。
+ * hawaiian_house → surfers_house、stylish_modern・smart_modern → midcentury_modern
+ */
+function aloha_redirect_old_plan_categories() {
+	if ( ! is_404() ) {
+		return;
+	}
+	$map  = array(
+		'hawaiian_house' => 'surfers_house',
+		'stylish_modern' => 'midcentury_modern',
+		'smart_modern'   => 'midcentury_modern',
+	);
+	$path = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	foreach ( $map as $old => $new ) {
+		if ( preg_match( '#plan_category[/=]' . preg_quote( $old, '#' ) . '(/|$|&)#', $path ) ) {
+			$term = get_term_by( 'slug', $new, 'plan_category' );
+			$link = $term ? get_term_link( $term ) : '';
+			if ( $link && ! is_wp_error( $link ) ) {
+				wp_safe_redirect( $link, 301 );
+				exit;
+			}
+		}
+	}
+}
+add_action( 'template_redirect', 'aloha_redirect_old_plan_categories' );
