@@ -1,0 +1,352 @@
+@charset "UTF-8";
+:where(.CaseDetail) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.CaseDetail {
+  --cd-ink: #141414;
+  --cd-ink-soft: #4a4a4a;
+  --cd-mute: #8c8c8c;
+  --cd-line: #e2e2e2;
+  --cd-paper: #fafafa;
+  --cd-paper-shade: #f2f2f2;
+  --cd-white: #ffffff;
+  --cd-accent: #1fa198;
+  background: var(--cd-paper);
+  color: var(--cd-ink);
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+.CaseDetail * {
+  box-sizing: border-box;
+}
+.CaseDetail img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.CaseDetail__wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 600px) {
+  .CaseDetail__wrap {
+    padding: 0 20px;
+  }
+}
+.CaseDetail__btn {
+  display: inline-block;
+  background: var(--cd-ink);
+  color: var(--cd-white);
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  border-radius: 24px;
+  padding: 14px 40px;
+  transition: background 0.2s ease;
+}
+.CaseDetail__btn:hover {
+  background: var(--cd-accent);
+}
+.CaseDetail__breadcrumb {
+  padding: 22px 0 0;
+  font-size: 12.5px;
+  color: var(--cd-mute);
+}
+.CaseDetail__breadcrumb a:hover {
+  color: var(--cd-ink);
+  text-decoration: underline;
+}
+.CaseDetail__slider {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  margin-top: 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--cd-paper-shade);
+}
+@media (max-width: 760px) {
+  .CaseDetail__slider {
+    height: 260px;
+  }
+}
+.CaseDetail__slider-slide {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.CaseDetail__slider-slide.is-active {
+  opacity: 1;
+  position: relative;
+}
+.CaseDetail__slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-size: 18px;
+  color: var(--cd-ink);
+  cursor: pointer;
+  border: none;
+  z-index: 2;
+}
+.CaseDetail__slider-arrow--prev {
+  left: 16px;
+}
+.CaseDetail__slider-arrow--next {
+  right: 16px;
+}
+.CaseDetail__slider-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+.CaseDetail__slider-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  display: block;
+}
+.CaseDetail__slider-dots i.is-active {
+  background: var(--cd-white);
+}
+.CaseDetail__thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.CaseDetail__thumb {
+  width: 88px;
+  height: 64px;
+  border-radius: 6px;
+  flex: none;
+  cursor: pointer;
+  opacity: 0.65;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+  border: none;
+  padding: 0;
+}
+.CaseDetail__thumb.is-active {
+  opacity: 1;
+  outline: 2px solid var(--cd-accent);
+  outline-offset: 2px;
+}
+.CaseDetail__detail {
+  padding: 44px 0 0;
+}
+.CaseDetail__tag-groups {
+  margin-bottom: 28px;
+}
+.CaseDetail__tag-group {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__tag-group {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+.CaseDetail__tag-group--style .CaseDetail__tag-group-tags span, .CaseDetail__tag-group--style .CaseDetail__tag-group-tags a {
+  background: var(--cd-ink);
+  color: #fff;
+}
+.CaseDetail__tag-group-label {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--cd-ink-soft);
+  flex: none;
+  width: 84px;
+  padding-top: 6px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__tag-group-label {
+    width: auto;
+  }
+}
+.CaseDetail__tag-group-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.CaseDetail__tag-group-tags span,
+.CaseDetail__tag-group-tags a {
+  background: var(--cd-paper-shade);
+  color: var(--cd-ink-soft);
+  padding: 5px 16px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+.CaseDetail__title {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--cd-ink);
+  margin-bottom: 20px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__title {
+    font-size: 22px;
+  }
+}
+.CaseDetail__lead {
+  color: var(--cd-ink-soft);
+  font-size: 14px;
+  line-height: 2.1;
+}
+.CaseDetail__lead p + p {
+  margin-top: 1em;
+}
+.CaseDetail__overview {
+  margin-top: 48px;
+}
+.CaseDetail__overview-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--cd-ink);
+  margin-bottom: 16px;
+}
+.CaseDetail__overview-title::before {
+  content: "■";
+  color: var(--cd-accent);
+  font-size: 12px;
+}
+.CaseDetail__overview-table {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--cd-line);
+  border-left: 1px solid var(--cd-line);
+}
+@media (max-width: 760px) {
+  .CaseDetail__overview-table {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.CaseDetail__overview-cell {
+  border-right: 1px solid var(--cd-line);
+  border-bottom: 1px solid var(--cd-line);
+  padding: 16px 18px;
+}
+.CaseDetail__overview-key {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--cd-accent);
+  margin-bottom: 6px;
+}
+.CaseDetail__overview-value {
+  font-size: 13px;
+  color: var(--cd-ink);
+}
+.CaseDetail__cta {
+  text-align: center;
+  padding: 48px 0 8px;
+}
+.CaseDetail__related {
+  padding: 70px 0 80px;
+  margin-top: 56px;
+  border-top: 1px solid var(--cd-line);
+}
+.CaseDetail__related-head {
+  text-align: center;
+  padding: 0 24px 34px;
+}
+.CaseDetail__related-head-en {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  display: inline-block;
+}
+.CaseDetail__related-head-jp {
+  font-size: 12px;
+  color: var(--cd-mute);
+  margin-top: 6px;
+}
+.CaseDetail__related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 760px) {
+  .CaseDetail__related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.CaseDetail__related-card {
+  display: block;
+}
+.CaseDetail__related-card img {
+  height: 190px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  transition: transform 0.4s ease;
+}
+.CaseDetail__related-card:hover img {
+  transform: scale(1.04);
+}
+.CaseDetail__related-card h3 {
+  font-size: 14px;
+  color: var(--cd-ink);
+  margin-bottom: 10px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.CaseDetail__related-card-more {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cd-accent);
+  display: inline-block;
+}
+.CaseDetail__placeholder-photo {
+  display: block;
+  background: linear-gradient(155deg, #e2e2e2 0%, #cfcfcf 45%, #b8b8b8 100%);
+  width: 100%;
+  height: 100%;
+}
+.CaseDetail__related-card .CaseDetail__placeholder-photo {
+  height: 190px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}

@@ -1,0 +1,901 @@
+:where(.Top) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Top {
+  --top-ink: #141414;
+  --top-ink-soft: #4a4a4a;
+  --top-mute: #8c8c8c;
+  --top-line: #e2e2e2;
+  --top-paper: #fafafa;
+  --top-paper-shade: #f2f2f2;
+  --top-white: #ffffff;
+  --top-accent: #1fa198;
+  background: var(--top-paper);
+  color: var(--top-ink);
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+.Top * {
+  box-sizing: border-box;
+}
+.Top img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.Top__wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 600px) {
+  .Top__wrap {
+    padding: 0 20px;
+  }
+}
+.Top__btn, .Top__btn--outline {
+  display: inline-block;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  border-radius: 24px;
+  padding: 13px 32px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.Top__btn {
+  background: var(--top-ink);
+  color: var(--top-white);
+}
+.Top__btn:hover {
+  background: var(--top-accent);
+  transform: translateY(-1px);
+}
+.Top__btn--outline {
+  border: 1.5px solid var(--top-ink);
+  color: var(--top-ink);
+}
+.Top__btn--outline:hover {
+  background: var(--top-ink);
+  color: var(--top-white);
+}
+.Top__hero {
+  position: relative;
+  height: 88vh;
+  min-height: 560px;
+  max-height: 820px;
+  overflow: hidden;
+  background: var(--top-ink);
+}
+.Top__hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.15) 0%, rgba(20, 20, 20, 0.1) 45%, rgba(20, 20, 20, 0.82) 100%);
+  pointer-events: none;
+}
+.Top__hero-slide {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-fit: contain;
+  background: var(--top-ink);
+  opacity: 0;
+  animation-duration: 32s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  filter: grayscale(0.1) brightness(0.85);
+}
+.Top__hero-slide:nth-child(1) {
+  animation-name: topHeroZoom1;
+}
+.Top__hero-slide:nth-child(2) {
+  animation-name: topHeroZoom2;
+}
+.Top__hero-slide:nth-child(3) {
+  animation-name: topHeroZoom3;
+}
+.Top__hero-slide:nth-child(4) {
+  animation-name: topHeroZoom4;
+}
+.Top__hero-slide:nth-child(5) {
+  animation-name: topHeroZoom5;
+}
+.Top__hero-slide:nth-child(6) {
+  animation-name: topHeroZoom6;
+}
+@media (prefers-reduced-motion: reduce) {
+  .Top__hero-slide {
+    animation: none !important;
+    opacity: 0;
+  }
+  .Top__hero-slide:first-child {
+    opacity: 1;
+  }
+}
+.Top__hero-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 0 32px 64px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+@media (max-width: 600px) {
+  .Top__hero-title {
+    padding: 0 20px 40px;
+  }
+}
+.Top__hero-eyebrow {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.Top__hero-heading {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.82);
+}
+@media (max-width: 860px) {
+  .Top__hero-heading {
+    font-size: 38px;
+  }
+}
+.Top__hero-tagline {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  margin-top: 22px;
+  max-width: 440px;
+}
+.Top__hero-ctas {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+.Top__hero-ctas .Top__btn,
+.Top__hero-ctas .Top__btn--outline {
+  background: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.82);
+  padding: 0 0 8px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+.Top__hero-ctas .Top__btn:hover,
+.Top__hero-ctas .Top__btn--outline:hover {
+  color: #fff;
+  border-color: #fff;
+  transform: none;
+}
+.Top__about {
+  padding: 64px 0 12px;
+}
+.Top__about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 860px) {
+  .Top__about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.Top__about-cell {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 6px;
+  display: block;
+}
+@media (max-width: 860px) {
+  .Top__about-cell {
+    height: 220px;
+  }
+}
+.Top__about-cell img {
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+.Top__about-cell:hover img {
+  transform: scale(1.06);
+}
+.Top__about-cell:hover .Top__about-cell-more::after {
+  background: var(--top-accent);
+}
+.Top__about-cell-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 26px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.08) 55%, rgba(0, 0, 0, 0) 78%);
+}
+.Top__about-cell-cap {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.Top__about-cell-jp {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 16px;
+}
+.Top__about-cell-more {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.Top__about-cell-more::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.25s ease;
+}
+.Top__about-text {
+  background: var(--top-paper-shade);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px;
+}
+.Top__about-text p {
+  color: var(--top-ink-soft);
+  font-size: 13.5px;
+  line-height: 1.95;
+}
+.Top__about-text-label {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--top-ink);
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.Top__pillars {
+  padding: 46px 0 60px;
+}
+.Top__pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 860px) {
+  .Top__pillar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.Top__pillar-tile {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 6px;
+  display: block;
+}
+.Top__pillar-tile img {
+  height: 100%;
+  border-radius: 6px;
+  transition: transform 0.5s ease;
+}
+.Top__pillar-tile:hover img {
+  transform: scale(1.09);
+}
+.Top__pillar-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0) 75%);
+}
+.Top__pillar-num {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--top-accent);
+  display: block;
+  margin-bottom: 4px;
+}
+.Top__pillar-name {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.Top__pillar-jp {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.Top__section-head {
+  text-align: center;
+  padding: 0 24px 36px;
+}
+.Top__section-head-en {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--top-ink);
+  display: inline-block;
+}
+.Top__section-head-jp {
+  font-size: 12px;
+  color: var(--top-mute);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+}
+.Top__lifestyle {
+  padding: 70px 0;
+  border-top: 1px solid var(--top-line);
+}
+.Top__lifestyle-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 860px) {
+  .Top__lifestyle-inner {
+    grid-template-columns: 1fr;
+  }
+}
+.Top__lifestyle-photo {
+  height: 380px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+@media (max-width: 860px) {
+  .Top__lifestyle-photo {
+    height: 260px;
+  }
+}
+.Top__lifestyle-text h2 {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--top-ink);
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+.Top__lifestyle-text p {
+  color: var(--top-ink-soft);
+  font-size: 14px;
+  line-height: 2.1;
+}
+.Top__lifestyle-text .Top__btn--outline {
+  margin-top: 26px;
+}
+.Top__works {
+  background: var(--top-ink);
+  color: #fff;
+  padding: 52px 0 56px;
+}
+.Top__works-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 0 32px 28px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.Top__works-head-en {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  display: inline-block;
+}
+.Top__works-head-jp {
+  font-size: 13px;
+  color: #a8a8a8;
+  letter-spacing: 0.04em;
+}
+.Top__works-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 860px) {
+  .Top__works-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.Top__work-card {
+  display: block;
+}
+.Top__work-card img {
+  height: 200px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  transition: transform 0.4s ease;
+}
+.Top__work-card:hover img {
+  transform: scale(1.04);
+}
+.Top__work-card h3 {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.Top__work-card-more {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--top-accent);
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.Top__work-card-tags {
+  font-size: 11.5px;
+  color: #9a9a9a;
+}
+.Top__work-card-tags span {
+  color: var(--top-accent);
+}
+.Top__works-more {
+  text-align: center;
+  padding-top: 44px;
+}
+.Top__works-more a {
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 22px;
+  padding: 11px 30px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.Top__works-more a:hover {
+  background: var(--top-accent);
+  border-color: var(--top-accent);
+}
+.Top__news {
+  padding: 66px 0;
+  border-top: 1px solid var(--top-line);
+}
+.Top__news-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 860px) {
+  .Top__news-list {
+    grid-template-columns: 1fr;
+  }
+}
+.Top__news-item {
+  display: block;
+}
+.Top__news-item img {
+  height: 150px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+.Top__news-item:hover .Top__news-title {
+  text-decoration: underline wavy var(--top-accent);
+}
+.Top__news-date {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--top-accent);
+  margin-bottom: 6px;
+}
+.Top__news-title {
+  font-size: 14px;
+  color: var(--top-ink);
+}
+.Top__news-more {
+  text-align: center;
+  margin-top: 40px;
+}
+.Top__contents {
+  background: var(--top-paper-shade);
+  padding: 66px 0;
+}
+.Top__contents-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 860px) {
+  .Top__contents-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.Top__content-tile {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 8px;
+  display: block;
+}
+.Top__content-tile img {
+  height: 100%;
+  border-radius: 8px;
+}
+.Top__content-tile-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 14px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%);
+}
+.Top__content-tile-label span {
+  color: #ffffff;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+.Top__events {
+  padding: 66px 0;
+  border-top: 1px solid var(--top-line);
+}
+.Top__event-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 860px) {
+  .Top__event-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.Top__event-card {
+  display: block;
+}
+.Top__event-card img {
+  height: 190px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+}
+.Top__event-card p {
+  font-size: 13.5px;
+  color: var(--top-ink);
+}
+.Top__event-tag {
+  display: inline-block;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11.5px;
+  color: var(--top-accent);
+  border: 1.5px solid var(--top-accent);
+  border-radius: 14px;
+  padding: 3px 12px;
+  margin-bottom: 10px;
+}
+.Top__reform {
+  padding: 66px 0;
+  border-top: 1px solid var(--top-line);
+}
+.Top__reform-list {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 32px;
+  list-style: none;
+}
+.Top__reform-item {
+  display: flex;
+  gap: 18px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--top-line);
+  font-size: 13.5px;
+  color: var(--top-ink-soft);
+}
+.Top__reform-item:hover .Top__reform-title {
+  text-decoration: underline wavy var(--top-accent);
+}
+.Top__reform-item > a {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+}
+.Top__reform-date {
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--top-accent);
+  flex: none;
+  width: 92px;
+}
+.Top__banners {
+  padding: 0 0 66px;
+}
+.Top__banner-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px 28px;
+}
+@media (max-width: 860px) {
+  .Top__banner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.Top__banner-tile {
+  position: relative;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+}
+.Top__banner-tile img {
+  height: 100%;
+}
+.Top__banner-tag {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 3px 12px;
+}
+.Top__banner-tag--dark {
+  color: var(--top-ink);
+  border-color: rgba(20, 20, 20, 0.5);
+}
+.Top__banner-ttl {
+  position: absolute;
+  left: 18px;
+  bottom: 14px;
+  right: 18px;
+  color: #fff;
+  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.Top__banner-ttl--dark {
+  color: var(--top-ink);
+}
+.Top__campaign {
+  text-align: center;
+}
+.Top__sns {
+  padding: 62px 0;
+  border-top: 1px solid var(--top-line);
+  text-align: center;
+}
+.Top__sns-grid {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.Top__sns-grid img {
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.Top__placeholder-photo {
+  display: block;
+  background: linear-gradient(155deg, #e2e2e2 0%, #cfcfcf 45%, #b8b8b8 100%);
+  width: 100%;
+  height: 100%;
+}
+
+.Top__work-card .Top__placeholder-photo {
+  height: 200px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.Top__news-item .Top__placeholder-photo {
+  height: 150px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.Top__event-card .Top__placeholder-photo {
+  height: 190px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.Top__sns-grid .Top__placeholder-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
+}
+
+@keyframes topHeroZoom1 {
+  0.00% {
+    opacity: 0.5;
+    transform: scale(1.0545);
+  }
+  1.88% {
+    opacity: 1;
+    transform: scale(1.049);
+  }
+  14.79% {
+    opacity: 1;
+    transform: scale(1.011);
+  }
+  18.54% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  98.12% {
+    opacity: 0.5;
+    transform: scale(1.0545);
+  }
+  100.00% {
+    opacity: 0.5;
+    transform: scale(1.0545);
+  }
+}
+@keyframes topHeroZoom2 {
+  14.79% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  18.54% {
+    opacity: 1;
+    transform: scale(1.049);
+  }
+  31.46% {
+    opacity: 1;
+    transform: scale(1.011);
+  }
+  35.21% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@keyframes topHeroZoom3 {
+  31.46% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  35.21% {
+    opacity: 1;
+    transform: scale(1.049);
+  }
+  48.12% {
+    opacity: 1;
+    transform: scale(1.011);
+  }
+  51.88% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@keyframes topHeroZoom4 {
+  48.12% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  51.88% {
+    opacity: 1;
+    transform: scale(1.049);
+  }
+  64.79% {
+    opacity: 1;
+    transform: scale(1.011);
+  }
+  68.54% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@keyframes topHeroZoom5 {
+  64.79% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  68.54% {
+    opacity: 1;
+    transform: scale(1.049);
+  }
+  81.46% {
+    opacity: 1;
+    transform: scale(1.011);
+  }
+  85.21% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@keyframes topHeroZoom6 {
+  0.00% {
+    opacity: 0.5;
+    transform: scale(1.0055);
+  }
+  1.88% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  81.46% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  85.21% {
+    opacity: 1;
+    transform: scale(1.049);
+  }
+  98.12% {
+    opacity: 1;
+    transform: scale(1.011);
+  }
+  100.00% {
+    opacity: 0.5;
+    transform: scale(1.0055);
+  }
+}

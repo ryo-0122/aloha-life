@@ -1,0 +1,783 @@
+// =====================================================================
+// トップページ（front-page.php）
+// すべてのスタイルを .Top 配下に閉じ込め、既存テーマのCSSと衝突しないようにしている。
+// =====================================================================
+
+$top-font-en: "Archivo", "Zen Kaku Gothic New", sans-serif;
+$top-sp: 600px;
+$top-tb: 860px;
+
+@mixin top-en($weight: 500) {
+  font-family: $top-font-en;
+  font-weight: $weight;
+}
+
+@mixin top-grid($cols, $gap, $max: 1180px) {
+  display: grid;
+  grid-template-columns: repeat($cols, 1fr);
+  gap: $gap;
+  max-width: $max;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+// リンクのリセットは :where() で詳細度を下げ、.Top__btn などの色指定が優先されるようにする
+:where(.Top) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Top {
+  --top-ink: #141414;
+  --top-ink-soft: #4a4a4a;
+  --top-mute: #8c8c8c;
+  --top-line: #e2e2e2;
+  --top-paper: #fafafa;
+  --top-paper-shade: #f2f2f2;
+  --top-white: #ffffff;
+  --top-accent: #1fa198;
+  background: var(--top-paper);
+  color: var(--top-ink);
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  line-height: 1.75;
+  overflow-x: hidden;
+
+  * {
+    box-sizing: border-box;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @media (max-width: $top-sp) {
+      padding: 0 20px;
+    }
+  }
+
+  // ---------- Buttons ----------
+  &__btn,
+  &__btn--outline {
+    display: inline-block;
+    @include top-en(700);
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    border-radius: 24px;
+    padding: 13px 32px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  &__btn {
+    background: var(--top-ink);
+    color: var(--top-white);
+    &:hover {
+      background: var(--top-accent);
+      transform: translateY(-1px);
+    }
+  }
+  &__btn--outline {
+    border: 1.5px solid var(--top-ink);
+    color: var(--top-ink);
+    &:hover {
+      background: var(--top-ink);
+      color: var(--top-white);
+    }
+  }
+
+  // ---------- Hero ----------
+  &__hero {
+    position: relative;
+    height: 88vh;
+    min-height: 560px;
+    max-height: 820px;
+    overflow: hidden;
+    background: var(--top-ink);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 20, 20, 0.15) 0%, rgba(20, 20, 20, 0.1) 45%, rgba(20, 20, 20, 0.82) 100%);
+      pointer-events: none;
+    }
+  }
+  &__hero-slide {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: contain;
+    background: var(--top-ink);
+    opacity: 0;
+    animation-duration: 32s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    filter: grayscale(0.1) brightness(0.85);
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        animation-name: topHeroZoom#{$i};
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      animation: none !important;
+      opacity: 0;
+      &:first-child {
+        opacity: 1;
+      }
+    }
+  }
+  &__hero-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 0 32px 64px;
+    max-width: 1240px;
+    margin: 0 auto;
+    @media (max-width: $top-sp) {
+      padding: 0 20px 40px;
+    }
+  }
+  &__hero-eyebrow {
+    @include top-en(500);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  &__hero-heading {
+    @include top-en(900);
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.82);
+    @media (max-width: $top-tb) {
+      font-size: 38px;
+    }
+  }
+  &__hero-tagline {
+    @include top-en(500);
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 14px;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    margin-top: 22px;
+    max-width: 440px;
+  }
+  &__hero-ctas {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+
+    .Top__btn,
+    .Top__btn--outline {
+      background: none;
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.82);
+      padding: 0 0 8px;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      &:hover {
+        color: #fff;
+        border-color: #fff;
+        transform: none;
+      }
+    }
+  }
+
+  // ---------- About ----------
+  &__about {
+    padding: 64px 0 12px;
+  }
+  &__about-grid {
+    @include top-grid(3, 6px);
+    @media (max-width: $top-tb) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__about-cell {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 6px;
+    display: block;
+    @media (max-width: $top-tb) {
+      height: 220px;
+    }
+    img {
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+    &:hover img {
+      transform: scale(1.06);
+    }
+    &:hover .Top__about-cell-more::after {
+      background: var(--top-accent);
+    }
+  }
+  &__about-cell-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 26px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.08) 55%, rgba(0, 0, 0, 0) 78%);
+  }
+  &__about-cell-cap {
+    @include top-en(700);
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  &__about-cell-jp {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 16px;
+  }
+  &__about-cell-more {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    @include top-en(500);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: background 0.25s ease;
+    }
+  }
+  &__about-text {
+    background: var(--top-paper-shade);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    p {
+      color: var(--top-ink-soft);
+      font-size: 13.5px;
+      line-height: 1.95;
+    }
+  }
+  &__about-text-label {
+    @include top-en(700);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--top-ink);
+    margin-bottom: 14px;
+    display: inline-block;
+  }
+
+  // ---------- Pillars ----------
+  &__pillars {
+    padding: 46px 0 60px;
+  }
+  &__pillar-grid {
+    @include top-grid(4, 14px);
+    @media (max-width: $top-tb) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  &__pillar-tile {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border-radius: 6px;
+    display: block;
+    img {
+      height: 100%;
+      border-radius: 6px;
+      transition: transform 0.5s ease;
+    }
+    &:hover img {
+      transform: scale(1.09);
+    }
+  }
+  &__pillar-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0) 75%);
+  }
+  &__pillar-num {
+    @include top-en(500);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--top-accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+  &__pillar-name {
+    @include top-en(700);
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  &__pillar-jp {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  // ---------- Section head（共通見出し） ----------
+  &__section-head {
+    text-align: center;
+    padding: 0 24px 36px;
+  }
+  &__section-head-en {
+    @include top-en(700);
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    color: var(--top-ink);
+    display: inline-block;
+  }
+  &__section-head-jp {
+    font-size: 12px;
+    color: var(--top-mute);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  // ---------- Lifestyle ----------
+  &__lifestyle {
+    padding: 70px 0;
+    border-top: 1px solid var(--top-line);
+  }
+  &__lifestyle-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @media (max-width: $top-tb) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__lifestyle-photo {
+    height: 380px;
+    border-radius: 8px;
+    overflow: hidden;
+    @media (max-width: $top-tb) {
+      height: 260px;
+    }
+  }
+  &__lifestyle-text {
+    h2 {
+      @include top-en(900);
+      font-size: 26px;
+      letter-spacing: -0.01em;
+      color: var(--top-ink);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    p {
+      color: var(--top-ink-soft);
+      font-size: 14px;
+      line-height: 2.1;
+    }
+    .Top__btn--outline {
+      margin-top: 26px;
+    }
+  }
+
+  // ---------- Works ----------
+  &__works {
+    background: var(--top-ink);
+    color: #fff;
+    padding: 52px 0 56px;
+  }
+  &__works-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 0 32px 28px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  &__works-head-en {
+    @include top-en(900);
+    font-size: 28px;
+    display: inline-block;
+  }
+  &__works-head-jp {
+    font-size: 13px;
+    color: #a8a8a8;
+    letter-spacing: 0.04em;
+  }
+  &__works-grid {
+    @include top-grid(3, 26px);
+    @media (max-width: $top-tb) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__work-card {
+    display: block;
+    img {
+      height: 200px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      transition: transform 0.4s ease;
+    }
+    &:hover img {
+      transform: scale(1.04);
+    }
+    h3 {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+  }
+  &__work-card-more {
+    @include top-en(500);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--top-accent);
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  &__work-card-tags {
+    font-size: 11.5px;
+    color: #9a9a9a;
+    span {
+      color: var(--top-accent);
+    }
+  }
+  &__works-more {
+    text-align: center;
+    padding-top: 44px;
+    a {
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      color: #fff;
+      @include top-en(500);
+      font-size: 12.5px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 22px;
+      padding: 11px 30px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      &:hover {
+        background: var(--top-accent);
+        border-color: var(--top-accent);
+      }
+    }
+  }
+
+  // ---------- News & Topics ----------
+  &__news {
+    padding: 66px 0;
+    border-top: 1px solid var(--top-line);
+  }
+  &__news-list {
+    @include top-grid(3, 28px, 1080px);
+    @media (max-width: $top-tb) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__news-item {
+    display: block;
+    img {
+      height: 150px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+    &:hover .Top__news-title {
+      text-decoration: underline wavy var(--top-accent);
+    }
+  }
+  &__news-date {
+    @include top-en(500);
+    font-size: 12.5px;
+    color: var(--top-accent);
+    margin-bottom: 6px;
+  }
+  &__news-title {
+    font-size: 14px;
+    color: var(--top-ink);
+  }
+  &__news-more {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  // ---------- Contents ----------
+  &__contents {
+    background: var(--top-paper-shade);
+    padding: 66px 0;
+  }
+  &__contents-grid {
+    @include top-grid(3, 14px);
+    @media (max-width: $top-tb) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  &__content-tile {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 8px;
+    display: block;
+    img {
+      height: 100%;
+      border-radius: 8px;
+    }
+  }
+  &__content-tile-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 14px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%);
+    span {
+      color: #ffffff;
+      @include top-en(700);
+      font-size: 14px;
+    }
+  }
+
+  // ---------- Events ----------
+  &__events {
+    padding: 66px 0;
+    border-top: 1px solid var(--top-line);
+  }
+  &__event-grid {
+    @include top-grid(3, 26px);
+    @media (max-width: $top-tb) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__event-card {
+    display: block;
+    img {
+      height: 190px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+    }
+    p {
+      font-size: 13.5px;
+      color: var(--top-ink);
+    }
+  }
+  &__event-tag {
+    display: inline-block;
+    @include top-en(500);
+    font-size: 11.5px;
+    color: var(--top-accent);
+    border: 1.5px solid var(--top-accent);
+    border-radius: 14px;
+    padding: 3px 12px;
+    margin-bottom: 10px;
+  }
+
+  // ---------- Reform Blog ----------
+  &__reform {
+    padding: 66px 0;
+    border-top: 1px solid var(--top-line);
+  }
+  &__reform-list {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 32px;
+    list-style: none;
+  }
+  &__reform-item {
+    display: flex;
+    gap: 18px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--top-line);
+    font-size: 13.5px;
+    color: var(--top-ink-soft);
+    &:hover .Top__reform-title {
+      text-decoration: underline wavy var(--top-accent);
+    }
+    > a {
+      display: flex;
+      gap: 18px;
+      width: 100%;
+    }
+  }
+  &__reform-date {
+    @include top-en(500);
+    font-size: 12.5px;
+    color: var(--top-accent);
+    flex: none;
+    width: 92px;
+  }
+
+  // ---------- Banners ----------
+  &__banners {
+    padding: 0 0 66px;
+  }
+  &__banner-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px 28px;
+    @media (max-width: $top-tb) {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__banner-tile {
+    position: relative;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: block;
+    img {
+      height: 100%;
+    }
+  }
+  &__banner-tag {
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    @include top-en(500);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    padding: 3px 12px;
+    &--dark {
+      color: var(--top-ink);
+      border-color: rgba(20, 20, 20, 0.5);
+    }
+  }
+  &__banner-ttl {
+    position: absolute;
+    left: 18px;
+    bottom: 14px;
+    right: 18px;
+    color: #fff;
+    @include top-en(700);
+    font-size: 14px;
+    line-height: 1.5;
+    &--dark {
+      color: var(--top-ink);
+    }
+  }
+  &__campaign {
+    text-align: center;
+  }
+
+  // ---------- SNS ----------
+  &__sns {
+    padding: 62px 0;
+    border-top: 1px solid var(--top-line);
+    text-align: center;
+  }
+  &__sns-grid {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 28px;
+    flex-wrap: wrap;
+    img {
+      width: 130px;
+      height: 130px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+  }
+}
+
+// 画像未設定時のプレースホルダー
+.Top__placeholder-photo {
+  display: block;
+  background: linear-gradient(155deg, #e2e2e2 0%, #cfcfcf 45%, #b8b8b8 100%);
+  width: 100%;
+  height: 100%;
+}
+
+// カード内のプレースホルダーは <img> と同じサイズにそろえる
+.Top__work-card .Top__placeholder-photo {
+  height: 200px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.Top__news-item .Top__placeholder-photo {
+  height: 150px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+.Top__event-card .Top__placeholder-photo {
+  height: 190px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+.Top__sns-grid .Top__placeholder-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
+}
+
+// ---------- Hero slideshow keyframes（6枚 / 32秒ループ） ----------
+@keyframes topHeroZoom1 {
+  0.00% { opacity: 0.5; transform: scale(1.0545); }
+  1.88% { opacity: 1; transform: scale(1.049); }
+  14.79% { opacity: 1; transform: scale(1.011); }
+  18.54% { opacity: 0; transform: scale(1); }
+  98.12% { opacity: 0.5; transform: scale(1.0545); }
+  100.00% { opacity: 0.5; transform: scale(1.0545); }
+}
+@keyframes topHeroZoom2 {
+  14.79% { opacity: 0; transform: scale(1.06); }
+  18.54% { opacity: 1; transform: scale(1.049); }
+  31.46% { opacity: 1; transform: scale(1.011); }
+  35.21% { opacity: 0; transform: scale(1); }
+}
+@keyframes topHeroZoom3 {
+  31.46% { opacity: 0; transform: scale(1.06); }
+  35.21% { opacity: 1; transform: scale(1.049); }
+  48.12% { opacity: 1; transform: scale(1.011); }
+  51.88% { opacity: 0; transform: scale(1); }
+}
+@keyframes topHeroZoom4 {
+  48.12% { opacity: 0; transform: scale(1.06); }
+  51.88% { opacity: 1; transform: scale(1.049); }
+  64.79% { opacity: 1; transform: scale(1.011); }
+  68.54% { opacity: 0; transform: scale(1); }
+}
+@keyframes topHeroZoom5 {
+  64.79% { opacity: 0; transform: scale(1.06); }
+  68.54% { opacity: 1; transform: scale(1.049); }
+  81.46% { opacity: 1; transform: scale(1.011); }
+  85.21% { opacity: 0; transform: scale(1); }
+}
+@keyframes topHeroZoom6 {
+  0.00% { opacity: 0.5; transform: scale(1.0055); }
+  1.88% { opacity: 0; transform: scale(1); }
+  81.46% { opacity: 0; transform: scale(1.06); }
+  85.21% { opacity: 1; transform: scale(1.049); }
+  98.12% { opacity: 1; transform: scale(1.011); }
+  100.00% { opacity: 0.5; transform: scale(1.0055); }
+}
