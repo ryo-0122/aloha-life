@@ -5,6 +5,9 @@
  * スタイル: assets/@scss/components/_home.scss → assets/css/home.css
  * 読み込み・共通関数: inc/redesign.php
  *
+ * 並び（サイトマップ v2）: ヒーロー → 施工事例 → コンセプト → 住宅プラン → CONTENTS → イベント
+ *   → お問い合わせ → お知らせ → バナー → リフォームブログ → Facebook
+ *
  * 既存のまま維持しているもの:
  * - NEWS & TOPICS はブログ・ニュース投稿（post）の最新6件
  * - 施工例の写真（ACF cases-main-pic）とタクソノミー
@@ -30,21 +33,44 @@ if ( ! $hero_slides ) {
 	}
 }
 
-// ABOUT の写真。assets/images/top/about-*.jpg があれば優先し、無ければヒーロー写真を流用。
-$about_cells = array(
-	array( 'cap' => 'Exterior', 'jp' => '外観', 'img' => array( 'top/about-exterior.jpg', 'top/HeroSlide02.jpg' ) ),
-	array( 'cap' => 'Living', 'jp' => 'リビング', 'img' => array( 'top/about-living.jpg', 'top/HeroSlide03.jpg' ) ),
-	array( 'cap' => 'Wood Deck', 'jp' => 'ウッドデッキ', 'img' => array( 'top/about-deck.jpg', 'top/HeroSlide04.jpg' ) ),
-	array( 'cap' => 'Light & Wind', 'jp' => '光と風', 'img' => array( 'top/about-light.jpg', 'top/HeroSlide05.jpg' ) ),
-	array( 'cap' => 'Detail', 'jp' => 'こだわり', 'img' => array( 'top/about-detail.jpg', 'top/HeroSlide06.jpg' ) ),
-);
+// 施工事例の見学予約（ヘッダーの「見学予約」と同じ）
+$reserve_url = 'https://www.ie-miru.jp/cms/yoyaku/seibukensetsu/events/4847';
 
-$pillars = array(
-	array( 'name' => 'CONCEPT', 'jp' => 'コンセプト', 'url' => home_url( '/concept/' ), 'img' => array( 'Top_menu_01_3.jpg', 'Top_menu_01@2x.jpg', 'Top_menu_01.jpg' ) ),
-	array( 'name' => 'FLOW', 'jp' => 'ALOHA&STYLEの家ができるまで', 'url' => home_url( '/flow/' ), 'img' => array( 'Top_menu_02_3.jpg', 'Top_menu_02@2x.jpg', 'Top_menu_02.jpg' ) ),
-	array( 'name' => 'PLAN', 'jp' => '住宅プラン', 'url' => home_url( '/plan/' ), 'img' => array( 'Top_menu_03_3.jpg', 'Top_menu_03@2x.jpg', 'Top_menu_03.jpg' ) ),
-	array( 'name' => 'WORKS', 'jp' => '施工事例', 'url' => home_url( '/cases/' ), 'img' => array( 'Top_menu_04_3.jpg', 'Top_menu_04@2x.jpg', 'Top_menu_04.jpg' ) ),
+// 施工事例のスタイル別ボタン（施工例がある スタイルだけ）
+$case_style_links = array();
+foreach ( aloha_case_styles() as $style_slug => $style ) {
+	$style_term = taxonomy_exists( 'cases_category' ) ? get_term_by( 'slug', $style_slug, 'cases_category' ) : false;
+	if ( ! $style_term || ! $style_term->count ) {
+		continue;
+	}
+	$style_link = get_term_link( $style_term );
+	if ( ! is_wp_error( $style_link ) ) {
+		$case_style_links[] = array( 'label' => $style['ja'], 'url' => $style_link );
+	}
+}
+
+// 住宅プランの5スタイル（写真は各カテゴリの画像。無ければコンセプトの写真）
+$plan_fallback_img = array(
+	'surfers_house'     => 'concept/plantation-house.jpg',
+	'midcentury_modern' => 'concept/midcentury-house.jpg',
 );
+$plan_tiles = array();
+foreach ( aloha_plan_categories() as $plan_cat ) {
+	$plan_meta    = aloha_plan_category_meta( $plan_cat['slug'] );
+	$plan_imgs    = array_filter(
+		array(
+			$plan_meta ? $plan_meta['img'] : '',
+			isset( $plan_fallback_img[ $plan_cat['slug'] ] ) ? $plan_fallback_img[ $plan_cat['slug'] ] : '',
+		)
+	);
+	$plan_tiles[] = array(
+		'en'    => $plan_cat['en'],
+		'ja'    => $plan_cat['label'],
+		'url'   => $plan_cat['url'],
+		'img'   => $plan_imgs ? aloha_theme_image( $plan_imgs ) : '',
+		'ready' => $plan_cat['count'] > 0,
+	);
+}
 
 // CONTENTS（最初のプレビューと同じ6項目）。url が空の項目は表示しない。
 $contents = array(
@@ -69,7 +95,7 @@ $online_consult_url = 'https://www.ie-miru.jp/cms/yoyaku/seibukensetsu/events/19
 $works_query = new WP_Query(
 	array(
 		'post_type'      => 'cases',
-		'posts_per_page' => 3,
+		'posts_per_page' => 6,
 		'orderby'        => 'date',
 		'order'          => 'DESC',
 	)
@@ -97,64 +123,7 @@ $news_query = new WP_Query(
 			<p class="Home__hero-tagline">岡山で叶える、ハワイアンスタイルの住まい。<br>豊富な提案力と実績で、憧れの暮らしをかたちにします。</p>
 			<div class="Home__hero-ctas">
 				<a href="<?php echo esc_url( home_url( '/cases/' ) ); ?>" class="Home__btn">施工事例を見る &rarr;</a>
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="Home__btn--outline">お問い合わせ</a>
-			</div>
-		</div>
-	</section>
-
-	<!-- ABOUT -->
-	<section class="Home__about" aria-labelledby="home-about-heading">
-		<div class="Home__about-grid">
-			<div class="Home__about-cell Home__about-text">
-				<h2 id="home-about-heading" class="Home__about-text-label">About Aloha &amp; Style</h2>
-				<p>ALOHA&amp;STYLEは、ウッドデッキや吹き抜けリビングなどハワイアンスタイルを実現するための住宅を、豊富な提案力と実績で自由自在にお造りします。暮らしの拠点でも、上質な非日常のご提案をいたします。</p>
-			</div>
-			<?php foreach ( $about_cells as $cell ) : ?>
-				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__about-cell">
-					<?php aloha_image_tag( aloha_theme_image( $cell['img'] ), 'ALOHA&STYLEの住まいの' . $cell['jp'] . 'の写真', 'Home__placeholder-photo' ); ?>
-					<span class="Home__about-cell-overlay">
-						<span class="Home__about-cell-cap"><?php echo esc_html( $cell['cap'] ); ?></span>
-						<span class="Home__about-cell-jp"><?php echo esc_html( $cell['jp'] ); ?></span>
-						<span class="Home__about-cell-more">More</span>
-					</span>
-				</a>
-			<?php endforeach; ?>
-		</div>
-	</section>
-
-	<!-- PILLARS -->
-	<nav class="Home__pillars" aria-label="主要コンテンツ">
-		<div class="Home__pillar-grid">
-			<?php foreach ( $pillars as $index => $pillar ) : ?>
-				<a href="<?php echo esc_url( $pillar['url'] ); ?>" class="Home__pillar-tile">
-					<?php aloha_image_tag( aloha_theme_image( $pillar['img'] ), '', 'Home__placeholder-photo' ); ?>
-					<span class="Home__pillar-overlay">
-						<span class="Home__pillar-num"><?php echo esc_html( sprintf( '%02d', $index + 1 ) ); ?></span>
-						<span class="Home__pillar-name"><?php echo esc_html( $pillar['name'] ); ?></span>
-						<span class="Home__pillar-jp"><?php echo esc_html( $pillar['jp'] ); ?></span>
-					</span>
-				</a>
-			<?php endforeach; ?>
-		</div>
-	</nav>
-
-	<!-- LIFESTYLE -->
-	<section class="Home__lifestyle" aria-labelledby="home-lifestyle-heading">
-		<div class="Home__lifestyle-inner">
-			<div class="Home__lifestyle-photo">
-				<?php aloha_image_tag( aloha_theme_image( array( 'top/lifestyle.jpg', 'concept/hero-terrace.jpg', 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) ), 'ALOHA&STYLEが手がけた住まいの、ハワイの風を感じるテラス', 'Home__placeholder-photo' ); ?>
-			</div>
-			<div class="Home__lifestyle-text">
-				<p class="Home__lifestyle-en">It's not just a house, It's a lifestyle.</p>
-				<h2 id="home-lifestyle-heading">家は、ただ住むだけの<br>箱じゃない。</h2>
-				<p>
-					家族と笑い、仲間と集い、<br>
-					時には一人で静かに過ごす、<br>
-					かけがえのない時間を育む場所。<br>
-					私たちが届けたいのは、<br>
-					そんな「暮らしの楽しさ」そのものです。
-				</p>
-				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEのコンセプト</a>
+				<a href="<?php echo esc_url( $reserve_url ); ?>" class="Home__btn--outline" target="_blank" rel="noopener">モデルハウス見学予約</a>
 			</div>
 		</div>
 	</section>
@@ -165,6 +134,13 @@ $news_query = new WP_Query(
 			<h2 id="home-works-heading" class="Home__works-head-en">Works</h2>
 			<span class="Home__works-head-jp">施工事例</span>
 		</div>
+		<?php if ( $case_style_links ) : ?>
+			<nav class="Home__works-styles" aria-label="スタイルから施工事例を探す">
+				<?php foreach ( $case_style_links as $style_link ) : ?>
+					<a href="<?php echo esc_url( $style_link['url'] ); ?>"><?php echo esc_html( $style_link['label'] ); ?></a>
+				<?php endforeach; ?>
+			</nav>
+		<?php endif; ?>
 		<?php if ( $works_query->have_posts() ) : ?>
 			<div class="Home__works-grid">
 				<?php
@@ -185,6 +161,115 @@ $news_query = new WP_Query(
 		<?php endif; ?>
 		<?php wp_reset_postdata(); ?>
 		<div class="Home__works-more"><a href="<?php echo esc_url( home_url( '/cases/' ) ); ?>">施工事例の一覧を見る</a></div>
+	</section>
+
+	<!-- CONCEPT（ブランドメッセージと3つのこだわり） -->
+	<section class="Home__lifestyle" aria-labelledby="home-lifestyle-heading">
+		<div class="Home__lifestyle-inner">
+			<div class="Home__lifestyle-photo">
+				<?php aloha_image_tag( aloha_theme_image( array( 'top/lifestyle.jpg', 'concept/hero-terrace.jpg', 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) ), 'ALOHA&STYLEが手がけた住まいの、ハワイの風を感じるテラス', 'Home__placeholder-photo' ); ?>
+			</div>
+			<div class="Home__lifestyle-text">
+				<p class="Home__lifestyle-en">It's not just a house, It's a lifestyle.</p>
+				<h2 id="home-lifestyle-heading">家は、ただ住むだけの<br>箱じゃない。</h2>
+				<p>
+					家族と笑い、仲間と集い、<br>
+					時には一人で静かに過ごす、<br>
+					かけがえのない時間を育む場所。<br>
+					私たちが届けたいのは、<br>
+					そんな「暮らしの楽しさ」そのものです。
+				</p>
+				<p class="Home__lifestyle-about">ALOHA&amp;STYLEは、ウッドデッキや吹き抜けリビングなどハワイアンスタイルを実現するための住宅を、豊富な提案力と実績で自由自在にお造りします。</p>
+				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEのコンセプト</a>
+			</div>
+		</div>
+		<ol class="Home__points">
+			<li>
+				<span class="Home__points-num">01</span>
+				<strong>プランテーションハウス</strong>
+				<p>深い軒（ラナイ）が内と外をつなぐ、飾りすぎず暮らして気持ちのいい家。</p>
+			</li>
+			<li>
+				<span class="Home__points-num">02</span>
+				<strong>リゾートモダン＆ミッドセンチュリー</strong>
+				<p>大きな開口で光と風を取り込み、素材の質感とフォルムで彩る家。</p>
+			</li>
+			<li>
+				<span class="Home__points-num">03</span>
+				<strong>ハワイの暮らしを、日本で</strong>
+				<p>住まいの設計・施工に加え、イベントや雑貨・インテリアまで、ハワイの暮らしをご提案。</p>
+			</li>
+		</ol>
+	</section>
+
+	<!-- PLAN（住宅プランの5スタイル） -->
+	<section class="Home__plans" aria-labelledby="home-plans-heading">
+		<div class="Home__section-head">
+			<h2 id="home-plans-heading" class="Home__section-head-en">Plan</h2>
+			<span class="Home__section-head-jp">住宅プラン</span>
+		</div>
+		<ul class="Home__plans-grid">
+			<?php foreach ( $plan_tiles as $plan_tile ) : ?>
+				<li>
+					<a href="<?php echo esc_url( $plan_tile['url'] ); ?>" class="Home__plan-tile<?php echo $plan_tile['ready'] ? '' : ' is-soon'; ?>">
+						<?php aloha_image_tag( $plan_tile['img'], '', 'Home__placeholder-photo' ); ?>
+						<span class="Home__plan-tile-overlay">
+							<span class="Home__plan-tile-en"><?php echo esc_html( $plan_tile['en'] ); ?></span>
+							<span class="Home__plan-tile-ja"><?php echo esc_html( $plan_tile['ja'] ); ?></span>
+							<span class="Home__plan-tile-more"><?php echo $plan_tile['ready'] ? 'プランを見る &rarr;' : '準備中'; ?></span>
+						</span>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+		<div class="Home__works-more"><a href="<?php echo esc_url( get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link( 'plan' ) : home_url( '/plan/' ) ); ?>">住宅プランの一覧を見る</a></div>
+	</section>
+
+	<!-- CONTENTS（家づくりの選択肢・サービス） -->
+	<section class="Home__contents" aria-labelledby="home-contents-heading">
+		<div class="Home__section-head">
+			<h2 id="home-contents-heading" class="Home__section-head-en">Contents</h2>
+			<span class="Home__section-head-jp">サービス・コンテンツ</span>
+		</div>
+		<div class="Home__contents-grid">
+			<?php foreach ( $contents as $content ) : ?>
+				<?php
+				if ( '' === $content['url'] ) {
+					continue;
+				}
+				?>
+				<a href="<?php echo esc_url( $content['url'] ); ?>" class="Home__content-tile"<?php echo ! empty( $content['external'] ) ? ' target="_blank" rel="noopener"' : ''; ?>>
+					<?php aloha_image_tag( aloha_theme_image( $content['img'] ), '', 'Home__placeholder-photo' ); ?>
+					<span class="Home__content-tile-label"><span><?php echo esc_html( $content['label'] ); ?></span></span>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</section>
+
+	<!-- EVENTS（ie-miru の外部ウィジェット。表示先の div を先に置いてからスクリプトを読み込む。6件表示） -->
+	<section class="Home__events" aria-labelledby="home-events-heading">
+		<div class="Home__section-head">
+			<h2 id="home-events-heading" class="Home__section-head-en">Event Information</h2>
+			<span class="Home__section-head-jp">イベント情報</span>
+		</div>
+		<div class="Home__events-widget">
+			<div id="js-iemiru-cms-index-page" style="width: 100%; display: block;"></div>
+			<script src="https://www.ie-miru.jp/cms/yoyaku/seibukensetsu.js?limit=6"></script>
+		</div>
+	</section>
+
+	<!-- CONTACT -->
+	<section class="Home__contact" aria-labelledby="home-contact-heading">
+		<div class="Home__contact-inner">
+			<div>
+				<h2 id="home-contact-heading" class="Home__contact-en">Contact</h2>
+				<p class="Home__contact-text">家づくりのご相談、モデルハウスの見学、資料のご請求はお気軽にどうぞ。</p>
+			</div>
+			<div class="Home__contact-actions">
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="Home__btn">お問い合わせ &rarr;</a>
+				<a href="<?php echo esc_url( $online_consult_url ); ?>" class="Home__btn--outline" target="_blank" rel="noopener">オンライン相談を予約</a>
+			</div>
+		</div>
 	</section>
 
 	<!-- NEWS & TOPICS -->
@@ -222,62 +307,6 @@ $news_query = new WP_Query(
 		<?php wp_reset_postdata(); ?>
 	</section>
 
-	<!-- CONTENTS -->
-	<section class="Home__contents" aria-labelledby="home-contents-heading">
-		<div class="Home__section-head">
-			<h2 id="home-contents-heading" class="Home__section-head-en">Contents</h2>
-			<span class="Home__section-head-jp">サービス・コンテンツ</span>
-		</div>
-		<div class="Home__contents-grid">
-			<?php foreach ( $contents as $content ) : ?>
-				<?php
-				if ( '' === $content['url'] ) {
-					continue;
-				}
-				?>
-				<a href="<?php echo esc_url( $content['url'] ); ?>" class="Home__content-tile"<?php echo ! empty( $content['external'] ) ? ' target="_blank" rel="noopener"' : ''; ?>>
-					<?php aloha_image_tag( aloha_theme_image( $content['img'] ), '', 'Home__placeholder-photo' ); ?>
-					<span class="Home__content-tile-label"><span><?php echo esc_html( $content['label'] ); ?></span></span>
-				</a>
-			<?php endforeach; ?>
-		</div>
-	</section>
-
-	<!-- CONTACT -->
-	<section class="Home__contact" aria-labelledby="home-contact-heading">
-		<div class="Home__contact-inner">
-			<div>
-				<h2 id="home-contact-heading" class="Home__contact-en">Contact</h2>
-				<p class="Home__contact-text">家づくりのご相談、モデルハウスの見学、資料のご請求はお気軽にどうぞ。</p>
-			</div>
-			<div class="Home__contact-actions">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="Home__btn">お問い合わせ &rarr;</a>
-				<a href="<?php echo esc_url( $online_consult_url ); ?>" class="Home__btn--outline" target="_blank" rel="noopener">オンライン相談を予約</a>
-			</div>
-		</div>
-	</section>
-
-	<!-- EVENTS（ie-miru の外部ウィジェット。表示先の div を先に置いてからスクリプトを読み込む。6件表示） -->
-	<section class="Home__events" aria-labelledby="home-events-heading">
-		<div class="Home__section-head">
-			<h2 id="home-events-heading" class="Home__section-head-en">Event Information</h2>
-			<span class="Home__section-head-jp">イベント情報</span>
-		</div>
-		<div class="Home__events-widget">
-			<div id="js-iemiru-cms-index-page" style="width: 100%; display: block;"></div>
-			<script src="https://www.ie-miru.jp/cms/yoyaku/seibukensetsu.js?limit=6"></script>
-		</div>
-	</section>
-
-	<!-- REFORM BLOG（一覧は footer.php の reformBlogData() が追加） -->
-	<section class="Home__reform js-news-generate" aria-labelledby="home-reform-heading">
-		<div class="Home__section-head">
-			<h2 id="home-reform-heading" class="Home__section-head-en">Reform Blog</h2>
-			<span class="Home__section-head-jp">リフォームブログ</span>
-		</div>
-		<ul class="Home__reform-list js-news-generate-target"></ul>
-	</section>
-
 	<?php
 	$visible_banners = array_filter(
 		$banners,
@@ -302,6 +331,15 @@ $news_query = new WP_Query(
 			<?php endif; ?>
 		</section>
 	<?php endif; ?>
+
+	<!-- REFORM BLOG（一覧は footer.php の reformBlogData() が追加） -->
+	<section class="Home__reform js-news-generate" aria-labelledby="home-reform-heading">
+		<div class="Home__section-head">
+			<h2 id="home-reform-heading" class="Home__section-head-en">Reform Blog</h2>
+			<span class="Home__section-head-jp">リフォームブログ</span>
+		</div>
+		<ul class="Home__reform-list js-news-generate-target"></ul>
+	</section>
 
 	<!-- SNS（Facebook SDK は footer.php で読み込み） -->
 	<section class="Home__sns" aria-labelledby="home-sns-heading">
