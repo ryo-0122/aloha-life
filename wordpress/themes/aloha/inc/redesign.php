@@ -472,3 +472,16 @@ function aloha_redirect_old_case_styles() {
 	}
 }
 add_action( 'template_redirect', 'aloha_redirect_old_case_styles' );
+
+/**
+ * 施工例タイトルの表示を整える（データは変更しない）。
+ * 旧デザインで改行位置の調整に使っていた全角スペースの連続を1つにまとめ、半角カナを全角にする。
+ */
+function aloha_clean_case_title( $title, $post_id = 0 ) {
+	if ( is_admin() || ! $post_id || 'cases' !== get_post_type( $post_id ) ) {
+		return $title;
+	}
+	$title = mb_convert_kana( $title, 'KV', 'UTF-8' );
+	return trim( preg_replace( '/[\s　]{2,}/u', ' ', $title ) );
+}
+add_filter( 'the_title', 'aloha_clean_case_title', 10, 2 );
