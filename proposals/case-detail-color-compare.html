@@ -396,6 +396,13 @@ html[data-palette="slate"]{
   --header-bg:rgba(246,249,249,.92);
   --footer-bg:#EAF4F3; --footer-text:#3D4B4F; --footer-logo:#1E2A2E; --footer-mute:#55656A; --footer-line:#D3E2E0;
 }
+/* 5＋白背景：C＋海の緑を白ベースに（面だけごく薄い暖かみのあるグレー） */
+html[data-palette="c1w"]{
+  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E6E3E0; --paper:#FFFFFF; --shade:#F4F3F1;
+  --accent:#15766E; --accent-text:#15766E; --brand:#5E5755; --logo-amp:#15766E; --heading:#2B2624; --btn:#5E5755; --btn-hover:#15766E; --chip:#5E5755; --mark:#15766E;
+  --header-bg:rgba(255,255,255,.94);
+  --footer-bg:#F4F3F1; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#E3DFDB;
+}
 /* 参考：C＋海の緑（前回案） */
 html[data-palette="c1"]{
   --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
@@ -420,7 +427,7 @@ body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group
 </style>
 </head>
 <body>
-<div class="PreviewNote">今の緑 #1fa198 を活かした配色の比較ページです。画面下のボタン（またはキーボードの 1〜5）で切り替えられます。写真はプレースホルダーです。</div>
+<div class="PreviewNote">今の緑 #1fa198 を活かした配色の比較ページです。画面下のボタン（またはキーボードの 1〜6）で切り替えられます。写真はプレースホルダーです。</div>
 
 <header class="SiteHeader">
   <div class="SiteHeader__inner">
@@ -558,18 +565,19 @@ body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group
   <button type="button" data-p="stone"><i><b style="background:#5E5755"></b><b style="background:#1fa198"></b></i>1 Stone<span class="lbl"> &amp; Lagoon</span></button>
   <button type="button" data-p="sand"><i><b style="background:#D9C9AE"></b><b style="background:#1fa198"></b></i>2 Sand<span class="lbl"> &amp; Lagoon</span></button>
   <button type="button" data-p="slate"><i><b style="background:#1E2A2E"></b><b style="background:#1fa198"></b></i>3 Slate<span class="lbl"> &amp; Lagoon</span></button>
-  <button type="button" data-p="c1"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>参考<span class="lbl">：C＋海の緑</span></button>
+  <button type="button" data-p="c1"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>5 C＋海の緑</button>
+  <button type="button" data-p="c1w"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b><b style="background:#FFFFFF"></b></i>6 5＋白背景</button>
 </nav>
 <script>
 (function(){
-  var btns=document.querySelectorAll('.Switcher button'), keys=['now','stone','sand','slate','c1'];
+  var btns=document.querySelectorAll('.Switcher button'), keys=['now','stone','sand','slate','c1','c1w'];
   function set(p){ document.documentElement.setAttribute('data-palette',p);
     btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-p')===p ? 'true':'false'); });
     try{ localStorage.setItem('aloha-palette',p); }catch(e){} }
   btns.forEach(function(b){ b.addEventListener('click',function(){ set(b.getAttribute('data-p')); }); });
-  document.addEventListener('keydown',function(e){ var i=parseInt(e.key,10); if(i>=1&&i<=5) set(keys[i-1]); });
+  document.addEventListener('keydown',function(e){ var i=parseInt(e.key,10); if(i>=1&&i<=6) set(keys[i-1]); });
   var saved=null; try{ saved=localStorage.getItem('aloha-palette'); }catch(e){}
-  set('stone');
+  set('c1w');
 })();
 </script>
 
