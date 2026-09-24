@@ -220,6 +220,95 @@ $home-font-en: "Archivo", $home-font-jp;
     }
   }
 
+  // ---------- About ----------
+  &__about {
+    padding: 64px 0;
+  }
+  &__about-grid {
+    @include home-grid(3, 6px);
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+  &__about-cell {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 6px;
+    display: block;
+    @include mobile {
+      height: 220px;
+    }
+    img {
+      height: 100%;
+      transition: transform 0.5s ease;
+    }
+    &:hover img {
+      transform: scale(1.06);
+    }
+    &:hover .Home__about-cell-more::after {
+      background: var(--home-accent);
+    }
+  }
+  &__about-cell-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 26px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.08) 55%, rgba(0, 0, 0, 0) 78%);
+  }
+  &__about-cell-cap {
+    @include home-en(700);
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  &__about-cell-jp {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 16px;
+  }
+  &__about-cell-more {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    @include home-en(500);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: background 0.25s ease;
+    }
+  }
+  &__about-text {
+    background: var(--home-paper-shade);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    p {
+      color: var(--home-ink-soft);
+      font-size: 13.5px;
+      line-height: 1.95;
+    }
+  }
+  &__about-text-label {
+    @include home-en(700);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--home-ink);
+    margin-bottom: 14px;
+    display: inline-block;
+  }
+
   // ---------- Section head（共通見出し） ----------
   &__section-head {
     text-align: center;
@@ -406,11 +495,6 @@ $home-font-en: "Archivo", $home-font-jp;
   }
 
   // ---------- Concept：3つのこだわり ----------
-  .Home__lifestyle-text .Home__lifestyle-about {
-    font-size: 13px;
-    color: var(--home-mute);
-    margin-top: 16px;
-  }
   &__points {
     list-style: none;
     max-width: 1180px;

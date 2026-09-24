@@ -5,7 +5,7 @@
  * スタイル: assets/@scss/components/_home.scss → assets/css/home.css
  * 読み込み・共通関数: inc/redesign.php
  *
- * 並び（サイトマップ v2）: ヒーロー → 施工事例 → コンセプト → 住宅プラン → CONTENTS → イベント
+ * 並び（サイトマップ v2）: ヒーロー → About → 施工事例 → コンセプト → 住宅プラン → CONTENTS → イベント
  *   → お問い合わせ → お知らせ → バナー → リフォームブログ → Facebook
  *
  * 既存のまま維持しているもの:
@@ -32,6 +32,15 @@ if ( ! $hero_slides ) {
 		$hero_slides[] = $fallback;
 	}
 }
+
+// ABOUT の写真。assets/images/top/about-*.jpg があれば優先し、無ければヒーロー写真を流用。
+$about_cells = array(
+	array( 'cap' => 'Exterior', 'jp' => '外観', 'img' => array( 'top/about-exterior.jpg', 'top/HeroSlide02.jpg' ) ),
+	array( 'cap' => 'Living', 'jp' => 'リビング', 'img' => array( 'top/about-living.jpg', 'top/HeroSlide03.jpg' ) ),
+	array( 'cap' => 'Wood Deck', 'jp' => 'ウッドデッキ', 'img' => array( 'top/about-deck.jpg', 'top/HeroSlide04.jpg' ) ),
+	array( 'cap' => 'Light & Wind', 'jp' => '光と風', 'img' => array( 'top/about-light.jpg', 'top/HeroSlide05.jpg' ) ),
+	array( 'cap' => 'Detail', 'jp' => 'こだわり', 'img' => array( 'top/about-detail.jpg', 'top/HeroSlide06.jpg' ) ),
+);
 
 // 施工事例の見学予約（ヘッダーの「見学予約」と同じ）
 $reserve_url = 'https://www.ie-miru.jp/cms/yoyaku/seibukensetsu/events/4847';
@@ -128,6 +137,26 @@ $news_query = new WP_Query(
 		</div>
 	</section>
 
+	<!-- ABOUT -->
+	<section class="Home__about" aria-labelledby="home-about-heading">
+		<div class="Home__about-grid">
+			<div class="Home__about-cell Home__about-text">
+				<h2 id="home-about-heading" class="Home__about-text-label">About Aloha &amp; Style</h2>
+				<p>ALOHA&amp;STYLEは、ウッドデッキや吹き抜けリビングなどハワイアンスタイルを実現するための住宅を、豊富な提案力と実績で自由自在にお造りします。暮らしの拠点でも、上質な非日常のご提案をいたします。</p>
+			</div>
+			<?php foreach ( $about_cells as $cell ) : ?>
+				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__about-cell">
+					<?php aloha_image_tag( aloha_theme_image( $cell['img'] ), 'ALOHA&STYLEの住まいの' . $cell['jp'] . 'の写真', 'Home__placeholder-photo' ); ?>
+					<span class="Home__about-cell-overlay">
+						<span class="Home__about-cell-cap"><?php echo esc_html( $cell['cap'] ); ?></span>
+						<span class="Home__about-cell-jp"><?php echo esc_html( $cell['jp'] ); ?></span>
+						<span class="Home__about-cell-more">More</span>
+					</span>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</section>
+
 	<!-- WORKS -->
 	<section class="Home__works" aria-labelledby="home-works-heading">
 		<div class="Home__works-head">
@@ -179,7 +208,6 @@ $news_query = new WP_Query(
 					私たちが届けたいのは、<br>
 					そんな「暮らしの楽しさ」そのものです。
 				</p>
-				<p class="Home__lifestyle-about">ALOHA&amp;STYLEは、ウッドデッキや吹き抜けリビングなどハワイアンスタイルを実現するための住宅を、豊富な提案力と実績で自由自在にお造りします。</p>
 				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEのコンセプト</a>
 			</div>
 		</div>
