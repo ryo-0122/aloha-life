@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALOHA &amp; STYLE 配色・サイト構成案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Zen Kaku Gothic New",sans-serif;background:#fff;color:#2B2624;line-height:1.75;font-size:14px}
+  a{color:inherit;text-decoration:none}
+  .doc{max-width:1120px;margin:0 auto;padding:48px 24px 96px}
+  .en{font-family:"Archivo","Zen Kaku Gothic New",sans-serif}
+  .doc-head h1{font-family:"Archivo","Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:30px;line-height:1.3;color:#5E5755}
+  .doc-head p{color:#6B645F;margin-top:8px}
+  h2.sec{font-family:"Archivo","Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:22px;margin:64px 0 6px;color:#2B2624}
+  h2.sec small{font-weight:500;font-size:13px;color:#6B645F;margin-left:10px}
+  .sec-lead{color:#6B645F;margin-bottom:22px}
+  .note{background:#F7F4F0;border-left:3px solid #5E5755;padding:14px 18px;border-radius:0 8px 8px 0;color:#4A4441;font-size:13px;margin-top:16px}
+
+  /* ---------- palette cards ---------- */
+  .palettes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media (max-width:960px){.palettes{grid-template-columns:1fr}}
+  .pal{border:1px solid #E4DED7;border-radius:12px;overflow:hidden;background:#fff}
+  .pal-head{padding:16px 18px 12px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .pal-head h3{font-size:16px;font-weight:700}
+  .badge{font-size:11px;background:#5E5755;color:#fff;border-radius:10px;padding:2px 10px;white-space:nowrap}
+  .pal-desc{padding:0 18px 14px;font-size:12.5px;color:#6B645F}
+  .sw{display:flex;padding:0 18px 16px;gap:6px;flex-wrap:wrap}
+  .sw span{display:flex;flex-direction:column;font-size:10px;color:#6B645F;width:56px}
+  .sw i{display:block;height:34px;border-radius:6px;border:1px solid rgba(0,0,0,.08);margin-bottom:4px}
+
+  /* ---------- mini mockup (colors via custom properties) ---------- */
+  .mock{--ink:#2B2624;--brand:#5E5755;--paper:#FAF8F5;--shade:#F1EDE8;--line:#E4DED7;--mute:#6B645F;--accent:#15766E;--btn:#2B2624;
+    background:var(--paper);color:var(--ink);border-top:1px solid #E4DED7;font-size:11px}
+  .m-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line)}
+  .m-logo{font-family:"Archivo",sans-serif;font-weight:900;font-size:13px;letter-spacing:.04em;color:var(--brand)}
+  .m-nav{display:flex;gap:8px;align-items:center;color:var(--mute);font-size:9.5px}
+  .m-nav b{background:var(--btn);color:#fff;border-radius:10px;padding:3px 9px;font-weight:700}
+  .m-hero{position:relative;height:150px;background:linear-gradient(135deg,#8c7b6b,#3f3a36) center/cover;overflow:hidden}
+  .m-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .m-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.6))}
+  .m-hero div{position:absolute;left:14px;bottom:12px;z-index:1;color:#fff}
+  .m-hero strong{font-family:"Archivo",sans-serif;font-weight:900;font-size:20px;display:block;line-height:1.1}
+  .m-hero em{font-style:normal;font-size:9.5px;opacity:.85}
+  .m-hero u{display:inline-block;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.7);margin:6px 10px 0 0;font-size:9.5px;font-weight:700}
+  .m-sec{padding:14px}
+  .m-title{font-family:"Archivo",sans-serif;font-weight:900;font-size:14px}
+  .m-title small{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:500;font-size:9px;color:var(--mute);margin-left:6px}
+  .m-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+  .m-card i{display:block;aspect-ratio:4/3;border-radius:4px;background:linear-gradient(135deg,#b9a792,#6f6258)}
+  .m-card:nth-child(2) i{background:linear-gradient(135deg,#a9b8ae,#56675f)}
+  .m-card:nth-child(3) i{background:linear-gradient(135deg,#c9b89c,#7d6c55)}
+  .m-chip{display:inline-block;background:var(--brand);color:#fff;border-radius:8px;padding:0 6px;font-size:8.5px;margin-top:5px}
+  .m-card p{font-size:9.5px;line-height:1.5;margin-top:3px}
+  .m-card small{color:var(--accent);font-family:"Archivo",sans-serif;font-size:8.5px;font-weight:700}
+  .m-cta{margin:0 14px 14px;background:var(--shade);border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center}
+  .m-cta b{font-family:"Archivo",sans-serif;font-weight:900;font-size:13px}
+  .m-cta span{background:var(--btn);color:#fff;border-radius:10px;padding:4px 10px;font-weight:700;font-size:9.5px}
+  .m-footer{background:var(--shade);border-top:1px solid var(--line);padding:12px 14px 0;display:flex;justify-content:space-between;color:var(--mute);font-size:9px}
+  .m-footer b{color:var(--brand);font-family:"Archivo",sans-serif;font-weight:900;font-size:11px}
+  .m-bar{display:grid;grid-template-columns:1fr 1fr;margin-top:12px;font-weight:700;font-size:9.5px;text-align:center}
+  .m-bar span{padding:7px 0;background:#fff;border-top:1px solid var(--line)}
+  .m-bar span:first-child{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .pal-a .mock{--accent:#15766E;--btn:#2B2624}
+  .pal-b .mock{--accent:#A85A33;--btn:#2B2624;--paper:#FAF7F2;--shade:#F2ECE3}
+  .pal-c .mock{--accent:#5E5755;--btn:#5E5755;--paper:#FAFAF8;--shade:#F1EFEC}
+
+  /* ---------- sitemap ---------- */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media (max-width:860px){.cols{grid-template-columns:1fr}}
+  .box{border:1px solid #E4DED7;border-radius:12px;padding:20px 22px;background:#fff}
+  .box h3{font-size:15px;margin-bottom:12px}
+  .box h3 .tag{font-size:11px;font-weight:500;color:#fff;background:#8A817B;border-radius:10px;padding:1px 9px;margin-left:6px;vertical-align:2px}
+  .box.new{border-color:#5E5755;box-shadow:0 0 0 1px #5E5755 inset}
+  .box.new h3 .tag{background:#5E5755}
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .nav-row span{border:1px solid #E4DED7;border-radius:14px;padding:3px 11px;font-size:12px;background:#FAF8F5}
+  .nav-row span.cta{background:#2B2624;color:#fff;border-color:#2B2624}
+  .nav-row span.cta2{background:#15766E;color:#fff;border-color:#15766E}
+  .tree{list-style:none;font-size:13px}
+  .tree>li{padding:8px 0;border-top:1px solid #EFEAE4}
+  .tree>li:first-child{border-top:none}
+  .tree b{display:inline-block;min-width:92px;color:#5E5755}
+  .tree .en{font-size:11px;color:#8A817B;margin-left:4px}
+  .tree ul{list-style:none;margin:4px 0 0 14px;color:#4A4441;font-size:12.5px}
+  .tree ul li::before{content:"— ";color:#C9C0B7}
+  .tree code,.issues code{font-size:11.5px;background:#F4F0EB;border-radius:4px;padding:0 5px;color:#5E5755}
+  .issues{list-style:none;counter-reset:n}
+  .issues li{counter-increment:n;padding:10px 0 10px 34px;position:relative;border-top:1px solid #EFEAE4;font-size:13px}
+  .issues li::before{content:counter(n);position:absolute;left:0;top:10px;width:22px;height:22px;border-radius:50%;background:#5E5755;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-family:"Archivo",sans-serif}
+
+  /* ---------- top page flow ---------- */
+  .flow{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media (max-width:860px){.flow{grid-template-columns:1fr}}
+  .flow ol{list-style:none;counter-reset:s}
+  .flow li{counter-increment:s;display:flex;gap:10px;padding:8px 0;border-top:1px solid #EFEAE4;font-size:13px}
+  .flow li::before{content:counter(s,decimal-leading-zero);font-family:"Archivo",sans-serif;font-weight:700;color:#8A817B;width:24px;flex:none}
+  .flow li small{display:block;color:#6B645F;font-size:11.5px}
+  .flow li.mv{background:#FBF8F4}
+  .flow li .st{font-size:10.5px;border-radius:8px;padding:0 7px;margin-left:6px;color:#fff;background:#15766E;vertical-align:1px}
+  .flow li .st.del{background:#A85A33}
+
+  .q{list-style:none;counter-reset:q}
+  .q li{counter-increment:q;border:1px solid #E4DED7;border-radius:10px;padding:14px 16px 14px 52px;position:relative;margin-bottom:10px;background:#fff}
+  .q li::before{content:"Q" counter(q);position:absolute;left:14px;top:14px;font-family:"Archivo",sans-serif;font-weight:900;color:#5E5755}
+  .q li small{display:block;color:#6B645F;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <header class="doc-head">
+    <h1>ALOHA &amp; STYLE<br>配色・サイト構成の見直し案</h1>
+    <p>好評だった施工事例詳細のトーン（白基調・写真が主役・余白多め）はそのままに、ロゴ色 <b>#5E5755</b> を軸に全体を組み直す案です。<br>確認用ページのため、写真は一部（ヒーロー）以外はイメージの色面です。</p>
+  </header>
+
+  <!-- ============ 1. COLOR ============ -->
+  <h2 class="sec">1. 配色案<small>ロゴ #5E5755 を軸に3案</small></h2>
+  <p class="sec-lead">今は「黒 #141414 ＋ 緑 #1fa198」で、ブランドの茶色がどこにも出ていません。ロゴと見出しに #5E5755 を使い、文字や背景も少し暖かい色味にそろえます。</p>
+
+  <div class="palettes">
+    <!-- A -->
+    <section class="pal pal-a">
+      <div class="pal-head"><h3>A. Stone &amp; Sea</h3><span class="badge">おすすめ</span></div>
+      <p class="pal-desc">ブランドの茶色＋ハワイの海を思わせる深い緑。今のデザインとの差が小さく、施工事例詳細の雰囲気を一番残せます。</p>
+      <div class="sw">
+        <span><i style="background:#5E5755"></i>ブランド<br>#5E5755</span>
+        <span><i style="background:#2B2624"></i>文字<br>#2B2624</span>
+        <span><i style="background:#15766E"></i>アクセント<br>#15766E</span>
+        <span><i style="background:#FAF8F5"></i>背景<br>#FAF8F5</span>
+        <span><i style="background:#F1EDE8"></i>面<br>#F1EDE8</span>
+      </div>
+      <div class="mock">
+        <div class="m-header"><span class="m-logo">ALOHA &amp; STYLE</span><span class="m-nav">コンセプト 施工事例 プラン <b>お問い合わせ</b></span></div>
+        <div class="m-hero"><img src="https://aloha-life.jp/wpcms/wp-content/themes/aloha/assets/images/top/HeroSlide01.jpg" alt="" onerror="this.remove()"><div><strong>ALOHA &amp; STYLE</strong><em>岡山で叶える、ハワイアンスタイルの住まい。</em><br><u>施工事例を見る →</u><u>お問い合わせ</u></div></div>
+        <div class="m-sec"><span class="m-title">Works<small>施工事例</small></span>
+          <div class="m-cards"><div class="m-card"><i></i><span class="m-chip">ハワイアン</span><p>海辺のサーファーズハウス</p><small>MORE</small></div><div class="m-card"><i></i><span class="m-chip">平屋</span><p>回遊動線のある平屋</p><small>MORE</small></div><div class="m-card"><i></i><span class="m-chip">リゾート</span><p>家族動線を大切にしたお家</p><small>MORE</small></div></div></div>
+        <div class="m-cta"><b>Contact</b><span>お問い合わせ →</span></div>
+        <div class="m-footer"><div><b>ALOHA &amp; STYLE</b><br>岡山市南区築港新町2-13-20</div><div>会社概要　プライバシー</div></div>
+        <div class="m-bar"><span>資料請求・お問合せ</span><span>モデルハウス見学予約</span></div>
+      </div>
+    </section>
+    <!-- B -->
+    <section class="pal pal-b">
+      <div class="pal-head"><h3>B. Stone &amp; Sand</h3></div>
+      <p class="pal-desc">茶色＋テラコッタ。木やウッドデッキの温かみが強く出ます。南国らしさは写真に任せる方向。</p>
+      <div class="sw">
+        <span><i style="background:#5E5755"></i>ブランド<br>#5E5755</span>
+        <span><i style="background:#2B2624"></i>文字<br>#2B2624</span>
+        <span><i style="background:#A85A33"></i>アクセント<br>#A85A33</span>
+        <span><i style="background:#FAF7F2"></i>背景<br>#FAF7F2</span>
+        <span><i style="background:#F2ECE3"></i>面<br>#F2ECE3</span>
+      </div>
+      <div class="mock">
+        <div class="m-header"><span class="m-logo">ALOHA &amp; STYLE</span><span class="m-nav">コンセプト 施工事例 プラン <b>お問い合わせ</b></span></div>
+        <div class="m-hero"><img src="https://aloha-life.jp/wpcms/wp-content/themes/aloha/assets/images/top/HeroSlide01.jpg" alt="" onerror="this.remove()"><div><strong>ALOHA &amp; STYLE</strong><em>岡山で叶える、ハワイアンスタイルの住まい。</em><br><u>施工事例を見る →</u><u>お問い合わせ</u></div></div>
+        <div class="m-sec"><span class="m-title">Works<small>施工事例</small></span>
+          <div class="m-cards"><div class="m-card"><i></i><span class="m-chip">ハワイアン</span><p>海辺のサーファーズハウス</p><small>MORE</small></div><div class="m-card"><i></i><span class="m-chip">平屋</span><p>回遊動線のある平屋</p><small>MORE</small></div><div class="m-card"><i></i><span class="m-chip">リゾート</span><p>家族動線を大切にしたお家</p><small>MORE</small></div></div></div>
+        <div class="m-cta"><b>Contact</b><span>お問い合わせ →</span></div>
+        <div class="m-footer"><div><b>ALOHA &amp; STYLE</b><br>岡山市南区築港新町2-13-20</div><div>会社概要　プライバシー</div></div>
+        <div class="m-bar"><span>資料請求・お問合せ</span><span>モデルハウス見学予約</span></div>
+      </div>
+    </section>
+    <!-- C -->
+    <section class="pal pal-c">
+      <div class="pal-head"><h3>C. Stone Monotone</h3></div>
+      <p class="pal-desc">アクセント色を持たず、茶色1色で統一。最も落ち着いて上品ですが、ボタンや強調がやや目立ちにくくなります。</p>
+      <div class="sw">
+        <span><i style="background:#5E5755"></i>ブランド<br>#5E5755</span>
+        <span><i style="background:#2B2624"></i>文字<br>#2B2624</span>
+        <span><i style="background:#5E5755"></i>アクセント<br>(=ブランド)</span>
+        <span><i style="background:#FAFAF8"></i>背景<br>#FAFAF8</span>
+        <span><i style="background:#F1EFEC"></i>面<br>#F1EFEC</span>
+      </div>
+      <div class="mock">
+        <div class="m-header"><span class="m-logo">ALOHA &amp; STYLE</span><span class="m-nav">コンセプト 施工事例 プラン <b>お問い合わせ</b></span></div>
+        <div class="m-hero"><img src="https://aloha-life.jp/wpcms/wp-content/themes/aloha/assets/images/top/HeroSlide01.jpg" alt="" onerror="this.remove()"><div><strong>ALOHA &amp; STYLE</strong><em>岡山で叶える、ハワイアンスタイルの住まい。</em><br><u>施工事例を見る →</u><u>お問い合わせ</u></div></div>
+        <div class="m-sec"><span class="m-title">Works<small>施工事例</small></span>
+          <div class="m-cards"><div class="m-card"><i></i><span class="m-chip">ハワイアン</span><p>海辺のサーファーズハウス</p><small>MORE</small></div><div class="m-card"><i></i><span class="m-chip">平屋</span><p>回遊動線のある平屋</p><small>MORE</small></div><div class="m-card"><i></i><span class="m-chip">リゾート</span><p>家族動線を大切にしたお家</p><small>MORE</small></div></div></div>
+        <div class="m-cta"><b>Contact</b><span>お問い合わせ →</span></div>
+        <div class="m-footer"><div><b>ALOHA &amp; STYLE</b><br>岡山市南区築港新町2-13-20</div><div>会社概要　プライバシー</div></div>
+        <div class="m-bar"><span>資料請求・お問合せ</span><span>モデルハウス見学予約</span></div>
+      </div>
+    </section>
+  </div>
+  <p class="note">どの案も、文字色と背景のコントラストは読みやすさの基準（4.5:1 以上）を満たすように調整しています。ちなみに今使っている緑 #1fa198 は白背景で 3.2:1 しかなく、小さな文字（日付・「MORE」など）が読みにくい状態です。案Aの緑 #15766E は同じ系統で 5.1:1 あります。</p>
+
+  <!-- ============ 2. SITEMAP ============ -->
+  <h2 class="sec">2. サイト構成案<small>ユーザーの目的別に整理</small></h2>
+  <p class="sec-lead">今のメニューは「アロハスタイルについて」の中にハワイアンドアやモデルハウスが入るなど、探しにくい構成です。家を検討している人の流れ（知る → 見る → 相談する）に合わせて並べ直します。URL は変えません。</p>
+
+  <div class="cols">
+    <div class="box">
+      <h3>現在のグローバルナビ<span class="tag">今</span></h3>
+      <div class="nav-row"><span>アロハスタイルについて ▾</span><span>家ができるまで</span><span>住宅プラン ▾</span><span>設計施工管理サービス</span><span>施工例</span><span>ハワイの不動産物件</span><span class="cta">お問い合わせ</span></div>
+      <ul class="tree">
+        <li><b>アロハスタイルについて</b><ul><li>ハワイアンドア</li><li>コンセプト</li><li>モデルハウス</li></ul></li>
+        <li><b>住宅プラン</b><ul><li>ハワイアンハウス / リゾートモダン / スタイリッシュモダン / スマートモダン</li></ul></li>
+        <li><b>フッターのみ</b><ul><li>会社概要・Aloha G ちゃんねる・リンク・サイトマップ・プライバシー</li><li>社長ブログ・スタッフブログ（最新5件ずつ）</li></ul></li>
+        <li><b>メニューに無い</b><ul><li>アロハリゾート北長瀬（ブログ・ページあり）</li><li>LINE・リフォーム（外部）</li></ul></li>
+      </ul>
+    </div>
+    <div class="box new">
+      <h3>提案するグローバルナビ<span class="tag">案</span></h3>
+      <div class="nav-row"><span>コンセプト</span><span>施工事例</span><span>住宅プラン ▾</span><span>モデルハウス</span><span>家づくりの流れ</span><span>ハワイ不動産</span><span class="cta2">見学予約</span><span class="cta">お問い合わせ</span></div>
+      <ul class="tree">
+        <li><b>知る</b><span class="en">ABOUT</span><ul><li>コンセプト <code>/concept/</code></li><li>ハワイアンドア <code>/hawaiian-door/</code></li><li>家づくりの流れ <code>/flow/</code></li><li>会社概要 <code>/company/</code></li></ul></li>
+        <li><b>見る</b><span class="en">WORKS</span><ul><li>施工事例（スタイル・特徴・ライフスタイルで絞り込み） <code>/cases/</code></li><li>住宅プラン（4スタイル） <code>/plan/</code></li><li>モデルハウス <code>/modelhouse/</code></li></ul></li>
+        <li><b>相談する</b><span class="en">CONTACT</span><ul><li>お問い合わせ・資料請求 <code>/contact/</code></li><li>モデルハウス見学予約・オンライン相談（ie-miru）</li><li>設計施工管理サービス <code>/housedesign/</code></li><li>LINE <code>/line/</code></li></ul></li>
+        <li><b>ハワイ</b><span class="en">HAWAII</span><ul><li>ハワイの不動産物件 <code>/hawaii/</code></li><li>アロハリゾート北長瀬</li></ul></li>
+        <li><b>読む</b><span class="en">JOURNAL</span><ul><li>お知らせ・社長ブログ・スタッフブログ・Aloha G ちゃんねる・リフォームブログ</li></ul></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px;margin:28px 0 6px">構成を見直す中で見つかった問題</h3>
+  <ol class="issues">
+    <li>スマホとPCで住宅プランのリンク先が違う（スマホ <code>/plan/resort</code> 等、PC <code>/plan/plan_category/resort_modern/</code>）。PC側に統一したい。</li>
+    <li>施工事例の探し方が2系統ある（<code>/cases-category/?term_slug=</code> と、今回直したスタイル別一覧 <code>/cases/…</code>）。今回の一覧に統一し、旧ページは転送するのがおすすめ。</li>
+    <li>トップの新着情報が取得している投稿タイプ <code>work</code>・<code>realestate</code> は存在しない（実際は <code>real-estate</code>）。そのため今はお知らせ（投稿）しか出ていない。</li>
+    <li>フッターのブログ一覧が PC でも社長・スタッフ各5件ずつと長く、フッターが重く見える原因になっている。各3件程度＋「一覧へ」がおすすめ。</li>
+    <li>Instagram の埋め込みが別アカウント（@_officialjkt48）になっていた。正しいアカウントの確認が必要。</li>
+  </ol>
+
+  <!-- ============ 3. TOP PAGE ============ -->
+  <h2 class="sec">3. トップページの並び案<small>構成に合わせて整理</small></h2>
+  <p class="sec-lead">主役を「施工事例」に寄せ、問い合わせまでの距離を短くします。</p>
+  <div class="flow">
+    <div class="box"><h3>今（実装済み）</h3>
+      <ol>
+        <li>ヒーロー</li><li>About（文章＋写真5枚）</li><li>主要4導線（Concept / Flow / Plan / Works）</li><li>暮らしから、家を考える。</li><li>Works（施工事例3件）</li><li>News &amp; Topics</li><li>Contents（6タイル）</li><li>Contact</li><li>イベント情報</li><li>リフォームブログ</li><li>Facebook</li>
+      </ol>
+    </div>
+    <div class="box new"><h3>案</h3>
+      <ol>
+        <li>ヒーロー<small>「施工事例を見る」「見学予約」の2導線</small></li>
+        <li class="mv">Works（施工事例6件）<span class="st">上へ</span><small>写真を大きく。スタイル別の絞り込みチップ付き</small></li>
+        <li>About ＋ 暮らしから、家を考える。<small>2つを1セクションに統合</small></li>
+        <li>家づくりの選択肢<small>住宅プラン・モデルハウス・ハワイアンドア・設計施工管理（旧 主要4導線＋Contents を統合）</small></li>
+        <li>イベント・見学会<small>ie-miru ウィジェット</small></li>
+        <li class="mv">Contact<span class="st">イベント直後に</span></li>
+        <li>News &amp; Topics・ブログ<small>日付・カテゴリの一覧形式に</small></li>
+        <li>ハワイの不動産・アロハリゾート北長瀬</li>
+        <li>SNS・外部リンク<small>Facebook（Instagram は確認後）・リフォーム・LINE</small></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============ 4. QUESTIONS ============ -->
+  <h2 class="sec">4. 決めていただきたいこと</h2>
+  <ol class="q">
+    <li>配色は A / B / C のどれにしますか？<small>おすすめは A（今の雰囲気を保ったまま、ロゴの茶色を軸にできる）</small></li>
+    <li>グローバルナビを「提案するグローバルナビ」の形に変えてよいですか？<small>URL は変えず、並びとまとめ方だけを変更します。</small></li>
+    <li>トップページの並びを「案」に変えてよいですか？<small>施工事例を2番目に上げ、About と暮らしのセクションを統合します。</small></li>
+    <li>見つかった問題 1〜5 のうち、今回あわせて直すものはどれですか？</li>
+  </ol>
+
+</div>
+</body>
+</html>
