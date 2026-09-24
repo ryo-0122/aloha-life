@@ -77,8 +77,9 @@ $works_query = new WP_Query(
 
 $news_query = new WP_Query(
 	array(
-		'post_type'      => array( 'post', 'work', 'realestate' ),
-		'posts_per_page' => 6,
+		'post_type'           => 'post', // ブログ・ニュース投稿のみ（施工例は Works、不動産は各ページで案内）
+		'posts_per_page'      => 6,
+		'ignore_sticky_posts' => true,
 	)
 );
 ?>
