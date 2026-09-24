@@ -35,16 +35,23 @@ $cc_plan_url = get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link
 
 	<!-- MESSAGE -->
 	<section class="Concept__message" aria-labelledby="concept-message-heading">
-		<div class="Concept__wrap">
-			<h2 id="concept-message-heading" class="Concept__message-script">It's not just a house,<br>It's a lifestyle.</h2>
-			<p class="Concept__message-text">
-				家は、ただ住むだけの箱じゃない。<br>
-				家族と笑い、仲間と集い、<br>
-				時には一人で静かに過ごす、<br>
-				かけがえのない時間を育む場所。<br>
-				私たちが届けたいのは、<br>
-				そんな「暮らしの楽しさ」そのものです。
-			</p>
+		<div class="Concept__wrap Concept__message-inner">
+			<div>
+				<span class="Concept__kicker">Our Message</span>
+				<h2 id="concept-message-heading" class="Concept__heading">It's not just a house,<br>It's a lifestyle.</h2>
+				<p class="Concept__message-text">
+					家は、ただ住むだけの箱じゃない。<br>
+					家族と笑い、仲間と集い、<br>
+					時には一人で静かに過ごす、<br>
+					かけがえのない時間を育む場所。<br>
+					私たちが届けたいのは、<br>
+					そんな「暮らしの楽しさ」そのものです。
+				</p>
+			</div>
+			<div class="Concept__message-photos">
+				<figure><img src="<?php echo esc_url( $cc_img . 'message-a.jpg' ); ?>" alt="テラスとつながる、開放的な住まいの外観" loading="lazy" decoding="async"></figure>
+				<figure><img src="<?php echo esc_url( $cc_img . 'message-b.jpg' ); ?>" alt="芝生の庭に面したカバードポーチのある住まい" loading="lazy" decoding="async"></figure>
+			</div>
 		</div>
 	</section>
 
@@ -169,7 +176,7 @@ $cc_plan_url = get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link
 			</ul>
 			<div class="Concept__cta">
 				<div>
-					<p class="Concept__cta-title Concept__script">Let's create your own ALOHA.</p>
+					<p class="Concept__cta-title">Let's create your own ALOHA.</p>
 					<p class="Concept__cta-text">カタログのご請求、モデルハウスの見学はお気軽にどうぞ。</p>
 				</div>
 				<div class="Concept__cta-actions">

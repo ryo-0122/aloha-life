@@ -9,8 +9,6 @@
 
 $cc-font-jp: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
 $cc-font-en: "Archivo", $cc-font-jp;
-// 手書き風の欧文（メッセージ・締めのコピー用）
-$cc-font-script: "Kalam", "Segoe Print", "Bradley Hand", cursive;
 
 @mixin cc-en($weight: 500) {
   font-family: $cc-font-en;
@@ -146,40 +144,52 @@ $cc-font-script: "Kalam", "Segoe Print", "Bradley Hand", cursive;
     }
   }
 
-  // ---------- Message（中央揃え・手書き風の英文＋ミントのグラデーション） ----------
-  &__script {
-    font-family: $cc-font-script;
-    font-weight: 700;
-  }
+  // ---------- Message ----------
   &__message {
-    padding: 120px 0 124px;
-    text-align: center;
-    background: linear-gradient(160deg, #F7FCFA 0%, #EAF5F0 100%);
+    padding: 110px 0;
     @include mobile {
-      padding: 76px 0 80px;
+      padding: 72px 0;
     }
   }
-  &__message-script {
-    font-family: $cc-font-script;
-    font-weight: 700;
-    font-size: 58px;
-    line-height: 1.6;
-    color: #2F6B5E;
-    letter-spacing: 0.01em;
+  &__message-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 64px;
+    align-items: center;
     @include mobile {
-      font-size: 34px;
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+  &__message .Concept__heading {
+    font-size: 40px;
+    line-height: 1.25;
+    color: var(--cc-brand);
+    @include mobile {
+      font-size: 30px;
     }
   }
   &__message-text {
-    margin-top: 44px;
-    font-size: 19px;
-    line-height: 2.25;
+    font-size: 18px;
+    line-height: 2.2;
     font-weight: 500;
-    color: var(--cc-ink-soft);
+    color: var(--cc-ink);
+    margin-top: 22px;
     @include mobile {
-      margin-top: 30px;
-      font-size: 15.5px;
-      line-height: 2.15;
+      font-size: 17px;
+    }
+  }
+  &__message-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    figure {
+      aspect-ratio: 3 / 4;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    figure:last-child {
+      margin-top: 48px;
     }
   }
 
@@ -492,14 +502,6 @@ $cc-font-script: "Kalam", "Segoe Print", "Bradley Hand", cursive;
     @include cc-en(900);
     font-size: 24px;
     line-height: 1.4;
-    &.Concept__script {
-      font-family: $cc-font-script;
-      font-weight: 700;
-      font-size: 30px;
-      @include mobile {
-        font-size: 26px;
-      }
-    }
   }
   &__cta-text {
     font-size: 13.5px;

@@ -33,10 +33,6 @@ function aloha_redesign_enqueue() {
 		? 'https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap'
 		: 'https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&display=swap';
 	wp_enqueue_style( 'aloha-redesign-fonts', $font_url, array(), null );
-	if ( $is_concept ) {
-		// コンセプトの手書き風の英文（Kalam）
-		wp_enqueue_style( 'aloha-script-font', 'https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap', array(), null );
-	}
 
 	$files = array( 'aloha-site-chrome' => 'assets/css/site-chrome.css' );
 	if ( $is_home ) {

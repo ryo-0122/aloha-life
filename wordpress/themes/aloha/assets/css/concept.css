@@ -147,46 +147,60 @@
     font-size: 14px;
   }
 }
-.Concept__script {
-  font-family: "Kalam", "Segoe Print", "Bradley Hand", cursive;
-  font-weight: 700;
-}
 .Concept__message {
-  padding: 120px 0 124px;
-  text-align: center;
-  background: linear-gradient(160deg, #F7FCFA 0%, #EAF5F0 100%);
+  padding: 110px 0;
 }
 @media (max-width: 767px) {
   .Concept__message {
-    padding: 76px 0 80px;
+    padding: 72px 0;
   }
 }
-.Concept__message-script {
-  font-family: "Kalam", "Segoe Print", "Bradley Hand", cursive;
-  font-weight: 700;
-  font-size: 58px;
-  line-height: 1.6;
-  color: #2F6B5E;
-  letter-spacing: 0.01em;
+.Concept__message-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
 }
 @media (max-width: 767px) {
-  .Concept__message-script {
-    font-size: 34px;
+  .Concept__message-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+.Concept__message .Concept__heading {
+  font-size: 40px;
+  line-height: 1.25;
+  color: var(--cc-brand);
+}
+@media (max-width: 767px) {
+  .Concept__message .Concept__heading {
+    font-size: 30px;
   }
 }
 .Concept__message-text {
-  margin-top: 44px;
-  font-size: 19px;
-  line-height: 2.25;
+  font-size: 18px;
+  line-height: 2.2;
   font-weight: 500;
-  color: var(--cc-ink-soft);
+  color: var(--cc-ink);
+  margin-top: 22px;
 }
 @media (max-width: 767px) {
   .Concept__message-text {
-    margin-top: 30px;
-    font-size: 15.5px;
-    line-height: 2.15;
+    font-size: 17px;
   }
+}
+.Concept__message-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.Concept__message-photos figure {
+  aspect-ratio: 3/4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.Concept__message-photos figure:last-child {
+  margin-top: 48px;
 }
 .Concept__basics {
   background: var(--cc-shade);
@@ -527,16 +541,6 @@
   font-weight: 900;
   font-size: 24px;
   line-height: 1.4;
-}
-.Concept__cta-title.Concept__script {
-  font-family: "Kalam", "Segoe Print", "Bradley Hand", cursive;
-  font-weight: 700;
-  font-size: 30px;
-}
-@media (max-width: 767px) {
-  .Concept__cta-title.Concept__script {
-    font-size: 26px;
-  }
 }
 .Concept__cta-text {
   font-size: 13.5px;
