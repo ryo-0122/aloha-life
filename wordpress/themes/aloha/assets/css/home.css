@@ -27,7 +27,7 @@
   --home-paper: #FFFFFF;
   --home-paper-shade: #F4F3F1;
   --home-white: #ffffff;
-  --home-accent: #15766E;
+  --home-accent: #1fa198;
   --home-brand: #5E5755;
   background: var(--home-paper);
   color: var(--home-ink);
@@ -709,7 +709,7 @@
   background: var(--home-accent);
 }
 .Home__contact-actions .Home__btn:hover {
-  background: #0F5E57;
+  background: #17827b;
 }
 .Home__contact-actions .Home__btn--outline {
   border-color: rgba(255, 255, 255, 0.7);

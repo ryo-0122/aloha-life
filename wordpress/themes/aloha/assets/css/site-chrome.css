@@ -116,7 +116,7 @@
   }
   .Header__under-item a:hover {
     background: #FFFFFF;
-    color: #15766E;
+    color: #1fa198;
   }
   .Header__item--cta > a {
     display: inline-block;
@@ -131,10 +131,10 @@
     color: #fff;
   }
   .Header__item--reserve > a {
-    background: #15766E;
+    background: #1fa198;
   }
   .Header__item--reserve > a:hover {
-    background: #0F5E57;
+    background: #17827b;
   }
   .Header__item--cta + .Header__item--cta {
     margin-left: -14px;
@@ -195,7 +195,7 @@
     color: #5E5755;
   }
   .Header__sp-actions a.is-reserve {
-    background: #15766E;
+    background: #1fa198;
     color: #fff;
   }
 }
@@ -281,8 +281,8 @@
   width: 6px;
   height: 6px;
   background: none;
-  border-top: 1.5px solid #15766E;
-  border-right: 1.5px solid #15766E;
+  border-top: 1.5px solid #1fa198;
+  border-right: 1.5px solid #1fa198;
   transform: rotate(45deg);
 }
 
@@ -321,7 +321,7 @@
   transition: color 0.2s ease;
 }
 .Footer .bnr_foot a:hover p {
-  color: #15766E;
+  color: #1fa198;
 }
 
 .Footer__blog-title {
@@ -359,7 +359,7 @@
   align-items: flex-start;
 }
 .Footer__blog-link:hover .Footer__blog-lead {
-  color: #15766E;
+  color: #1fa198;
 }
 
 .Footer__blog-pic {
@@ -382,7 +382,7 @@
 
 .Footer__blog-day {
   font-family: "Archivo", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-  color: #15766E;
+  color: #1fa198;
   font-size: 1.15rem;
 }
 
@@ -446,11 +446,11 @@
 }
 
 .Footer__middle-contact:first-of-type a {
-  background-color: #15766E;
+  background-color: #1fa198;
   color: #fff;
 }
 .Footer__middle-contact:first-of-type a:hover {
-  background-color: #0F5E57;
+  background-color: #17827b;
 }
 
 .Footer__middle-contact svg {

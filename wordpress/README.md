@@ -53,14 +53,14 @@ npx sass --no-source-map "assets/@scss/cases.scss" assets/css/cases.css
 npx sass --no-source-map "assets/@scss/site-chrome.scss" assets/css/site-chrome.css
 ```
 
-## 配色（決定版：C＋海の緑・白背景）
+## 配色（決定版：C（茶）＋元の緑・白背景）
 
 | 役割 | 色 |
 | --- | --- |
 | 背景 | `#FFFFFF` |
 | 面（帯・タグ・フッター） | `#F4F3F1` |
 | ロゴ・ボタン | `#5E5755` |
-| アクセント | `#15766E` |
+| アクセント | `#1fa198`（元サイトの緑） |
 | 本文 | `#2B2624` |
 
 ロゴは既存の `Header_logo.png` / `Footer_logo.png` の形をマスクにして `#5E5755` で表示しています（透明背景の PNG が前提。背景が塗られた画像だと四角く表示されるので、その場合はお知らせください）。

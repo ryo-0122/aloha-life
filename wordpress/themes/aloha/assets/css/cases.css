@@ -27,7 +27,7 @@
   --cd-paper: #FFFFFF;
   --cd-paper-shade: #F4F3F1;
   --cd-white: #ffffff;
-  --cd-accent: #15766E;
+  --cd-accent: #1fa198;
   --cd-brand: #5E5755;
   background: var(--cd-paper);
   color: var(--cd-ink);
@@ -495,7 +495,7 @@
   --cl-line: #E6E3E0;
   --cl-paper: #FFFFFF;
   --cl-paper-shade: #F4F3F1;
-  --cl-accent: #15766E;
+  --cl-accent: #1fa198;
   --cl-brand: #5E5755;
   background: var(--cl-paper);
   color: var(--cl-ink);
