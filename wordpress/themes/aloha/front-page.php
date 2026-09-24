@@ -143,16 +143,19 @@ $news_query = new WP_Query(
 	<section class="Home__lifestyle" aria-labelledby="home-lifestyle-heading">
 		<div class="Home__lifestyle-inner">
 			<div class="Home__lifestyle-photo">
-				<?php aloha_image_tag( aloha_theme_image( array( 'top/lifestyle.jpg', 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) ), 'ALOHA&STYLEが手がけたハワイアンスタイル住宅の外観', 'Home__placeholder-photo' ); ?>
+				<?php aloha_image_tag( aloha_theme_image( array( 'top/lifestyle.jpg', 'concept/hero-terrace.jpg', 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) ), 'ALOHA&STYLEが手がけた住まいの、ハワイの風を感じるテラス', 'Home__placeholder-photo' ); ?>
 			</div>
 			<div class="Home__lifestyle-text">
-				<h2 id="home-lifestyle-heading">暮らしから、<br>家を考える。</h2>
+				<p class="Home__lifestyle-en">It's not just a house, It's a lifestyle.</p>
+				<h2 id="home-lifestyle-heading">家は、ただ住むだけの<br>箱じゃない。</h2>
 				<p>
-					家族の成長も、日々の気分も、時間とともに変わっていく。<br>
-					だからこそALOHA&amp;STYLEは、間取りありきではなく<br>
-					「どう暮らしたいか」から住まいを考えます。
+					家族と笑い、仲間と集い、<br>
+					時には一人で静かに過ごす、<br>
+					かけがえのない時間を育む場所。<br>
+					私たちが届けたいのは、<br>
+					そんな「暮らしの楽しさ」そのものです。
 				</p>
-				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEの特徴を見る</a>
+				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEのコンセプト</a>
 			</div>
 		</div>
 	</section>

@@ -418,6 +418,15 @@
     height: 260px;
   }
 }
+.Home__lifestyle-text .Home__lifestyle-en {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--home-accent);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
 .Home__lifestyle-text h2 {
   font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 900;

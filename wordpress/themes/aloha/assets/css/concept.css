@@ -126,15 +126,15 @@
   color: rgba(255, 255, 255, 0.85);
 }
 .Concept__hero-title {
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 1.55;
-  letter-spacing: 0.04em;
-  margin-top: 12px;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1.1;
+  margin-top: 14px;
 }
 @media (max-width: 767px) {
   .Concept__hero-title {
-    font-size: 25px;
+    font-size: 34px;
   }
 }
 .Concept__hero-lead {
@@ -168,17 +168,15 @@
   }
 }
 .Concept__message .Concept__heading {
-  font-size: 40px;
-  line-height: 1.25;
-  color: var(--cc-brand);
+  font-size: 30px;
 }
 @media (max-width: 767px) {
   .Concept__message .Concept__heading {
-    font-size: 30px;
+    font-size: 24px;
   }
 }
 .Concept__message-text {
-  font-size: 18px;
+  font-size: 20px;
   line-height: 2.2;
   font-weight: 500;
   color: var(--cc-ink);
@@ -188,6 +186,14 @@
   .Concept__message-text {
     font-size: 17px;
   }
+}
+.Concept__message-en {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--cc-brand);
+  margin-top: 26px;
+  line-height: 1.6;
 }
 .Concept__message-photos {
   display: grid;

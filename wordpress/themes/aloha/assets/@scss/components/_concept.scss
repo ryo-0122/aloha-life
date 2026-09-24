@@ -126,13 +126,12 @@ $cc-font-en: "Archivo", $cc-font-jp;
     color: rgba(255, 255, 255, 0.85);
   }
   &__hero-title {
-    font-weight: 700;
-    font-size: 40px;
-    line-height: 1.55;
-    letter-spacing: 0.04em;
-    margin-top: 12px;
+    @include cc-en(900);
+    font-size: 56px;
+    line-height: 1.1;
+    margin-top: 14px;
     @include mobile {
-      font-size: 25px;
+      font-size: 34px;
     }
   }
   &__hero-lead {
@@ -162,15 +161,13 @@ $cc-font-en: "Archivo", $cc-font-jp;
     }
   }
   &__message .Concept__heading {
-    font-size: 40px;
-    line-height: 1.25;
-    color: var(--cc-brand);
+    font-size: 30px;
     @include mobile {
-      font-size: 30px;
+      font-size: 24px;
     }
   }
   &__message-text {
-    font-size: 18px;
+    font-size: 20px;
     line-height: 2.2;
     font-weight: 500;
     color: var(--cc-ink);
@@ -178,6 +175,13 @@ $cc-font-en: "Archivo", $cc-font-jp;
     @include mobile {
       font-size: 17px;
     }
+  }
+  &__message-en {
+    @include cc-en(700);
+    font-size: 15px;
+    color: var(--cc-brand);
+    margin-top: 26px;
+    line-height: 1.6;
   }
   &__message-photos {
     display: grid;
