@@ -19,6 +19,7 @@
 | `page-concept.php` | コンセプト `/concept/`（**新規**。カタログの文章・写真で構成。スラッグ concept の固定ページで自動的に使われる） |
 | `assets/images/concept/` | コンセプト用の写真（カタログから書き出し・Web用に圧縮） |
 | `taxonomy.php` / `single-plan.php` | 住宅プランの見出しを新しいカテゴリに対応。プランが無いカテゴリは「準備中」を表示（既存のデザインのまま） |
+| `archive-plan.php` | 住宅プラン一覧 `/plan/` を新しい5カテゴリ順に表示（旧カテゴリ名を直接指定していたため、移行後に一覧が消えるのを防ぐ） |
 | `sidebar-plan.php` | 住宅プランのサイドバーを5カテゴリに（プランが無いカテゴリは「（準備中）」） |
 | `header.php` | グローバルナビを新しい構成に変更（項目は `inc/redesign.php` の `aloha_global_nav()` で管理。PC・スマホ共通。既存のクラス名はそのままなので、ハンバーガー・階層メニューの JavaScript はそのまま動作） |
 | `inc/redesign.php` | CSS/JS の読み込み・共通関数（**新規**。functions.php の `require_once` が読み込む） |
