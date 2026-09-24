@@ -46,7 +46,7 @@
 .CaseDetail * {
   box-sizing: border-box;
 }
-.CaseDetail a {
+:where(.CaseDetail) a {
   color: inherit;
   text-decoration: none;
 }
@@ -290,7 +290,7 @@
   font-weight: 500;
   font-size: 11.5px;
   letter-spacing: 0.02em;
-  color: var(--cd-accent);
+  color: var(--accent-text);
   margin-bottom: 6px;
 }
 .CaseDetail__overview-value {
@@ -361,44 +361,45 @@
   font-size: 11.5px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--cd-accent);
+  color: var(--accent-text);
   display: inline-block;
 }
 
-/* ===== 配色（html[data-palette] で切り替え） ===== */
+/* ===== 配色（html[data-palette] で切り替え） =====
+   --accent       : 今の緑 #1fa198（ロゴの&・■・枠線・ボタンなど「色として見せる」部分）
+   --accent-text  : 小さな文字用の緑（#1fa198 は白背景で 3.0:1 と薄いため、同じ色相を少し深くした #177871 = 5.1:1）
+*/
 :root, html[data-palette="now"]{
   --ink:#141414; --ink-soft:#4a4a4a; --mute:#8c8c8c; --line:#e2e2e2; --paper:#fafafa; --shade:#f2f2f2;
-  --accent:#1fa198; --brand:#141414; --logo-amp:#1fa198; --heading:#141414; --btn:#141414; --btn-hover:#1fa198; --chip:#141414; --mark:#1fa198;
+  --accent:#1fa198; --accent-text:#1fa198; --brand:#141414; --logo-amp:#1fa198; --heading:#141414; --btn:#141414; --btn-hover:#1fa198; --chip:#141414; --mark:#1fa198;
   --header-bg:rgba(250,250,250,.92);
   --footer-bg:#141414; --footer-text:#d8d1c4; --footer-logo:#ffffff; --footer-mute:#8f8f8f; --footer-line:rgba(255,255,255,.12);
 }
-html[data-palette="a"]{
-  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4DED7; --paper:#FAF8F5; --shade:#F1EDE8;
-  --accent:#15766E; --brand:#5E5755; --logo-amp:#15766E; --heading:#2B2624; --btn:#2B2624; --btn-hover:#15766E; --chip:#5E5755; --mark:#5E5755;
-  --header-bg:rgba(250,248,245,.92);
-  --footer-bg:#F1EDE8; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#E0D9D1;
-}
-html[data-palette="b"]{
-  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E6DDD2; --paper:#FAF7F2; --shade:#F2ECE3;
-  --accent:#A85A33; --brand:#5E5755; --logo-amp:#A85A33; --heading:#2B2624; --btn:#2B2624; --btn-hover:#A85A33; --chip:#5E5755; --mark:#A85A33;
-  --header-bg:rgba(250,247,242,.92);
-  --footer-bg:#F2ECE3; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#E2D8CC;
-}
-html[data-palette="c"]{
+/* 1. Stone & Lagoon：C（茶のモノトーン）＋今の緑 */
+html[data-palette="stone"]{
   --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
-  --accent:#5E5755; --brand:#5E5755; --logo-amp:#5E5755; --heading:#2B2624; --btn:#5E5755; --btn-hover:#2B2624; --chip:#5E5755; --mark:#5E5755;
+  --accent:#1fa198; --accent-text:#177871; --brand:#5E5755; --logo-amp:#1fa198; --heading:#2B2624; --btn:#5E5755; --btn-hover:#177871; --chip:#5E5755; --mark:#1fa198;
   --header-bg:rgba(250,250,248,.92);
   --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
 }
+/* 2. Sand & Lagoon：砂浜のベージュ＋今の緑（ビーチの組み合わせ） */
+html[data-palette="sand"]{
+  --ink:#2E2A26; --ink-soft:#4D4640; --mute:#6E655C; --line:#E3D9C9; --paper:#F8F4ED; --shade:#EFE7DA;
+  --accent:#1fa198; --accent-text:#177871; --brand:#5E5755; --logo-amp:#1fa198; --heading:#2E2A26; --btn:#2E2A26; --btn-hover:#177871; --chip:#8A7560; --mark:#1fa198;
+  --header-bg:rgba(248,244,237,.92);
+  --footer-bg:#EFE7DA; --footer-text:#4D4640; --footer-logo:#5E5755; --footer-mute:#6E655C; --footer-line:#DDD1BF;
+}
+/* 3. Slate & Lagoon：深い青灰色＋今の緑（涼しげでモダン） */
+html[data-palette="slate"]{
+  --ink:#1E2A2E; --ink-soft:#3D4B4F; --mute:#55656A; --line:#DCE7E6; --paper:#F6F9F9; --shade:#EAF4F3;
+  --accent:#1fa198; --accent-text:#177871; --brand:#1E2A2E; --logo-amp:#1fa198; --heading:#1E2A2E; --btn:#1E2A2E; --btn-hover:#177871; --chip:#1E2A2E; --mark:#1fa198;
+  --header-bg:rgba(246,249,249,.92);
+  --footer-bg:#EAF4F3; --footer-text:#3D4B4F; --footer-logo:#1E2A2E; --footer-mute:#55656A; --footer-line:#D3E2E0;
+}
+/* 参考：C＋海の緑（前回案） */
 html[data-palette="c1"]{
   --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
-  --accent:#15766E; --brand:#5E5755; --logo-amp:#15766E; --heading:#2B2624; --btn:#5E5755; --btn-hover:#15766E; --chip:#5E5755; --mark:#15766E;
-  --header-bg:rgba(250,250,248,.92);
-  --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
-}
-html[data-palette="c2"]{
-  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
-  --accent:#3E7651; --brand:#5E5755; --logo-amp:#3E7651; --heading:#2B2624; --btn:#5E5755; --btn-hover:#3E7651; --chip:#5E5755; --mark:#3E7651;
+  --accent:#15766E; --accent-text:#15766E; --brand:#5E5755; --logo-amp:#15766E; --heading:#2B2624; --btn:#5E5755; --btn-hover:#15766E; --chip:#5E5755; --mark:#15766E;
   --header-bg:rgba(250,250,248,.92);
   --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
 }
@@ -419,7 +420,7 @@ body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group
 </style>
 </head>
 <body>
-<div class="PreviewNote">配色の比較用ページです。画面下のボタン（またはキーボードの 1〜6）で「現在」・案 A・B・C・C＋緑（2種）を切り替えられます。写真はプレースホルダーです。</div>
+<div class="PreviewNote">今の緑 #1fa198 を活かした配色の比較ページです。画面下のボタン（またはキーボードの 1〜5）で切り替えられます。写真はプレースホルダーです。</div>
 
 <header class="SiteHeader">
   <div class="SiteHeader__inner">
@@ -554,22 +555,21 @@ body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group
 
 <nav class="Switcher" aria-label="配色の切り替え">
   <button type="button" data-p="now"><i><b style="background:#141414"></b><b style="background:#1fa198"></b></i>現在<span class="lbl">（黒＋緑）</span></button>
-  <button type="button" data-p="a"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>A<span class="lbl"> Stone &amp; Sea</span></button>
-  <button type="button" data-p="b"><i><b style="background:#5E5755"></b><b style="background:#A85A33"></b></i>B<span class="lbl"> Stone &amp; Sand</span></button>
-  <button type="button" data-p="c"><i><b style="background:#5E5755"></b><b style="background:#B9B1AB"></b></i>C<span class="lbl"> Monotone</span></button>
-  <button type="button" data-p="c1"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>C＋海の緑</button>
-  <button type="button" data-p="c2"><i><b style="background:#5E5755"></b><b style="background:#3E7651"></b></i>C＋葉の緑</button>
+  <button type="button" data-p="stone"><i><b style="background:#5E5755"></b><b style="background:#1fa198"></b></i>1 Stone<span class="lbl"> &amp; Lagoon</span></button>
+  <button type="button" data-p="sand"><i><b style="background:#D9C9AE"></b><b style="background:#1fa198"></b></i>2 Sand<span class="lbl"> &amp; Lagoon</span></button>
+  <button type="button" data-p="slate"><i><b style="background:#1E2A2E"></b><b style="background:#1fa198"></b></i>3 Slate<span class="lbl"> &amp; Lagoon</span></button>
+  <button type="button" data-p="c1"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>参考<span class="lbl">：C＋海の緑</span></button>
 </nav>
 <script>
 (function(){
-  var btns=document.querySelectorAll('.Switcher button'), keys=['now','a','b','c','c1','c2'];
+  var btns=document.querySelectorAll('.Switcher button'), keys=['now','stone','sand','slate','c1'];
   function set(p){ document.documentElement.setAttribute('data-palette',p);
     btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-p')===p ? 'true':'false'); });
     try{ localStorage.setItem('aloha-palette',p); }catch(e){} }
   btns.forEach(function(b){ b.addEventListener('click',function(){ set(b.getAttribute('data-p')); }); });
-  document.addEventListener('keydown',function(e){ var i=parseInt(e.key,10); if(i>=1&&i<=6) set(keys[i-1]); });
+  document.addEventListener('keydown',function(e){ var i=parseInt(e.key,10); if(i>=1&&i<=5) set(keys[i-1]); });
   var saved=null; try{ saved=localStorage.getItem('aloha-palette'); }catch(e){}
-  set('c1');
+  set('stone');
 })();
 </script>
 
