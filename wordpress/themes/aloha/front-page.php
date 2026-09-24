@@ -51,18 +51,17 @@ $contents = array(
 	array( 'label' => '施工例', 'url' => home_url( '/cases/' ), 'img' => array( 'Top_content_04_2.jpg', 'Top_content_04@2x.jpg', 'Top_content_04.jpg' ) ),
 	array( 'label' => 'モデルハウス LOCO-LATTE', 'url' => home_url( '/modelhouse/' ), 'img' => array( 'Top_content_01_2.jpg', 'Top_content_01@2x.jpg', 'Top_content_01.jpg' ) ),
 	array( 'label' => 'ハワイの不動産物件', 'url' => home_url( '/hawaii/' ), 'img' => array( 'Top_content_03_2.jpg', 'Top_content_03@2x.jpg', 'Top_content_03.jpg' ) ),
-	// 要確認：リフォームブログの取得元（iedock.seibukensetu.jp）をリフォームサイトとしてリンク
+	// 西部建設のリフォームサイト（リフォームブログの取得元と同じ）
 	array( 'label' => '西部建設リフォーム', 'url' => 'https://iedock.seibukensetu.jp/', 'img' => array( 'top/contents-reform.jpg' ), 'external' => true ),
 	array( 'label' => '県外で建てる（設計施工管理サービス）', 'url' => home_url( '/housedesign/' ), 'img' => array( 'Top_content_05_2.jpg', 'Top_content_05@2x.jpg', 'Top_content_05.jpg' ) ),
 	array( 'label' => 'LINEお友達追加', 'url' => home_url( '/line/' ), 'img' => array( 'line_bnr_img.png' ) ), // footer.php と同じリンク・画像
 );
 
-// バナー（最初のプレビューと同じ2つ＋キャンペーン）。url が空の項目は表示しない。
+// バナー（最初のプレビューと同じ2つ）。url が空の項目は表示しない。
 $banners = array(
-	array( 'tag' => 'VR展示場', 'title' => 'VRで、憧れのハワイアンライフを体感', 'url' => '', 'img' => array( 'top/banner-vr.jpg' ), 'dark' => false ), // 要確認：VR展示場のURL
+	array( 'tag' => 'VR展示場', 'title' => 'VRで、憧れのハワイアンライフを体感', 'url' => home_url( '/vr-exhibition/' ), 'img' => array( 'top/banner-vr.jpg' ), 'dark' => false ),
 	array( 'tag' => '近隣エリア', 'title' => '施工エリア以外のお客様へ', 'url' => home_url( '/housedesign/' ), 'img' => array( 'top/banner-area.jpg', 'concept/hawaii-sunset.jpg' ), 'dark' => false ),
 );
-$campaign = array( 'label' => '住宅省エネ2024キャンペーン', 'url' => '' ); // 要確認：キャンペーンのURL（年度も）
 
 // single-cases.php で使っている既存のオンライン相談予約URL
 $online_consult_url = 'https://www.ie-miru.jp/cms/yoyaku/seibukensetsu/events/19642';
@@ -286,7 +285,7 @@ $news_query = new WP_Query(
 		}
 	);
 	?>
-	<?php if ( $visible_banners || '' !== $campaign['url'] ) : ?>
+	<?php if ( $visible_banners ) : ?>
 		<!-- BANNERS -->
 		<section class="Home__banners" aria-label="お知らせバナー">
 			<?php if ( $visible_banners ) : ?>
@@ -299,9 +298,6 @@ $news_query = new WP_Query(
 						</a>
 					<?php endforeach; ?>
 				</div>
-			<?php endif; ?>
-			<?php if ( '' !== $campaign['url'] ) : ?>
-				<div class="Home__campaign"><a href="<?php echo esc_url( $campaign['url'] ); ?>" class="Home__btn--outline"><?php echo esc_html( $campaign['label'] ); ?></a></div>
 			<?php endif; ?>
 		</section>
 	<?php endif; ?>
