@@ -1,0 +1,8 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] トップページ用CSSのエントリー
+// [出力先] assets/css/home.css（front-page.php でのみ読み込み）
+// styles.css とは別にコンパイルする（styles.css には Sass に無い直接編集が含まれるため）
+// ===============================================
+@import "./mixin/mixin";
+@import "./components/home";

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] 施工例詳細用CSSのエントリー
+// [出力先] assets/css/case-detail.css（single-cases.php でのみ読み込み）
+// ===============================================
+@import "./mixin/mixin";
+@import "./components/caseDetail";

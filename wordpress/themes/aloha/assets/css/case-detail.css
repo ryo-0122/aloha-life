@@ -1,7 +1,18 @@
 @charset "UTF-8";
+/*
+@mixin tab {
+  @media (min-width: $widthTab) and (max-width: ($widthPC)) {
+    @content;
+  }
+}
+*/
 :where(.CaseDetail) a {
   color: inherit;
   text-decoration: none;
+}
+
+:where(.CaseDetail) a:hover {
+  opacity: 1;
 }
 
 .CaseDetail {
@@ -15,12 +26,19 @@
   --cd-accent: #1fa198;
   background: var(--cd-paper);
   color: var(--cd-ink);
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-size: 14px;
   line-height: 1.75;
   overflow-x: hidden;
 }
 .CaseDetail * {
   box-sizing: border-box;
+}
+.CaseDetail h1,
+.CaseDetail h2,
+.CaseDetail h3,
+.CaseDetail p {
+  margin: 0;
 }
 .CaseDetail img {
   display: block;
@@ -33,16 +51,16 @@
   margin: 0 auto;
   padding: 0 32px;
 }
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .CaseDetail__wrap {
     padding: 0 20px;
   }
 }
-.CaseDetail__btn {
+.CaseDetail__btn, .CaseDetail__btn--outline {
   display: inline-block;
   background: var(--cd-ink);
   color: var(--cd-white);
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 700;
   font-size: 13px;
   letter-spacing: 0.03em;
@@ -50,13 +68,26 @@
   padding: 14px 40px;
   transition: background 0.2s ease;
 }
-.CaseDetail__btn:hover {
+.CaseDetail__btn:hover, .CaseDetail__btn--outline:hover {
   background: var(--cd-accent);
+}
+.CaseDetail__btn--outline {
+  background: none;
+  color: var(--cd-ink);
+  border: 1.5px solid var(--cd-ink);
+  padding: 12.5px 38.5px;
+}
+.CaseDetail__btn--outline:hover {
+  background: var(--cd-ink);
+  color: var(--cd-white);
 }
 .CaseDetail__breadcrumb {
   padding: 22px 0 0;
   font-size: 12.5px;
   color: var(--cd-mute);
+}
+.CaseDetail__breadcrumb a {
+  display: inline;
 }
 .CaseDetail__breadcrumb a:hover {
   color: var(--cd-ink);
@@ -71,7 +102,7 @@
   overflow: hidden;
   background: var(--cd-paper-shade);
 }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .CaseDetail__slider {
     height: 260px;
   }
@@ -98,7 +129,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-size: 18px;
   color: var(--cd-ink);
   cursor: pointer;
@@ -130,6 +161,12 @@
 }
 .CaseDetail__slider-dots i.is-active {
   background: var(--cd-white);
+}
+.CaseDetail__caption {
+  font-size: 12.5px;
+  color: var(--cd-ink-soft);
+  margin-top: 10px;
+  min-height: 1.75em;
 }
 .CaseDetail__thumbs {
   display: flex;
@@ -166,7 +203,7 @@
   align-items: flex-start;
   margin-bottom: 12px;
 }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .CaseDetail__tag-group {
     flex-direction: column;
     gap: 4px;
@@ -177,7 +214,7 @@
   color: #fff;
 }
 .CaseDetail__tag-group-label {
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 500;
   font-size: 12px;
   letter-spacing: 0.04em;
@@ -186,7 +223,7 @@
   width: 84px;
   padding-top: 6px;
 }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .CaseDetail__tag-group-label {
     width: auto;
   }
@@ -205,7 +242,7 @@
   font-size: 12px;
 }
 .CaseDetail__title {
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 900;
   font-size: 30px;
   line-height: 1.45;
@@ -213,10 +250,15 @@
   color: var(--cd-ink);
   margin-bottom: 20px;
 }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .CaseDetail__title {
     font-size: 22px;
   }
+}
+.CaseDetail__owner {
+  font-size: 13px;
+  color: var(--cd-mute);
+  margin: -8px 0 20px;
 }
 .CaseDetail__lead {
   color: var(--cd-ink-soft);
@@ -226,6 +268,11 @@
 .CaseDetail__lead p + p {
   margin-top: 1em;
 }
+.CaseDetail__lead img {
+  height: auto;
+  border-radius: 6px;
+  margin: 16px 0;
+}
 .CaseDetail__overview {
   margin-top: 48px;
 }
@@ -233,7 +280,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 700;
   font-size: 15px;
   letter-spacing: 0.02em;
@@ -245,13 +292,87 @@
   color: var(--cd-accent);
   font-size: 12px;
 }
+.CaseDetail__spec {
+  font-size: 13px;
+  color: var(--cd-ink);
+}
+.CaseDetail__spec table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--cd-line);
+}
+.CaseDetail__spec th,
+.CaseDetail__spec td {
+  border-bottom: 1px solid var(--cd-line);
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: top;
+}
+@media (max-width: 767px) {
+  .CaseDetail__spec th,
+  .CaseDetail__spec td {
+    display: block;
+    padding: 10px 4px;
+  }
+}
+.CaseDetail__spec th {
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--cd-accent);
+  width: 160px;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .CaseDetail__spec th {
+    width: auto;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+.CaseDetail__spec dl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  border-top: 1px solid var(--cd-line);
+}
+@media (max-width: 767px) {
+  .CaseDetail__spec dl {
+    grid-template-columns: 1fr;
+  }
+}
+.CaseDetail__spec dt,
+.CaseDetail__spec dd {
+  margin: 0;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--cd-line);
+}
+.CaseDetail__spec dt {
+  font-size: 12px;
+  color: var(--cd-accent);
+}
+.CaseDetail__spec p + p {
+  margin-top: 0.8em;
+}
+.CaseDetail__spec img {
+  height: auto;
+}
+.CaseDetail__drawing {
+  margin-top: 40px;
+}
+.CaseDetail__drawing img {
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--cd-line);
+  border-radius: 6px;
+}
 .CaseDetail__overview-table {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--cd-line);
   border-left: 1px solid var(--cd-line);
 }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .CaseDetail__overview-table {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -262,7 +383,7 @@
   padding: 16px 18px;
 }
 .CaseDetail__overview-key {
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 500;
   font-size: 11.5px;
   letter-spacing: 0.02em;
@@ -274,7 +395,10 @@
   color: var(--cd-ink);
 }
 .CaseDetail__cta {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
   padding: 48px 0 8px;
 }
 .CaseDetail__related {
@@ -287,7 +411,7 @@
   padding: 0 24px 34px;
 }
 .CaseDetail__related-head-en {
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 900;
   font-size: 26px;
   letter-spacing: -0.01em;
@@ -306,7 +430,7 @@
   margin: 0 auto;
   padding: 0 32px;
 }
-@media (max-width: 760px) {
+@media (max-width: 767px) {
   .CaseDetail__related-grid {
     grid-template-columns: 1fr;
   }
@@ -331,7 +455,7 @@
   font-weight: 500;
 }
 .CaseDetail__related-card-more {
-  font-family: "Archivo", "Zen Kaku Gothic New", sans-serif;
+  font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   font-weight: 500;
   font-size: 11.5px;
   letter-spacing: 0.04em;

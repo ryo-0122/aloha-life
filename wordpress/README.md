@@ -1,91 +1,64 @@
-# Local（WordPress）への反映手順
+# Local（aloha-test）への反映手順
 
-`front-page-preview` / `single-cases-preview` の内容を WordPress テーマ `aloha` に組み込んだファイル一式です。
-既存の `header.php` / `footer.php` は変更していません（テンプレート内で `get_header()` / `get_footer()` を呼んでいます）。
+トップページと施工例詳細を、プレビュー（front-page-preview / single-cases-preview）のデザインに置き換えるファイル一式です。
+既存テーマ `aloha` の構成（`assets/@scss/components/`、ACF のフィールド、footer.php の外部ウィジェット）に合わせてあります。
 
-## 1. ファイルをコピーする
+## 1. コピーするファイル
 
-Local でサイトを右クリック →「Reveal in Finder / Explorer」（または Site folder）を開き、
-`app/public/wp-content/themes/aloha/` に、このフォルダの `themes/aloha/` の中身を**同じ階層構造で**コピーします。
+`wordpress/themes/aloha/` の中身を、Local の `app/public/wp-content/themes/aloha/` に同じ構成でコピーします（**上書き前に既存の `front-page.php` と `single-cases.php` をバックアップ**してください）。
 
-```
-themes/aloha/
-├── front-page.php              … トップページ（新規 or 置き換え）
-├── single-cases.php            … 施工事例詳細（新規 or 置き換え）
-├── inc/redesign.php            … 設定・CSS/JS読み込み・共通関数
-└── assets/
-    ├── css/top.css             … コンパイル済みCSS（Sass不要でそのまま使える）
-    ├── css/case-detail.css
-    ├── js/case-detail.js       … 施工事例のスライダー
-    ├── scss/_top.scss          … Sassソース（テーマでSassをビルドしている場合用）
-    ├── scss/_case-detail.scss
-    ├── scss/top-page.scss      … 上記をビルドするためのエントリー
-    ├── scss/case-detail-page.scss
-    └── images/top/             … トップページ用の写真置き場
-```
-
-> 既に `front-page.php` / `single-cases.php` がある場合は、上書き前にバックアップ（例: `front-page.php.bak`）を取ってください。
-
-## 2. functions.php に1行追加
-
-`themes/aloha/functions.php` の末尾に追加します。
-
-```php
-require_once get_theme_file_path( 'inc/redesign.php' );
-```
-
-これでトップページ・施工事例詳細のときだけ、Google Fonts（Archivo / Zen Kaku Gothic New）と CSS・JS が読み込まれます。
-
-## 3. 既存サイトに合わせて確認・変更する箇所
-
-`functions.php` の内容に合わせて、次のように動作します。
-
-- **投稿タイプ**：施工例は `cases` を使います。「ハワイの不動産物件」は `real-estate` の一覧へ、「PLAN」は `plan` の一覧へリンクします。
-- **施工例の写真**：`cases` はアイキャッチ画像に対応していなかったため、`inc/redesign.php` で対応を追加しました（`functions.php` の変更は不要です）。写真は次の順に探します。
-  1. ACF のギャラリーフィールド `gallery`
-  2. アイキャッチ画像と投稿に添付された画像
-  3. 本文に貼られた画像（既存の施工例はこれに当たる想定です）
-
-  本文の画像をスライダーに使った場合は、同じ写真が二重に並ばないよう、本文からは画像を除いて文章だけを表示します。
-- **一覧カードの写真**（トップの Works・News、関連事例）：アイキャッチ画像がなければ、本文の最初の画像を使います。
-- **タグ**（スタイル／特徴／ライフスタイル、`#平屋` など）：`cases` にタクソノミーが登録されていない（`cases_category` はコメントアウト中）ため、今は表示されません。タクソノミーを登録してタームを付けると、自動で表示されます。
-- **建物概要**：15項目は `inc/redesign.php` の `aloha_case_overview_fields()` に書かれたカスタムフィールド名（`location` など）から読みます。値が1件もない事例では表を出しません。今は既存の施工例が本文に概要を書いている想定で、本文がそのまま表示されます。
-
-必要に応じて変更する値：
-
-| 項目 | 場所 | 初期値 |
-| --- | --- | --- |
-| 建物概要のフィールド名 | `inc/redesign.php` の `aloha_case_overview_fields()` | `location`, `usage` など |
-| ギャラリー画像のACFフィールド名 | `inc/redesign.php` の `ALOHA_CASE_GALLERY_FIELD` | `gallery` |
-| トップページ各リンクのURL | `front-page.php` 上部の `$aloha_links` | `/concept/` など仮のURL |
-| カタログ請求ページのURL | `single-cases.php` の `$catalog_link` | `/catalog/` |
-
-## 4. 写真を配置する
-
-ヒーロー画像は既存の `assets/images/top/HeroSlide01.jpg` 〜 `HeroSlide06.jpg` を使います。
-それ以外の写真は、`assets/images/top/` に下記のファイル名で置くと表示されます。未配置の写真はグレーのプレースホルダーになります。
-
-| セクション | ファイル名 |
+| ファイル | 内容 |
 | --- | --- |
-| About | `about-exterior.jpg` `about-living.jpg` `about-deck.jpg` `about-light.jpg` `about-detail.jpg` |
-| 導線タイル | `pillar-concept.jpg` `pillar-flow.jpg` `pillar-plan.jpg` `pillar-works.jpg` |
-| Lifestyle | `lifestyle.jpg` |
-| Contents | `contents-works.jpg` `contents-modelhouse.jpg` `contents-hawaii.jpg` `contents-reform.jpg` `contents-service.jpg` `contents-line.jpg` |
-| Event | `event-1.jpg` `event-2.jpg` `event-3.jpg` |
-| バナー | `banner-vr.jpg` `banner-area.jpg` |
-| SNS | `sns-1.jpg` `sns-2.jpg` `sns-3.jpg` |
+| `front-page.php` | トップページ（置き換え） |
+| `single-cases.php` | 施工例詳細（置き換え） |
+| `inc/redesign.php` | CSS/JS の読み込み・共通関数（**新規**。functions.php の `require_once` が読み込む） |
+| `assets/@scss/components/_home.scss` | トップページの Sass（新規） |
+| `assets/@scss/components/_caseDetail.scss` | 施工例詳細の Sass（新規） |
+| `assets/@scss/home.scss` / `case-detail.scss` | 上記をコンパイルするためのエントリー（新規） |
+| `assets/@scss/mixin/_mixin.scss` | 既存と同じ内容（コンパイルに必要なため同梱） |
+| `assets/css/home.css` / `case-detail.css` | コンパイル済み CSS（新規） |
+| `assets/js/case-detail.js` | 施工例のスライダー（新規） |
 
-## 5. 表示を確認する
+`functions.php`・`header.php`・`footer.php`・`styles.css` は**変更していません**。
+（functions.php にはすでに `require_once get_theme_file_path( 'inc/redesign.php' );` があるので、`inc/redesign.php` を置けば読み込まれます。）
 
-- 「設定 → 表示設定」で「ホームページの表示」を**固定ページ**にしている場合でも、`front-page.php` が優先されます。
-- 施工事例の URL が 404 になる場合は、「設定 → パーマリンク」を開いて何も変えずに「変更を保存」を押してください。
-- CSS が反映されないときは、ブラウザをスーパーリロード（Mac: ⌘+Shift+R / Win: Ctrl+F5）してください。
+## 2. CSS について（重要）
 
-## Sass をビルドしている場合
+既存の `assets/css/styles.css` には、Sass（`styles.scss`）に無い直接編集が約1,400ルールあります（ハワイ物件ページ、お問い合わせフォーム、カテゴリ検索など）。
+そのため `styles.scss` を再コンパイルすると他のページが崩れます。
 
-テーマで Sass をコンパイルしている場合は、`_top.scss` / `_case-detail.scss` を既存のメイン SCSS に `@use` するか、次のコマンドで CSS を作り直せます。
+今回は `styles.css` に触れず、トップページと施工例詳細でのみ `home.css` / `case-detail.css` を追加で読み込む方式にしました。
+クラス名も `.Home` / `.CaseDetail` で始まるものに限定しているので、他のページには影響しません。
+
+Sass を編集したときのコンパイル方法（テーマフォルダで実行）:
 
 ```sh
-npx sass --no-source-map assets/scss/top-page.scss assets/css/top.css
-npx sass --no-source-map assets/scss/case-detail-page.scss assets/css/case-detail.css
+npx sass --no-source-map "assets/@scss/home.scss" assets/css/home.css
+npx sass --no-source-map "assets/@scss/case-detail.scss" assets/css/case-detail.css
 ```
+
+## 3. 既存から引き継いでいるもの
+
+- **NEWS & TOPICS**：`post` / `work` / `realestate` の最新6件（取得条件は既存のまま）
+- **施工例の写真**：ACF `cases-main-pic`（無ければ `no_img.jpg`）。詳細ページは `sub01〜06_photo` と `sub01〜06_text` をスライダーとキャプションに使用
+- **施工例の分類**：`cases_category`（スタイル）/ `feature`（特徴）/ `life_style`（ライフスタイル）
+- **建物概要・間取り**：ACF `spec` / `drawing`、オーナー表記 `area_owner`
+- **イベント情報**：ie-miru の外部ウィジェット（読み込み方は既存と同じ）
+- **リフォームブログ**：footer.php の `reformBlogData()` が一覧を追加（`.js-news-generate` を維持）
+- **Facebook**：既存のページプラグイン（SDK は footer.php）
+- **オンライン相談**：既存の ie-miru 予約URL
+- **画像**：`assets/images/` の既存素材（`top/HeroSlide01〜06.jpg`、`Top_menu_0N_3.jpg`、`Top_content_0N_2.jpg`、`Aloha_main.jpg`、`line_bnr_img.png` など）。見つからない画像は旧ファイル名や他の写真で代用し、それも無ければグレーのプレースホルダーになります
+
+## 4. URL が未確定で、今は非表示にしている項目
+
+`front-page.php` 上部の配列で `url` を入れると表示されます。
+
+- CONTENTS：マンション、リフォーム
+- バナー：VR展示場、施工エリア以外のお客様へ、住宅省エネキャンペーン
+- Instagram：既存の埋め込み（instawidget）が別のアカウント（@_officialjkt48）を指していたため外しています
+
+## 5. 確認方法
+
+1. http://localhost:10104/ を開く
+2. 施工例の詳細ページ（`/cases/〇〇/`）を開く
+3. 表示が変わらない場合はスーパーリロード（Mac: ⌘+Shift+R）

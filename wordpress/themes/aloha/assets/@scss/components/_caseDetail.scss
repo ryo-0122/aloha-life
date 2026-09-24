@@ -1,11 +1,15 @@
-// =====================================================================
-// 施工事例詳細（single-cases.php）
-// すべてのスタイルを .CaseDetail 配下に閉じ込め、既存テーマのCSSと衝突しないようにしている。
-// =====================================================================
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] 施工例詳細（リニューアル）
+// [使用ページ] single-cases.php
+// [出力先] assets/css/case-detail.css（assets/@scss/case-detail.scss からコンパイル）
+//
+// すべて .CaseDetail 配下に閉じ込め、既存テーマのCSSと衝突しないようにしている。
+// ブレイクポイントは既存の mobile ミックスイン（767px 以下）を使用。
+// ===============================================
 
-$cd-font-en: "Archivo", "Zen Kaku Gothic New", sans-serif;
-$cd-sp: 600px;
-$cd-tb: 760px;
+$cd-font-jp: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+$cd-font-en: "Archivo", $cd-font-jp;
 
 @mixin cd-en($weight: 500) {
   font-family: $cd-font-en;
@@ -16,6 +20,9 @@ $cd-tb: 760px;
 :where(.CaseDetail) a {
   color: inherit;
   text-decoration: none;
+}
+:where(.CaseDetail) a:hover {
+  opacity: 1;
 }
 
 .CaseDetail {
@@ -29,12 +36,19 @@ $cd-tb: 760px;
   --cd-accent: #1fa198;
   background: var(--cd-paper);
   color: var(--cd-ink);
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family: $cd-font-jp;
+  font-size: 14px;
   line-height: 1.75;
   overflow-x: hidden;
 
   * {
     box-sizing: border-box;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
   }
   img {
     display: block;
@@ -47,12 +61,13 @@ $cd-tb: 760px;
     max-width: 900px;
     margin: 0 auto;
     padding: 0 32px;
-    @media (max-width: $cd-sp) {
+    @include mobile {
       padding: 0 20px;
     }
   }
 
-  &__btn {
+  &__btn,
+  &__btn--outline {
     display: inline-block;
     background: var(--cd-ink);
     color: var(--cd-white);
@@ -66,12 +81,25 @@ $cd-tb: 760px;
       background: var(--cd-accent);
     }
   }
+  &__btn--outline {
+    background: none;
+    color: var(--cd-ink);
+    border: 1.5px solid var(--cd-ink);
+    padding: 12.5px 38.5px;
+    &:hover {
+      background: var(--cd-ink);
+      color: var(--cd-white);
+    }
+  }
 
   // ---------- Breadcrumb ----------
   &__breadcrumb {
     padding: 22px 0 0;
     font-size: 12.5px;
     color: var(--cd-mute);
+    a {
+      display: inline;
+    }
     a:hover {
       color: var(--cd-ink);
       text-decoration: underline;
@@ -87,7 +115,7 @@ $cd-tb: 760px;
     border-radius: 8px;
     overflow: hidden;
     background: var(--cd-paper-shade);
-    @media (max-width: $cd-tb) {
+    @include mobile {
       height: 260px;
     }
   }
@@ -146,6 +174,12 @@ $cd-tb: 760px;
       }
     }
   }
+  &__caption {
+    font-size: 12.5px;
+    color: var(--cd-ink-soft);
+    margin-top: 10px;
+    min-height: 1.75em;
+  }
   &__thumbs {
     display: flex;
     gap: 10px;
@@ -182,7 +216,7 @@ $cd-tb: 760px;
     gap: 14px;
     align-items: flex-start;
     margin-bottom: 12px;
-    @media (max-width: $cd-tb) {
+    @include mobile {
       flex-direction: column;
       gap: 4px;
     }
@@ -200,7 +234,7 @@ $cd-tb: 760px;
     flex: none;
     width: 84px;
     padding-top: 6px;
-    @media (max-width: $cd-tb) {
+    @include mobile {
       width: auto;
     }
   }
@@ -224,9 +258,14 @@ $cd-tb: 760px;
     letter-spacing: -0.01em;
     color: var(--cd-ink);
     margin-bottom: 20px;
-    @media (max-width: $cd-tb) {
+    @include mobile {
       font-size: 22px;
     }
+  }
+  &__owner {
+    font-size: 13px;
+    color: var(--cd-mute);
+    margin: -8px 0 20px;
   }
   &__lead {
     color: var(--cd-ink-soft);
@@ -234,6 +273,11 @@ $cd-tb: 760px;
     line-height: 2.1;
     p + p {
       margin-top: 1em;
+    }
+    img {
+      height: auto;
+      border-radius: 6px;
+      margin: 16px 0;
     }
   }
 
@@ -256,12 +300,79 @@ $cd-tb: 760px;
       font-size: 12px;
     }
   }
+  // spec（ACFの自由入力HTML）の表・リストを整える
+  &__spec {
+    font-size: 13px;
+    color: var(--cd-ink);
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-top: 1px solid var(--cd-line);
+    }
+    th,
+    td {
+      border-bottom: 1px solid var(--cd-line);
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      @include mobile {
+        display: block;
+        padding: 10px 4px;
+      }
+    }
+    th {
+      @include cd-en(500);
+      font-size: 12px;
+      color: var(--cd-accent);
+      width: 160px;
+      white-space: nowrap;
+      @include mobile {
+        width: auto;
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+    }
+    dl {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      border-top: 1px solid var(--cd-line);
+      @include mobile {
+        grid-template-columns: 1fr;
+      }
+    }
+    dt,
+    dd {
+      margin: 0;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--cd-line);
+    }
+    dt {
+      font-size: 12px;
+      color: var(--cd-accent);
+    }
+    p + p {
+      margin-top: 0.8em;
+    }
+    img {
+      height: auto;
+    }
+  }
+  &__drawing {
+    margin-top: 40px;
+    img {
+      height: auto;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid var(--cd-line);
+      border-radius: 6px;
+    }
+  }
   &__overview-table {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border-top: 1px solid var(--cd-line);
     border-left: 1px solid var(--cd-line);
-    @media (max-width: $cd-tb) {
+    @include mobile {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -284,7 +395,10 @@ $cd-tb: 760px;
 
   // ---------- CTA ----------
   &__cta {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
     padding: 48px 0 8px;
   }
 
@@ -316,7 +430,7 @@ $cd-tb: 760px;
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 32px;
-    @media (max-width: $cd-tb) {
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }

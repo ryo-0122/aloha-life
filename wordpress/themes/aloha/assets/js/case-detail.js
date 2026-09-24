@@ -12,6 +12,7 @@
   var dots = slider.querySelectorAll('.CaseDetail__slider-dots i');
   var thumbs = document.querySelectorAll('.CaseDetail__thumb');
   var prev = slider.querySelector('.CaseDetail__slider-arrow--prev');
+  var caption = document.querySelector('.CaseDetail__caption');
   var next = slider.querySelector('.CaseDetail__slider-arrow--next');
   var current = 0;
 
@@ -27,6 +28,7 @@
     Array.prototype.forEach.call(thumbs, function (el, i) {
       el.setAttribute('aria-current', i === current ? 'true' : 'false');
     });
+    if (caption) caption.textContent = slides[current].getAttribute('data-caption') || '';
   }
 
   if (prev) prev.addEventListener('click', function () { show(current - 1); });

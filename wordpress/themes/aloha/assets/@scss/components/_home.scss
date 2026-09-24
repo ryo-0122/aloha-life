@@ -1,18 +1,24 @@
-// =====================================================================
-// トップページ（front-page.php）
-// すべてのスタイルを .Top 配下に閉じ込め、既存テーマのCSSと衝突しないようにしている。
-// =====================================================================
+@charset "UTF-8";
+// ===============================================
+// [ファイル概要] トップページ（リニューアル）
+// [使用ページ] front-page.php
+// [出力先] assets/css/home.css（assets/@scss/home.scss からコンパイル）
+//
+// すべて .Home 配下に閉じ込め、styles.css に残っている旧トップページの
+// クラス（.Top__news など）と衝突しないようにしている。
+// ブレイクポイントは既存の mobile ミックスイン（767px 以下）を使用。
+// 欧文フォント Archivo は読み込めなくても游ゴシック等で表示できるようにしている。
+// ===============================================
 
-$top-font-en: "Archivo", "Zen Kaku Gothic New", sans-serif;
-$top-sp: 600px;
-$top-tb: 860px;
+$home-font-jp: "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+$home-font-en: "Archivo", $home-font-jp;
 
-@mixin top-en($weight: 500) {
-  font-family: $top-font-en;
+@mixin home-en($weight: 500) {
+  font-family: $home-font-en;
   font-weight: $weight;
 }
 
-@mixin top-grid($cols, $gap, $max: 1180px) {
+@mixin home-grid($cols, $gap, $max: 1180px) {
   display: grid;
   grid-template-columns: repeat($cols, 1fr);
   gap: $gap;
@@ -21,29 +27,40 @@ $top-tb: 860px;
   padding: 0 32px;
 }
 
-// リンクのリセットは :where() で詳細度を下げ、.Top__btn などの色指定が優先されるようにする
-:where(.Top) a {
+// リンクのリセットは :where() で詳細度を下げ、.Home__btn などの色指定が優先されるようにする。
+// common の a { display: block } と a:hover { opacity: .7 } もここで打ち消す。
+:where(.Home) a {
   color: inherit;
   text-decoration: none;
 }
+:where(.Home) a:hover {
+  opacity: 1;
+}
 
-.Top {
-  --top-ink: #141414;
-  --top-ink-soft: #4a4a4a;
-  --top-mute: #8c8c8c;
-  --top-line: #e2e2e2;
-  --top-paper: #fafafa;
-  --top-paper-shade: #f2f2f2;
-  --top-white: #ffffff;
-  --top-accent: #1fa198;
-  background: var(--top-paper);
-  color: var(--top-ink);
-  font-family: "Zen Kaku Gothic New", sans-serif;
+.Home {
+  --home-ink: #141414;
+  --home-ink-soft: #4a4a4a;
+  --home-mute: #8c8c8c;
+  --home-line: #e2e2e2;
+  --home-paper: #fafafa;
+  --home-paper-shade: #f2f2f2;
+  --home-white: #ffffff;
+  --home-accent: #1fa198;
+  background: var(--home-paper);
+  color: var(--home-ink);
+  font-family: $home-font-jp;
+  font-size: 14px;
   line-height: 1.75;
   overflow-x: hidden;
 
   * {
     box-sizing: border-box;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
   }
   img {
     display: block;
@@ -56,7 +73,7 @@ $top-tb: 860px;
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 32px;
-    @media (max-width: $top-sp) {
+    @include mobile {
       padding: 0 20px;
     }
   }
@@ -65,7 +82,7 @@ $top-tb: 860px;
   &__btn,
   &__btn--outline {
     display: inline-block;
-    @include top-en(700);
+    @include home-en(700);
     font-size: 13px;
     letter-spacing: 0.03em;
     border-radius: 24px;
@@ -73,19 +90,19 @@ $top-tb: 860px;
     transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
   }
   &__btn {
-    background: var(--top-ink);
-    color: var(--top-white);
+    background: var(--home-ink);
+    color: var(--home-white);
     &:hover {
-      background: var(--top-accent);
+      background: var(--home-accent);
       transform: translateY(-1px);
     }
   }
   &__btn--outline {
-    border: 1.5px solid var(--top-ink);
-    color: var(--top-ink);
+    border: 1.5px solid var(--home-ink);
+    color: var(--home-ink);
     &:hover {
-      background: var(--top-ink);
-      color: var(--top-white);
+      background: var(--home-ink);
+      color: var(--home-white);
     }
   }
 
@@ -96,7 +113,7 @@ $top-tb: 860px;
     min-height: 560px;
     max-height: 820px;
     overflow: hidden;
-    background: var(--top-ink);
+    background: var(--home-ink);
 
     &::after {
       content: "";
@@ -111,7 +128,7 @@ $top-tb: 860px;
     inset: 0;
     height: 100%;
     object-fit: contain;
-    background: var(--top-ink);
+    background: var(--home-ink);
     opacity: 0;
     animation-duration: 32s;
     animation-iteration-count: infinite;
@@ -120,7 +137,7 @@ $top-tb: 860px;
 
     @for $i from 1 through 6 {
       &:nth-child(#{$i}) {
-        animation-name: topHeroZoom#{$i};
+        animation-name: homeHeroZoom#{$i};
       }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -129,6 +146,13 @@ $top-tb: 860px;
       &:first-child {
         opacity: 1;
       }
+    }
+  }
+  // 画像が6枚そろっていない場合はスライドさせず1枚目を表示
+  &__hero--static &__hero-slide {
+    animation: none;
+    &:first-child {
+      opacity: 1;
     }
   }
   &__hero-title {
@@ -140,12 +164,12 @@ $top-tb: 860px;
     padding: 0 32px 64px;
     max-width: 1240px;
     margin: 0 auto;
-    @media (max-width: $top-sp) {
+    @include mobile {
       padding: 0 20px 40px;
     }
   }
   &__hero-eyebrow {
-    @include top-en(500);
+    @include home-en(500);
     font-size: 12px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -154,17 +178,17 @@ $top-tb: 860px;
     display: inline-block;
   }
   &__hero-heading {
-    @include top-en(900);
+    @include home-en(900);
     font-size: 64px;
     line-height: 1;
     letter-spacing: -0.01em;
     color: rgba(255, 255, 255, 0.82);
-    @media (max-width: $top-tb) {
+    @include mobile {
       font-size: 38px;
     }
   }
   &__hero-tagline {
-    @include top-en(500);
+    @include home-en(500);
     color: rgba(255, 255, 255, 0.55);
     font-size: 14px;
     line-height: 1.9;
@@ -174,12 +198,12 @@ $top-tb: 860px;
   }
   &__hero-ctas {
     display: flex;
-    gap: 24px;
+    gap: 28px;
     flex-wrap: wrap;
     margin-top: 32px;
 
-    .Top__btn,
-    .Top__btn--outline {
+    .Home__btn,
+    .Home__btn--outline {
       background: none;
       border: none;
       border-radius: 0;
@@ -202,8 +226,8 @@ $top-tb: 860px;
     padding: 64px 0 12px;
   }
   &__about-grid {
-    @include top-grid(3, 6px);
-    @media (max-width: $top-tb) {
+    @include home-grid(3, 6px);
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }
@@ -213,7 +237,7 @@ $top-tb: 860px;
     overflow: hidden;
     border-radius: 6px;
     display: block;
-    @media (max-width: $top-tb) {
+    @include mobile {
       height: 220px;
     }
     img {
@@ -223,8 +247,8 @@ $top-tb: 860px;
     &:hover img {
       transform: scale(1.06);
     }
-    &:hover .Top__about-cell-more::after {
-      background: var(--top-accent);
+    &:hover .Home__about-cell-more::after {
+      background: var(--home-accent);
     }
   }
   &__about-cell-overlay {
@@ -237,7 +261,7 @@ $top-tb: 860px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.08) 55%, rgba(0, 0, 0, 0) 78%);
   }
   &__about-cell-cap {
-    @include top-en(700);
+    @include home-en(700);
     font-size: 20px;
     color: #fff;
     margin-bottom: 4px;
@@ -251,7 +275,7 @@ $top-tb: 860px;
     display: flex;
     align-items: center;
     gap: 10px;
-    @include top-en(500);
+    @include home-en(500);
     font-size: 11px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -265,23 +289,23 @@ $top-tb: 860px;
     }
   }
   &__about-text {
-    background: var(--top-paper-shade);
+    background: var(--home-paper-shade);
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 32px;
     p {
-      color: var(--top-ink-soft);
+      color: var(--home-ink-soft);
       font-size: 13.5px;
       line-height: 1.95;
     }
   }
   &__about-text-label {
-    @include top-en(700);
+    @include home-en(700);
     font-size: 13px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--top-ink);
+    color: var(--home-ink);
     margin-bottom: 14px;
     display: inline-block;
   }
@@ -291,8 +315,8 @@ $top-tb: 860px;
     padding: 46px 0 60px;
   }
   &__pillar-grid {
-    @include top-grid(4, 14px);
-    @media (max-width: $top-tb) {
+    @include home-grid(4, 14px);
+    @include mobile {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -321,15 +345,15 @@ $top-tb: 860px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0) 75%);
   }
   &__pillar-num {
-    @include top-en(500);
+    @include home-en(500);
     font-size: 12px;
     letter-spacing: 0.12em;
-    color: var(--top-accent);
+    color: var(--home-accent);
     display: block;
     margin-bottom: 4px;
   }
   &__pillar-name {
-    @include top-en(700);
+    @include home-en(700);
     font-size: 18px;
     letter-spacing: 0.02em;
     color: #fff;
@@ -346,15 +370,15 @@ $top-tb: 860px;
     padding: 0 24px 36px;
   }
   &__section-head-en {
-    @include top-en(700);
+    @include home-en(700);
     font-size: 26px;
     letter-spacing: -0.01em;
-    color: var(--top-ink);
+    color: var(--home-ink);
     display: inline-block;
   }
   &__section-head-jp {
     font-size: 12px;
-    color: var(--top-mute);
+    color: var(--home-mute);
     margin-top: 6px;
     letter-spacing: 0.05em;
   }
@@ -362,7 +386,7 @@ $top-tb: 860px;
   // ---------- Lifestyle ----------
   &__lifestyle {
     padding: 70px 0;
-    border-top: 1px solid var(--top-line);
+    border-top: 1px solid var(--home-line);
   }
   &__lifestyle-inner {
     display: grid;
@@ -372,7 +396,7 @@ $top-tb: 860px;
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 32px;
-    @media (max-width: $top-tb) {
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }
@@ -380,32 +404,32 @@ $top-tb: 860px;
     height: 380px;
     border-radius: 8px;
     overflow: hidden;
-    @media (max-width: $top-tb) {
+    @include mobile {
       height: 260px;
     }
   }
   &__lifestyle-text {
     h2 {
-      @include top-en(900);
+      @include home-en(900);
       font-size: 26px;
       letter-spacing: -0.01em;
-      color: var(--top-ink);
+      color: var(--home-ink);
       margin-bottom: 18px;
       line-height: 1.5;
     }
     p {
-      color: var(--top-ink-soft);
+      color: var(--home-ink-soft);
       font-size: 14px;
       line-height: 2.1;
     }
-    .Top__btn--outline {
+    .Home__btn--outline {
       margin-top: 26px;
     }
   }
 
   // ---------- Works ----------
   &__works {
-    background: var(--top-ink);
+    background: var(--home-ink);
     color: #fff;
     padding: 52px 0 56px;
   }
@@ -418,7 +442,7 @@ $top-tb: 860px;
     margin: 0 auto;
   }
   &__works-head-en {
-    @include top-en(900);
+    @include home-en(900);
     font-size: 28px;
     display: inline-block;
   }
@@ -428,8 +452,8 @@ $top-tb: 860px;
     letter-spacing: 0.04em;
   }
   &__works-grid {
-    @include top-grid(3, 26px);
-    @media (max-width: $top-tb) {
+    @include home-grid(3, 26px);
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }
@@ -453,11 +477,11 @@ $top-tb: 860px;
     }
   }
   &__work-card-more {
-    @include top-en(500);
+    @include home-en(500);
     font-size: 11.5px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--top-accent);
+    color: var(--home-accent);
     margin-bottom: 10px;
     display: inline-block;
   }
@@ -465,7 +489,7 @@ $top-tb: 860px;
     font-size: 11.5px;
     color: #9a9a9a;
     span {
-      color: var(--top-accent);
+      color: var(--home-accent);
     }
   }
   &__works-more {
@@ -475,7 +499,7 @@ $top-tb: 860px;
       display: inline-block;
       border: 1px solid rgba(255, 255, 255, 0.6);
       color: #fff;
-      @include top-en(500);
+      @include home-en(500);
       font-size: 12.5px;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -483,8 +507,8 @@ $top-tb: 860px;
       padding: 11px 30px;
       transition: background 0.2s ease, border-color 0.2s ease;
       &:hover {
-        background: var(--top-accent);
-        border-color: var(--top-accent);
+        background: var(--home-accent);
+        border-color: var(--home-accent);
       }
     }
   }
@@ -492,34 +516,49 @@ $top-tb: 860px;
   // ---------- News & Topics ----------
   &__news {
     padding: 66px 0;
-    border-top: 1px solid var(--top-line);
+    border-top: 1px solid var(--home-line);
   }
   &__news-list {
-    @include top-grid(3, 28px, 1080px);
-    @media (max-width: $top-tb) {
+    @include home-grid(3, 28px, 1080px);
+    @include mobile {
       grid-template-columns: 1fr;
+      padding: 0 20px;
     }
   }
   &__news-item {
     display: block;
-    img {
+    img,
+    .Home__placeholder-photo {
       height: 150px;
       border-radius: 10px;
       margin-bottom: 14px;
     }
-    &:hover .Top__news-title {
-      text-decoration: underline wavy var(--top-accent);
+    &:hover .Home__news-title {
+      text-decoration: underline wavy var(--home-accent);
     }
   }
-  &__news-date {
-    @include top-en(500);
-    font-size: 12.5px;
-    color: var(--top-accent);
+  &__news-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 6px;
+  }
+  &__news-date {
+    @include home-en(500);
+    font-size: 12.5px;
+    color: var(--home-accent);
+  }
+  &__news-cat {
+    font-size: 11px;
+    color: var(--home-ink-soft);
+    background: var(--home-paper-shade);
+    border-radius: 10px;
+    padding: 1px 10px;
   }
   &__news-title {
     font-size: 14px;
-    color: var(--top-ink);
+    color: var(--home-ink);
   }
   &__news-more {
     text-align: center;
@@ -528,12 +567,12 @@ $top-tb: 860px;
 
   // ---------- Contents ----------
   &__contents {
-    background: var(--top-paper-shade);
+    background: var(--home-paper-shade);
     padding: 66px 0;
   }
   &__contents-grid {
-    @include top-grid(3, 14px);
-    @media (max-width: $top-tb) {
+    @include home-grid(3, 14px);
+    @include mobile {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -557,78 +596,147 @@ $top-tb: 860px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%);
     span {
       color: #ffffff;
-      @include top-en(700);
+      @include home-en(700);
       font-size: 14px;
     }
   }
 
-  // ---------- Events ----------
+  // ---------- Events（外部ウィジェット ie-miru） ----------
   &__events {
     padding: 66px 0;
-    border-top: 1px solid var(--top-line);
+    border-top: 1px solid var(--home-line);
   }
-  &__event-grid {
-    @include top-grid(3, 26px);
-    @media (max-width: $top-tb) {
-      grid-template-columns: 1fr;
+  &__events-widget {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @include mobile {
+      padding: 0 20px;
     }
-  }
-  &__event-card {
-    display: block;
     img {
-      height: 190px;
-      margin-bottom: 14px;
-      border-radius: 8px;
-    }
-    p {
-      font-size: 13.5px;
-      color: var(--top-ink);
+      height: auto;
     }
   }
-  &__event-tag {
-    display: inline-block;
-    @include top-en(500);
-    font-size: 11.5px;
-    color: var(--top-accent);
-    border: 1.5px solid var(--top-accent);
-    border-radius: 14px;
-    padding: 3px 12px;
-    margin-bottom: 10px;
+
+  // ---------- Contact ----------
+  &__contact {
+    background: var(--home-ink);
+    color: #fff;
+    padding: 56px 0;
+  }
+  &__contact-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 20px;
+    }
+  }
+  &__contact-en {
+    @include home-en(900);
+    font-size: 28px;
+    line-height: 1.2;
+    display: block;
+  }
+  &__contact-text {
+    font-size: 13.5px;
+    color: #c9c9c9;
+    margin-top: 10px;
+  }
+  &__contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex: none;
+    @include mobile {
+      width: 100%;
+      a {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+    }
+    .Home__btn {
+      background: var(--home-accent);
+      &:hover {
+        background: #17827b;
+      }
+    }
+    .Home__btn--outline {
+      border-color: rgba(255, 255, 255, 0.7);
+      color: #fff;
+      &:hover {
+        background: #fff;
+        color: var(--home-ink);
+      }
+    }
   }
 
   // ---------- Reform Blog ----------
+  // 一覧は footer.php の reformBlogData() が .Top__news-item の <li> を追加する。
+  // styles.css に残る旧 .Top__news-* の指定を、ここで上書きしている。
   &__reform {
     padding: 66px 0;
-    border-top: 1px solid var(--top-line);
+    border-top: 1px solid var(--home-line);
   }
   &__reform-list {
     max-width: 760px;
     margin: 0 auto;
     padding: 0 32px;
     list-style: none;
-  }
-  &__reform-item {
-    display: flex;
-    gap: 18px;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--top-line);
-    font-size: 13.5px;
-    color: var(--top-ink-soft);
-    &:hover .Top__reform-title {
-      text-decoration: underline wavy var(--top-accent);
+    min-height: 60px;
+    @include mobile {
+      padding: 0 20px;
     }
-    > a {
+    .Top__news-item {
+      height: auto;
+      border-top: none;
+      border-bottom: 1px solid var(--home-line);
+    }
+    .Top__news-item:last-of-type {
+      border-bottom: 1px solid var(--home-line);
+    }
+    .Top__news-link {
+      display: block;
+      height: auto;
+      padding: 15px 0;
+      color: var(--home-ink-soft);
+      &:hover .Top__news-lead {
+        text-decoration: underline wavy var(--home-accent);
+      }
+    }
+    .Top__news-text {
+      display: block;
+    }
+    .Top__news-text-inner {
       display: flex;
       gap: 18px;
-      width: 100%;
+      @include mobile {
+        flex-direction: column;
+        gap: 2px;
+      }
     }
-  }
-  &__reform-date {
-    @include top-en(500);
-    font-size: 12.5px;
-    color: var(--top-accent);
-    flex: none;
-    width: 92px;
+    .Top__news-day {
+      @include home-en(500);
+      font-size: 12.5px;
+      color: var(--home-accent);
+      flex: none;
+      width: 120px;
+      margin: 0;
+      @include mobile {
+        width: auto;
+      }
+    }
+    .Top__news-lead {
+      font-size: 13.5px;
+      font-weight: 400;
+      margin: 0;
+    }
   }
 
   // ---------- Banners ----------
@@ -642,7 +750,7 @@ $top-tb: 860px;
     max-width: 1180px;
     margin: 0 auto;
     padding: 0 32px 28px;
-    @media (max-width: $top-tb) {
+    @include mobile {
       grid-template-columns: 1fr;
     }
   }
@@ -660,7 +768,7 @@ $top-tb: 860px;
     position: absolute;
     top: 14px;
     left: 18px;
-    @include top-en(500);
+    @include home-en(500);
     font-size: 11px;
     letter-spacing: 0.04em;
     color: #fff;
@@ -668,7 +776,7 @@ $top-tb: 860px;
     border-radius: 12px;
     padding: 3px 12px;
     &--dark {
-      color: var(--top-ink);
+      color: var(--home-ink);
       border-color: rgba(20, 20, 20, 0.5);
     }
   }
@@ -678,11 +786,11 @@ $top-tb: 860px;
     bottom: 14px;
     right: 18px;
     color: #fff;
-    @include top-en(700);
+    @include home-en(700);
     font-size: 14px;
     line-height: 1.5;
     &--dark {
-      color: var(--top-ink);
+      color: var(--home-ink);
     }
   }
   &__campaign {
@@ -692,26 +800,18 @@ $top-tb: 860px;
   // ---------- SNS ----------
   &__sns {
     padding: 62px 0;
-    border-top: 1px solid var(--top-line);
+    border-top: 1px solid var(--home-line);
     text-align: center;
   }
-  &__sns-grid {
-    display: flex;
-    gap: 14px;
-    justify-content: center;
-    margin-top: 28px;
-    flex-wrap: wrap;
-    img {
-      width: 130px;
-      height: 130px;
-      border-radius: 10px;
-      object-fit: cover;
-    }
+  &__sns-fb {
+    width: 500px;
+    max-width: calc(100% - 40px);
+    margin: 0 auto;
   }
 }
 
 // 画像未設定時のプレースホルダー
-.Top__placeholder-photo {
+.Home__placeholder-photo {
   display: block;
   background: linear-gradient(155deg, #e2e2e2 0%, #cfcfcf 45%, #b8b8b8 100%);
   width: 100%;
@@ -719,29 +819,14 @@ $top-tb: 860px;
 }
 
 // カード内のプレースホルダーは <img> と同じサイズにそろえる
-.Top__work-card .Top__placeholder-photo {
+.Home__work-card .Home__placeholder-photo {
   height: 200px;
   border-radius: 6px;
   margin-bottom: 16px;
 }
-.Top__news-item .Top__placeholder-photo {
-  height: 150px;
-  border-radius: 10px;
-  margin-bottom: 14px;
-}
-.Top__event-card .Top__placeholder-photo {
-  height: 190px;
-  border-radius: 8px;
-  margin-bottom: 14px;
-}
-.Top__sns-grid .Top__placeholder-photo {
-  width: 130px;
-  height: 130px;
-  border-radius: 10px;
-}
 
 // ---------- Hero slideshow keyframes（6枚 / 32秒ループ） ----------
-@keyframes topHeroZoom1 {
+@keyframes homeHeroZoom1 {
   0.00% { opacity: 0.5; transform: scale(1.0545); }
   1.88% { opacity: 1; transform: scale(1.049); }
   14.79% { opacity: 1; transform: scale(1.011); }
@@ -749,31 +834,31 @@ $top-tb: 860px;
   98.12% { opacity: 0.5; transform: scale(1.0545); }
   100.00% { opacity: 0.5; transform: scale(1.0545); }
 }
-@keyframes topHeroZoom2 {
+@keyframes homeHeroZoom2 {
   14.79% { opacity: 0; transform: scale(1.06); }
   18.54% { opacity: 1; transform: scale(1.049); }
   31.46% { opacity: 1; transform: scale(1.011); }
   35.21% { opacity: 0; transform: scale(1); }
 }
-@keyframes topHeroZoom3 {
+@keyframes homeHeroZoom3 {
   31.46% { opacity: 0; transform: scale(1.06); }
   35.21% { opacity: 1; transform: scale(1.049); }
   48.12% { opacity: 1; transform: scale(1.011); }
   51.88% { opacity: 0; transform: scale(1); }
 }
-@keyframes topHeroZoom4 {
+@keyframes homeHeroZoom4 {
   48.12% { opacity: 0; transform: scale(1.06); }
   51.88% { opacity: 1; transform: scale(1.049); }
   64.79% { opacity: 1; transform: scale(1.011); }
   68.54% { opacity: 0; transform: scale(1); }
 }
-@keyframes topHeroZoom5 {
+@keyframes homeHeroZoom5 {
   64.79% { opacity: 0; transform: scale(1.06); }
   68.54% { opacity: 1; transform: scale(1.049); }
   81.46% { opacity: 1; transform: scale(1.011); }
   85.21% { opacity: 0; transform: scale(1); }
 }
-@keyframes topHeroZoom6 {
+@keyframes homeHeroZoom6 {
   0.00% { opacity: 0.5; transform: scale(1.0055); }
   1.88% { opacity: 0; transform: scale(1); }
   81.46% { opacity: 0; transform: scale(1.06); }

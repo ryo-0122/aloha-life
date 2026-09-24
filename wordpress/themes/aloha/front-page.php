@@ -2,114 +2,121 @@
 /**
  * トップページ
  *
- * スタイル: assets/scss/_top.scss（コンパイル済み: assets/css/top.css）
- * 設定・関数: inc/redesign.php
+ * スタイル: assets/@scss/components/_home.scss → assets/css/home.css
+ * 読み込み・共通関数: inc/redesign.php
  *
- * 写真は assets/images/top/ に下記ファイル名で配置すると表示される（未配置の場合はグレーのプレースホルダー）。
+ * 既存のまま維持しているもの:
+ * - NEWS & TOPICS の取得条件（post / work / realestate の最新6件）
+ * - 施工例の写真（ACF cases-main-pic）とタクソノミー
+ * - イベント情報（ie-miru の外部ウィジェット）
+ * - リフォームブログ（footer.php の reformBlogData() が .js-news-generate-target に一覧を追加）
+ * - Facebook ページプラグイン（SDK は footer.php で読み込み）
  */
 
 get_header();
 
-// リンク先。既存サイトの URL に合わせて書き換える。
-$aloha_links = array(
-	'about'     => home_url( '/about/' ),
-	'concept'   => home_url( '/concept/' ),
-	'flow'      => home_url( '/flow/' ),
-	'plan'      => get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link( 'plan' ) : home_url( '/plan/' ),
-	'cases'     => get_post_type_archive_link( ALOHA_CASES_POST_TYPE ) ? get_post_type_archive_link( ALOHA_CASES_POST_TYPE ) : home_url( '/cases/' ),
-	'feature'   => home_url( '/feature/' ),
-	'news'      => get_permalink( get_option( 'page_for_posts' ) ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/news/' ),
-	'modelhouse' => home_url( '/modelhouse/' ),
-	'hawaii'    => get_post_type_archive_link( 'real-estate' ) ? get_post_type_archive_link( 'real-estate' ) : home_url( '/real-estate/' ),
-	'reform'    => home_url( '/reform/' ),
-	'service'   => home_url( '/service/' ),
-	'line'      => home_url( '/line/' ),
-	'vr'        => home_url( '/vr/' ),
-	'area'      => home_url( '/area/' ),
-	'campaign'  => home_url( '/campaign/' ),
+// ヒーロー写真。6枚そろっていればフェードで切り替え、足りなければ1枚目を固定表示。
+$hero_slides = array();
+for ( $i = 1; $i <= 6; $i++ ) {
+	$url = aloha_theme_image( sprintf( 'top/HeroSlide%02d.jpg', $i ) );
+	if ( $url ) {
+		$hero_slides[] = $url;
+	}
+}
+if ( ! $hero_slides ) {
+	$fallback = aloha_theme_image( array( 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) );
+	if ( $fallback ) {
+		$hero_slides[] = $fallback;
+	}
+}
+
+// ABOUT の写真。assets/images/top/about-*.jpg があれば優先し、無ければヒーロー写真を流用。
+$about_cells = array(
+	array( 'cap' => 'Exterior', 'jp' => '外観', 'img' => array( 'top/about-exterior.jpg', 'top/HeroSlide02.jpg' ) ),
+	array( 'cap' => 'Living', 'jp' => 'リビング', 'img' => array( 'top/about-living.jpg', 'top/HeroSlide03.jpg' ) ),
+	array( 'cap' => 'Wood Deck', 'jp' => 'ウッドデッキ', 'img' => array( 'top/about-deck.jpg', 'top/HeroSlide04.jpg' ) ),
+	array( 'cap' => 'Light & Wind', 'jp' => '光と風', 'img' => array( 'top/about-light.jpg', 'top/HeroSlide05.jpg' ) ),
+	array( 'cap' => 'Detail', 'jp' => 'こだわり', 'img' => array( 'top/about-detail.jpg', 'top/HeroSlide06.jpg' ) ),
 );
 
-$aloha_about_cells = array(
-	array( 'cap' => 'Exterior', 'jp' => '外観', 'img' => 'about-exterior.jpg', 'url' => $aloha_links['about'] ),
-	array( 'cap' => 'Living', 'jp' => 'リビング', 'img' => 'about-living.jpg', 'url' => $aloha_links['about'] ),
-	array( 'cap' => 'Wood Deck', 'jp' => 'ウッドデッキ', 'img' => 'about-deck.jpg', 'url' => $aloha_links['about'] ),
-	array( 'cap' => 'Light & Wind', 'jp' => '光と風', 'img' => 'about-light.jpg', 'url' => $aloha_links['about'] ),
-	array( 'cap' => 'Detail', 'jp' => 'こだわり', 'img' => 'about-detail.jpg', 'url' => $aloha_links['about'] ),
+$pillars = array(
+	array( 'name' => 'CONCEPT', 'jp' => 'コンセプト', 'url' => home_url( '/concept/' ), 'img' => array( 'Top_menu_01_3.jpg', 'Top_menu_01@2x.jpg', 'Top_menu_01.jpg' ) ),
+	array( 'name' => 'FLOW', 'jp' => 'ALOHA&STYLEの家ができるまで', 'url' => home_url( '/flow/' ), 'img' => array( 'Top_menu_02_3.jpg', 'Top_menu_02@2x.jpg', 'Top_menu_02.jpg' ) ),
+	array( 'name' => 'PLAN', 'jp' => '住宅プラン', 'url' => home_url( '/plan/' ), 'img' => array( 'Top_menu_03_3.jpg', 'Top_menu_03@2x.jpg', 'Top_menu_03.jpg' ) ),
+	array( 'name' => 'WORKS', 'jp' => '施工事例', 'url' => home_url( '/cases/' ), 'img' => array( 'Top_menu_04_3.jpg', 'Top_menu_04@2x.jpg', 'Top_menu_04.jpg' ) ),
 );
 
-$aloha_pillars = array(
-	array( 'name' => 'CONCEPT', 'jp' => 'コンセプト', 'img' => 'pillar-concept.jpg', 'url' => $aloha_links['concept'] ),
-	array( 'name' => 'FLOW', 'jp' => 'ALOHA&STYLEが出来るまで', 'img' => 'pillar-flow.jpg', 'url' => $aloha_links['flow'] ),
-	array( 'name' => 'PLAN', 'jp' => '住宅プラン', 'img' => 'pillar-plan.jpg', 'url' => $aloha_links['plan'] ),
-	array( 'name' => 'WORKS', 'jp' => '施工事例', 'img' => 'pillar-works.jpg', 'url' => $aloha_links['cases'] ),
+// CONTENTS。url が空の項目は表示しない（URLが決まったら入れる）。
+$contents = array(
+	array( 'label' => '施工例', 'url' => home_url( '/cases/' ), 'img' => array( 'Top_content_04_2.jpg', 'Top_content_04@2x.jpg', 'Top_content_04.jpg' ) ),
+	array( 'label' => 'モデルハウス', 'url' => home_url( '/modelhouse/' ), 'img' => array( 'Top_content_01_2.jpg', 'Top_content_01@2x.jpg', 'Top_content_01.jpg' ) ),
+	array( 'label' => 'ハワイアンドア', 'url' => home_url( '/hawaiian-door/' ), 'img' => array( 'Top_content_02_2.jpg', 'Top_content_02@2x.jpg', 'Top_content_02.jpg' ) ),
+	array( 'label' => 'ハワイの不動産物件', 'url' => home_url( '/hawaii/' ), 'img' => array( 'Top_content_03_2.jpg', 'Top_content_03@2x.jpg', 'Top_content_03.jpg' ) ),
+	array( 'label' => '設計施工管理サービス', 'url' => home_url( '/housedesign/' ), 'img' => array( 'Top_content_05_2.jpg', 'Top_content_05@2x.jpg', 'Top_content_05.jpg' ) ),
+	array( 'label' => 'マンション', 'url' => '', 'img' => array() ),
+	array( 'label' => 'リフォーム', 'url' => '', 'img' => array() ),
+	array( 'label' => 'LINEお友達追加', 'url' => home_url( '/line/' ), 'img' => array( 'line_bnr_img.png' ) ), // footer.php と同じリンク・画像
 );
 
-$aloha_contents = array(
-	array( 'label' => '施工例', 'img' => 'contents-works.jpg', 'url' => $aloha_links['cases'] ),
-	array( 'label' => 'モデルハウス Loco Lofa', 'img' => 'contents-modelhouse.jpg', 'url' => $aloha_links['modelhouse'] ),
-	array( 'label' => 'ハワイの不動産物件', 'img' => 'contents-hawaii.jpg', 'url' => $aloha_links['hawaii'] ),
-	array( 'label' => '西部建設リフォーム', 'img' => 'contents-reform.jpg', 'url' => $aloha_links['reform'] ),
-	array( 'label' => '設計施工管理サービス', 'img' => 'contents-service.jpg', 'url' => $aloha_links['service'] ),
-	array( 'label' => 'LINEお友達追加', 'img' => 'contents-line.jpg', 'url' => $aloha_links['line'] ),
+// バナー。url が空の項目は表示しない（URLと画像が決まったら入れる）。
+$banners = array(
+	array( 'tag' => 'VR展示場', 'title' => 'VRで、憧れのハワイアンライフを体感', 'url' => '', 'img' => array(), 'dark' => false ),
+	array( 'tag' => '近隣エリア', 'title' => '施工エリア以外のお客様へ', 'url' => '', 'img' => array(), 'dark' => true ),
 );
+$campaign = array( 'label' => '住宅省エネキャンペーン', 'url' => '' );
 
-// イベント情報（固定表示。イベント用の投稿タイプがあれば WP_Query に置き換える）
-$aloha_events = array(
-	array( 'tag' => '開催中', 'text' => 'リラックス感が心地良いリゾートスタイルの住まい 岡山市南区築港新町', 'img' => 'event-1.jpg' ),
-	array( 'tag' => 'オンライン相談・セミナー', 'text' => '【vlog形式】ハワイアンプランテーションハウス No.1 ご紹介', 'img' => 'event-2.jpg' ),
-	array( 'tag' => '分譲住宅', 'text' => '【予約制】オンラインでも安心してご相談。住宅設計＆購入資金相談会', 'img' => 'event-3.jpg' ),
-);
+// single-cases.php で使っている既存のオンライン相談予約URL
+$online_consult_url = 'https://www.ie-miru.jp/cms/yoyaku/seibukensetsu/events/19642';
 
-$aloha_works = new WP_Query(
+$works_query = new WP_Query(
 	array(
-		'post_type'           => ALOHA_CASES_POST_TYPE,
-		'posts_per_page'      => 3,
-		'ignore_sticky_posts' => true,
-		'no_found_rows'       => true,
+		'post_type'      => 'cases',
+		'posts_per_page' => 3,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
 	)
 );
 
-$aloha_news = new WP_Query(
+$news_query = new WP_Query(
 	array(
-		'post_type'           => 'post',
-		'posts_per_page'      => 5,
-		'ignore_sticky_posts' => true,
-		'no_found_rows'       => true,
+		'post_type'      => array( 'post', 'work', 'realestate' ),
+		'posts_per_page' => 6,
 	)
 );
 ?>
-<div class="Top">
+<main class="Home">
 
 	<!-- HERO -->
-	<section class="Top__hero" aria-label="ヒーロー画像スライドショー">
-		<?php for ( $i = 1; $i <= 6; $i++ ) : ?>
-			<img class="Top__hero-slide" src="<?php echo esc_url( get_theme_file_uri( sprintf( 'assets/images/top/HeroSlide%02d.jpg', $i ) ) ); ?>" alt="<?php echo esc_attr( sprintf( 'ALOHA & STYLEが手がけたハワイアンスタイル住宅の写真%d', $i ) ); ?>" loading="<?php echo 1 === $i ? 'eager' : 'lazy'; ?>" decoding="async">
-		<?php endfor; ?>
+	<section class="Home__hero<?php echo 6 === count( $hero_slides ) ? '' : ' Home__hero--static'; ?>" aria-labelledby="home-hero-heading">
+		<?php foreach ( $hero_slides as $index => $slide ) : ?>
+			<img class="Home__hero-slide" src="<?php echo esc_url( $slide ); ?>" alt="<?php echo esc_attr( sprintf( 'ALOHA & STYLEが手がけたハワイアンスタイル住宅の写真%d', $index + 1 ) ); ?>" loading="<?php echo 0 === $index ? 'eager' : 'lazy'; ?>" decoding="async">
+		<?php endforeach; ?>
 
-		<div class="Top__hero-title">
-			<div class="Top__hero-eyebrow">Okayama &mdash; Hawaiian Style House</div>
-			<h1 class="Top__hero-heading">ALOHA &amp; STYLE</h1>
-			<p class="Top__hero-tagline">岡山で叶える、ハワイアンスタイルの住まい。<br>豊富な提案力と実績で、憧れの暮らしをかたちにします。</p>
-			<div class="Top__hero-ctas">
-				<a href="<?php echo esc_url( $aloha_links['about'] ); ?>" class="Top__btn">ALOHAを詳しく知る &rarr;</a>
+		<div class="Home__hero-title">
+			<div class="Home__hero-eyebrow">Okayama &mdash; Hawaiian Style House</div>
+			<h2 id="home-hero-heading" class="Home__hero-heading">ALOHA &amp; STYLE</h2>
+			<p class="Home__hero-tagline">岡山で叶える、ハワイアンスタイルの住まい。<br>豊富な提案力と実績で、憧れの暮らしをかたちにします。</p>
+			<div class="Home__hero-ctas">
+				<a href="<?php echo esc_url( home_url( '/cases/' ) ); ?>" class="Home__btn">施工事例を見る &rarr;</a>
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="Home__btn--outline">お問い合わせ</a>
 			</div>
 		</div>
 	</section>
 
 	<!-- ABOUT -->
-	<section class="Top__about" aria-labelledby="top-about-heading">
-		<div class="Top__about-grid">
-			<div class="Top__about-cell Top__about-text">
-				<h2 id="top-about-heading" class="Top__about-text-label">About Aloha &amp; Style</h2>
+	<section class="Home__about" aria-labelledby="home-about-heading">
+		<div class="Home__about-grid">
+			<div class="Home__about-cell Home__about-text">
+				<h2 id="home-about-heading" class="Home__about-text-label">About Aloha &amp; Style</h2>
 				<p>ALOHA&amp;STYLEは、ウッドデッキや吹き抜けリビングなどハワイアンスタイルを実現するための住宅を、豊富な提案力と実績で自由自在にお造りします。暮らしの拠点でも、上質な非日常のご提案をいたします。</p>
 			</div>
-			<?php foreach ( $aloha_about_cells as $cell ) : ?>
-				<a href="<?php echo esc_url( $cell['url'] ); ?>" class="Top__about-cell">
-					<?php aloha_image_or_placeholder( aloha_top_image_url( $cell['img'] ), $cell['jp'] . 'のイメージ写真', 'Top__placeholder-photo' ); ?>
-					<span class="Top__about-cell-overlay">
-						<span class="Top__about-cell-cap"><?php echo esc_html( $cell['cap'] ); ?></span>
-						<span class="Top__about-cell-jp"><?php echo esc_html( $cell['jp'] ); ?></span>
-						<span class="Top__about-cell-more">More</span>
+			<?php foreach ( $about_cells as $cell ) : ?>
+				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__about-cell">
+					<?php aloha_image_tag( aloha_theme_image( $cell['img'] ), 'ALOHA&STYLEの住まいの' . $cell['jp'] . 'の写真', 'Home__placeholder-photo' ); ?>
+					<span class="Home__about-cell-overlay">
+						<span class="Home__about-cell-cap"><?php echo esc_html( $cell['cap'] ); ?></span>
+						<span class="Home__about-cell-jp"><?php echo esc_html( $cell['jp'] ); ?></span>
+						<span class="Home__about-cell-more">More</span>
 					</span>
 				</a>
 			<?php endforeach; ?>
@@ -117,186 +124,198 @@ $aloha_news = new WP_Query(
 	</section>
 
 	<!-- PILLARS -->
-	<section class="Top__pillars" aria-label="主要コンテンツへの導線">
-		<div class="Top__pillar-grid">
-			<?php foreach ( $aloha_pillars as $index => $pillar ) : ?>
-				<a href="<?php echo esc_url( $pillar['url'] ); ?>" class="Top__pillar-tile">
-					<?php aloha_image_or_placeholder( aloha_top_image_url( $pillar['img'] ), $pillar['jp'] . 'ページへのリンク画像', 'Top__placeholder-photo' ); ?>
-					<span class="Top__pillar-overlay">
-						<span class="Top__pillar-num"><?php echo esc_html( sprintf( '%02d', $index + 1 ) ); ?></span>
-						<span class="Top__pillar-name"><?php echo esc_html( $pillar['name'] ); ?></span>
-						<span class="Top__pillar-jp"><?php echo esc_html( $pillar['jp'] ); ?></span>
+	<nav class="Home__pillars" aria-label="主要コンテンツ">
+		<div class="Home__pillar-grid">
+			<?php foreach ( $pillars as $index => $pillar ) : ?>
+				<a href="<?php echo esc_url( $pillar['url'] ); ?>" class="Home__pillar-tile">
+					<?php aloha_image_tag( aloha_theme_image( $pillar['img'] ), '', 'Home__placeholder-photo' ); ?>
+					<span class="Home__pillar-overlay">
+						<span class="Home__pillar-num"><?php echo esc_html( sprintf( '%02d', $index + 1 ) ); ?></span>
+						<span class="Home__pillar-name"><?php echo esc_html( $pillar['name'] ); ?></span>
+						<span class="Home__pillar-jp"><?php echo esc_html( $pillar['jp'] ); ?></span>
 					</span>
 				</a>
 			<?php endforeach; ?>
 		</div>
-	</section>
+	</nav>
 
 	<!-- LIFESTYLE -->
-	<section class="Top__lifestyle" aria-labelledby="top-lifestyle-heading">
-		<div class="Top__lifestyle-inner">
-			<div class="Top__lifestyle-photo">
-				<?php aloha_image_or_placeholder( aloha_top_image_url( 'lifestyle.jpg' ), 'ALOHA&STYLEが手がけた住宅でくつろぐ家族の写真', 'Top__placeholder-photo' ); ?>
+	<section class="Home__lifestyle" aria-labelledby="home-lifestyle-heading">
+		<div class="Home__lifestyle-inner">
+			<div class="Home__lifestyle-photo">
+				<?php aloha_image_tag( aloha_theme_image( array( 'top/lifestyle.jpg', 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) ), 'ALOHA&STYLEが手がけたハワイアンスタイル住宅の外観', 'Home__placeholder-photo' ); ?>
 			</div>
-			<div class="Top__lifestyle-text">
-				<h2 id="top-lifestyle-heading">暮らしから、<br>家を考える。</h2>
+			<div class="Home__lifestyle-text">
+				<h2 id="home-lifestyle-heading">暮らしから、<br>家を考える。</h2>
 				<p>
 					家族の成長も、日々の気分も、時間とともに変わっていく。<br>
 					だからこそALOHA&amp;STYLEは、間取りありきではなく<br>
 					「どう暮らしたいか」から住まいを考えます。
 				</p>
-				<a href="<?php echo esc_url( $aloha_links['feature'] ); ?>" class="Top__btn--outline">ALOHA&amp;STYLEの特徴を見る</a>
+				<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEの特徴を見る</a>
 			</div>
 		</div>
 	</section>
 
 	<!-- WORKS -->
-	<section class="Top__works" aria-labelledby="top-works-heading">
-		<div class="Top__works-head">
-			<h2 id="top-works-heading" class="Top__works-head-en">Works</h2>
-			<span class="Top__works-head-jp">施工事例</span>
+	<section class="Home__works" aria-labelledby="home-works-heading">
+		<div class="Home__works-head">
+			<h2 id="home-works-heading" class="Home__works-head-en">Works</h2>
+			<span class="Home__works-head-jp">施工事例</span>
 		</div>
-		<?php if ( $aloha_works->have_posts() ) : ?>
-			<div class="Top__works-grid">
+		<?php if ( $works_query->have_posts() ) : ?>
+			<div class="Home__works-grid">
 				<?php
-				while ( $aloha_works->have_posts() ) :
-					$aloha_works->the_post();
+				while ( $works_query->have_posts() ) :
+					$works_query->the_post();
 					$tags = aloha_case_hashtags();
 					?>
-					<a href="<?php the_permalink(); ?>" class="Top__work-card">
-						<?php
-						$work_img = aloha_post_image_url();
-						if ( $work_img ) {
-							printf( '<img src="%s" alt="%s" loading="lazy" decoding="async">', esc_url( $work_img ), esc_attr( get_the_title() . 'の外観・内観写真' ) );
-						} else {
-							echo '<span class="Top__placeholder-photo"></span>';
-						}
-						?>
+					<a href="<?php the_permalink(); ?>" class="Home__work-card">
+						<?php aloha_image_tag( aloha_case_main_pic(), get_the_title() . 'の写真', 'Home__placeholder-photo' ); ?>
 						<h3><?php the_title(); ?></h3>
-						<span class="Top__work-card-more">More</span>
+						<span class="Home__work-card-more">More</span>
 						<?php if ( $tags ) : ?>
-							<div class="Top__work-card-tags"><span>&mdash;</span> <?php echo esc_html( $tags ); ?></div>
+							<div class="Home__work-card-tags"><span>&mdash;</span> <?php echo esc_html( $tags ); ?></div>
 						<?php endif; ?>
 					</a>
 				<?php endwhile; ?>
 			</div>
-			<?php wp_reset_postdata(); ?>
 		<?php endif; ?>
-		<div class="Top__works-more"><a href="<?php echo esc_url( $aloha_links['cases'] ); ?>">施工事例の一覧を見る</a></div>
+		<?php wp_reset_postdata(); ?>
+		<div class="Home__works-more"><a href="<?php echo esc_url( home_url( '/cases/' ) ); ?>">施工事例の一覧を見る</a></div>
 	</section>
 
 	<!-- NEWS & TOPICS -->
-	<section class="Top__news" aria-labelledby="top-news-heading">
-		<div class="Top__section-head">
-			<h2 id="top-news-heading" class="Top__section-head-en">News &amp; Topics</h2>
-			<span class="Top__section-head-jp">新着情報</span>
+	<section class="Home__news" aria-labelledby="home-news-heading">
+		<div class="Home__section-head">
+			<h2 id="home-news-heading" class="Home__section-head-en">News &amp; Topics</h2>
+			<span class="Home__section-head-jp">新着情報</span>
 		</div>
-		<?php if ( $aloha_news->have_posts() ) : ?>
-			<div class="Top__news-list">
+		<?php if ( $news_query->have_posts() ) : ?>
+			<div class="Home__news-list">
 				<?php
-				while ( $aloha_news->have_posts() ) :
-					$aloha_news->the_post();
+				while ( $news_query->have_posts() ) :
+					$news_query->the_post();
+					$label = aloha_news_label();
 					?>
-					<a href="<?php the_permalink(); ?>" class="Top__news-item">
+					<a href="<?php the_permalink(); ?>" class="Home__news-item">
 						<?php
-						$news_img = aloha_post_image_url( null, 'medium_large' );
-						if ( $news_img ) {
-							printf( '<img src="%s" alt="%s" loading="lazy" decoding="async">', esc_url( $news_img ), esc_attr( get_the_title() ) );
+						if ( has_post_thumbnail() ) {
+							the_post_thumbnail( 'medium_large', array( 'alt' => '', 'loading' => 'lazy' ) );
 						} else {
-							echo '<span class="Top__placeholder-photo"></span>';
+							aloha_image_tag( aloha_theme_image( 'no_img.jpg' ), '', 'Home__placeholder-photo' );
 						}
 						?>
-						<span class="Top__news-date"><?php echo esc_html( get_the_date( 'Y.m.d' ) ); ?></span>
-						<span class="Top__news-title"><?php the_title(); ?></span>
+						<span class="Home__news-meta">
+							<time class="Home__news-date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'Y.m.d' ) ); ?></time>
+							<?php if ( $label ) : ?>
+								<span class="Home__news-cat"><?php echo esc_html( $label ); ?></span>
+							<?php endif; ?>
+						</span>
+						<span class="Home__news-title"><?php the_title(); ?></span>
 					</a>
 				<?php endwhile; ?>
 			</div>
-			<?php wp_reset_postdata(); ?>
 		<?php endif; ?>
-		<div class="Top__news-more"><a href="<?php echo esc_url( $aloha_links['news'] ); ?>" class="Top__btn--outline">すべて見る</a></div>
+		<?php wp_reset_postdata(); ?>
 	</section>
 
 	<!-- CONTENTS -->
-	<section class="Top__contents" aria-labelledby="top-contents-heading">
-		<div class="Top__section-head">
-			<h2 id="top-contents-heading" class="Top__section-head-en">Contents</h2>
+	<section class="Home__contents" aria-labelledby="home-contents-heading">
+		<div class="Home__section-head">
+			<h2 id="home-contents-heading" class="Home__section-head-en">Contents</h2>
+			<span class="Home__section-head-jp">サービス・コンテンツ</span>
 		</div>
-		<div class="Top__contents-grid">
-			<?php foreach ( $aloha_contents as $content ) : ?>
-				<a href="<?php echo esc_url( $content['url'] ); ?>" class="Top__content-tile">
-					<?php aloha_image_or_placeholder( aloha_top_image_url( $content['img'] ), $content['label'], 'Top__placeholder-photo' ); ?>
-					<span class="Top__content-tile-label"><span><?php echo esc_html( $content['label'] ); ?></span></span>
+		<div class="Home__contents-grid">
+			<?php foreach ( $contents as $content ) : ?>
+				<?php
+				if ( '' === $content['url'] ) {
+					continue;
+				}
+				?>
+				<a href="<?php echo esc_url( $content['url'] ); ?>" class="Home__content-tile">
+					<?php aloha_image_tag( aloha_theme_image( $content['img'] ), '', 'Home__placeholder-photo' ); ?>
+					<span class="Home__content-tile-label"><span><?php echo esc_html( $content['label'] ); ?></span></span>
 				</a>
 			<?php endforeach; ?>
 		</div>
 	</section>
 
-	<!-- EVENTS -->
-	<section class="Top__events" aria-labelledby="top-events-heading">
-		<div class="Top__section-head">
-			<h2 id="top-events-heading" class="Top__section-head-en">Event Information</h2>
-			<span class="Top__section-head-jp">イベント情報</span>
+	<!-- CONTACT -->
+	<section class="Home__contact" aria-labelledby="home-contact-heading">
+		<div class="Home__contact-inner">
+			<div>
+				<h2 id="home-contact-heading" class="Home__contact-en">Contact</h2>
+				<p class="Home__contact-text">家づくりのご相談、モデルハウスの見学、資料のご請求はお気軽にどうぞ。</p>
+			</div>
+			<div class="Home__contact-actions">
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="Home__btn">お問い合わせ &rarr;</a>
+				<a href="<?php echo esc_url( $online_consult_url ); ?>" class="Home__btn--outline" target="_blank" rel="noopener">オンライン相談を予約</a>
+			</div>
 		</div>
-		<div class="Top__event-grid">
-			<?php foreach ( $aloha_events as $event ) : ?>
-				<div class="Top__event-card">
-					<?php aloha_image_or_placeholder( aloha_top_image_url( $event['img'] ), '', 'Top__placeholder-photo' ); ?>
-					<span class="Top__event-tag"><?php echo esc_html( $event['tag'] ); ?></span>
-					<p><?php echo esc_html( $event['text'] ); ?></p>
+	</section>
+
+	<!-- EVENTS（ie-miru の外部ウィジェット。既存と同じ読み込み方） -->
+	<section class="Home__events" aria-labelledby="home-events-heading">
+		<div class="Home__section-head">
+			<h2 id="home-events-heading" class="Home__section-head-en">Event Information</h2>
+			<span class="Home__section-head-jp">イベント情報</span>
+		</div>
+		<div class="Home__events-widget">
+			<script src="https://www.ie-miru.jp/cms/yoyaku/seibukensetsu.js?limit=4"></script>
+			<div id="js-iemiru-cms-index-page" style="width: 100%; display: block;"></div>
+		</div>
+	</section>
+
+	<!-- REFORM BLOG（一覧は footer.php の reformBlogData() が追加） -->
+	<section class="Home__reform js-news-generate" aria-labelledby="home-reform-heading">
+		<div class="Home__section-head">
+			<h2 id="home-reform-heading" class="Home__section-head-en">Reform Blog</h2>
+			<span class="Home__section-head-jp">リフォームブログ</span>
+		</div>
+		<ul class="Home__reform-list js-news-generate-target"></ul>
+	</section>
+
+	<?php
+	$visible_banners = array_filter(
+		$banners,
+		function ( $banner ) {
+			return '' !== $banner['url'];
+		}
+	);
+	?>
+	<?php if ( $visible_banners || '' !== $campaign['url'] ) : ?>
+		<!-- BANNERS -->
+		<section class="Home__banners" aria-label="お知らせバナー">
+			<?php if ( $visible_banners ) : ?>
+				<div class="Home__banner-grid">
+					<?php foreach ( $visible_banners as $banner ) : ?>
+						<a href="<?php echo esc_url( $banner['url'] ); ?>" class="Home__banner-tile">
+							<?php aloha_image_tag( aloha_theme_image( $banner['img'] ), '', 'Home__placeholder-photo' ); ?>
+							<span class="Home__banner-tag<?php echo $banner['dark'] ? ' Home__banner-tag--dark' : ''; ?>"><?php echo esc_html( $banner['tag'] ); ?></span>
+							<span class="Home__banner-ttl<?php echo $banner['dark'] ? ' Home__banner-ttl--dark' : ''; ?>"><?php echo esc_html( $banner['title'] ); ?></span>
+						</a>
+					<?php endforeach; ?>
 				</div>
-			<?php endforeach; ?>
+			<?php endif; ?>
+			<?php if ( '' !== $campaign['url'] ) : ?>
+				<div class="Home__campaign"><a href="<?php echo esc_url( $campaign['url'] ); ?>" class="Home__btn--outline"><?php echo esc_html( $campaign['label'] ); ?></a></div>
+			<?php endif; ?>
+		</section>
+	<?php endif; ?>
+
+	<!-- SNS（Facebook SDK は footer.php で読み込み） -->
+	<section class="Home__sns" aria-labelledby="home-sns-heading">
+		<div class="Home__section-head">
+			<h2 id="home-sns-heading" class="Home__section-head-en">Facebook</h2>
+		</div>
+		<div class="Home__sns-fb" id="fb_page_plugin_area">
+			<div class="fb-page" data-href="https://www.facebook.com/alohaandstyle" data-tabs="timeline" data-width="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+				<blockquote cite="https://www.facebook.com/alohaandstyle" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/alohaandstyle">ALOHA &amp; STYLE（Facebook）</a></blockquote>
+			</div>
 		</div>
 	</section>
 
-	<!-- REFORM BLOG（既存の js-news-generate による自動生成に対応。JSが無い場合は下記が表示される） -->
-	<section class="Top__reform js-news-generate" aria-labelledby="top-reform-heading">
-		<div class="Top__section-head">
-			<h2 id="top-reform-heading" class="Top__section-head-en">Reform Blog</h2>
-			<span class="Top__section-head-jp">リフォームブログ</span>
-		</div>
-		<ul class="Top__reform-list js-news-generate-target">
-			<li class="Top__reform-item"><span class="Top__reform-date">2025.9.10</span><span class="Top__reform-title">エコキュートへの交換で実現する省エネ生活と補助金活用法は？</span></li>
-			<li class="Top__reform-item"><span class="Top__reform-date">2025.4.25</span><span class="Top__reform-title">知らなかったでは済まされない！マンションのリフォーム・リノベーションで気をつけたいポイントとは？</span></li>
-			<li class="Top__reform-item"><span class="Top__reform-date">2025.4.24</span><span class="Top__reform-title">戸建て住宅を長持ちさせるために｜メンテナンスの必要性と適切な計画・予算づくりのポイントは？</span></li>
-			<li class="Top__reform-item"><span class="Top__reform-date">2025.4.23</span><span class="Top__reform-title">お得に交換！2025年度「給湯省エネ事業」で賢く給湯器リフォーム</span></li>
-			<li class="Top__reform-item"><span class="Top__reform-date">2025.4.22</span><span class="Top__reform-title">今がチャンス！「2025年度 先進的窓リノベ事業」でおトクに窓リフォームをしよう</span></li>
-		</ul>
-	</section>
-
-	<!-- BANNERS -->
-	<section class="Top__banners" aria-label="お知らせバナー">
-		<div class="Top__banner-grid">
-			<a href="<?php echo esc_url( $aloha_links['vr'] ); ?>" class="Top__banner-tile">
-				<?php aloha_image_or_placeholder( aloha_top_image_url( 'banner-vr.jpg' ), 'VR展示場で憧れのハワイアンライフを体感', 'Top__placeholder-photo' ); ?>
-				<span class="Top__banner-tag">VR展示場</span>
-				<span class="Top__banner-ttl">VRで、憧れのハワイアンライフを体感</span>
-			</a>
-			<a href="<?php echo esc_url( $aloha_links['area'] ); ?>" class="Top__banner-tile">
-				<?php aloha_image_or_placeholder( aloha_top_image_url( 'banner-area.jpg' ), '施工エリア以外のお客様へ', 'Top__placeholder-photo' ); ?>
-				<span class="Top__banner-tag Top__banner-tag--dark">近隣エリア</span>
-				<span class="Top__banner-ttl Top__banner-ttl--dark">施工エリア以外のお客様へ</span>
-			</a>
-		</div>
-		<div class="Top__campaign"><a href="<?php echo esc_url( $aloha_links['campaign'] ); ?>" class="Top__btn--outline">住宅省エネ2024キャンペーン</a></div>
-	</section>
-
-	<!-- SNS -->
-	<section class="Top__sns" aria-labelledby="top-sns-heading">
-		<div class="Top__section-head">
-			<h2 id="top-sns-heading" class="Top__section-head-en">Facebook / Instagram</h2>
-		</div>
-		<div class="Top__sns-grid">
-			<?php for ( $i = 1; $i <= 3; $i++ ) : ?>
-				<?php $sns_url = aloha_top_image_url( 'sns-' . $i . '.jpg' ); ?>
-				<?php if ( $sns_url ) : ?>
-					<img src="<?php echo esc_url( $sns_url ); ?>" alt="" loading="lazy" decoding="async">
-				<?php else : ?>
-					<span class="Top__placeholder-photo"></span>
-				<?php endif; ?>
-			<?php endfor; ?>
-		</div>
-	</section>
-
-</div><!-- /.Top -->
+</main>
 <?php
 get_footer();
