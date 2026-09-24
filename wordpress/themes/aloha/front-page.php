@@ -15,12 +15,12 @@ $aloha_links = array(
 	'about'     => home_url( '/about/' ),
 	'concept'   => home_url( '/concept/' ),
 	'flow'      => home_url( '/flow/' ),
-	'plan'      => home_url( '/plan/' ),
+	'plan'      => get_post_type_archive_link( 'plan' ) ? get_post_type_archive_link( 'plan' ) : home_url( '/plan/' ),
 	'cases'     => get_post_type_archive_link( ALOHA_CASES_POST_TYPE ) ? get_post_type_archive_link( ALOHA_CASES_POST_TYPE ) : home_url( '/cases/' ),
 	'feature'   => home_url( '/feature/' ),
 	'news'      => get_permalink( get_option( 'page_for_posts' ) ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/news/' ),
 	'modelhouse' => home_url( '/modelhouse/' ),
-	'hawaii'    => home_url( '/hawaii/' ),
+	'hawaii'    => get_post_type_archive_link( 'real-estate' ) ? get_post_type_archive_link( 'real-estate' ) : home_url( '/real-estate/' ),
 	'reform'    => home_url( '/reform/' ),
 	'service'   => home_url( '/service/' ),
 	'line'      => home_url( '/line/' ),
@@ -165,8 +165,9 @@ $aloha_news = new WP_Query(
 					?>
 					<a href="<?php the_permalink(); ?>" class="Top__work-card">
 						<?php
-						if ( has_post_thumbnail() ) {
-							the_post_thumbnail( 'large', array( 'alt' => get_the_title() . 'の外観・内観写真', 'loading' => 'lazy' ) );
+						$work_img = aloha_post_image_url();
+						if ( $work_img ) {
+							printf( '<img src="%s" alt="%s" loading="lazy" decoding="async">', esc_url( $work_img ), esc_attr( get_the_title() . 'の外観・内観写真' ) );
 						} else {
 							echo '<span class="Top__placeholder-photo"></span>';
 						}
@@ -198,8 +199,9 @@ $aloha_news = new WP_Query(
 					?>
 					<a href="<?php the_permalink(); ?>" class="Top__news-item">
 						<?php
-						if ( has_post_thumbnail() ) {
-							the_post_thumbnail( 'medium_large', array( 'alt' => get_the_title(), 'loading' => 'lazy' ) );
+						$news_img = aloha_post_image_url( null, 'medium_large' );
+						if ( $news_img ) {
+							printf( '<img src="%s" alt="%s" loading="lazy" decoding="async">', esc_url( $news_img ), esc_attr( get_the_title() ) );
 						} else {
 							echo '<span class="Top__placeholder-photo"></span>';
 						}

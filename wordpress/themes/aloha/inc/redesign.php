@@ -45,7 +45,7 @@ function aloha_case_overview_fields() {
 	);
 }
 
-/** 施工事例のギャラリー画像に使う ACF ギャラリーフィールド名 */
+/** 施工事例のギャラリー画像に使う ACF ギャラリーフィールド名（無ければ本文中の画像を使う） */
 if ( ! defined( 'ALOHA_CASE_GALLERY_FIELD' ) ) {
 	define( 'ALOHA_CASE_GALLERY_FIELD', 'gallery' );
 }
@@ -168,10 +168,55 @@ function aloha_case_hashtags( $post_id = null ) {
 }
 
 /**
- * 施工事例ギャラリーの画像 ID 配列。
- * 優先順: ACF ギャラリーフィールド → アイキャッチ + 投稿に添付された画像。
+ * 施工事例（cases）でアイキャッチ画像を設定できるようにする。
+ * functions.php の register_post_type( 'cases' ) の supports に 'thumbnail' が無いため、ここで追加している。
  */
-function aloha_case_gallery_ids( $post_id = null ) {
+function aloha_redesign_cases_thumbnail_support() {
+	add_post_type_support( ALOHA_CASES_POST_TYPE, 'thumbnail' );
+}
+add_action( 'init', 'aloha_redesign_cases_thumbnail_support', 20 );
+
+/**
+ * 本文中の <img> の src と alt を出現順に返す。
+ */
+function aloha_content_images( $post_id = null ) {
+	$post = get_post( $post_id ? $post_id : get_the_ID() );
+	if ( ! $post || ! preg_match_all( '/<img\b[^>]*>/i', $post->post_content, $matches ) ) {
+		return array();
+	}
+	$images = array();
+	foreach ( $matches[0] as $tag ) {
+		if ( ! preg_match( '/\ssrc=["\']([^"\']+)["\']/i', $tag, $src ) ) {
+			continue;
+		}
+		$alt      = preg_match( '/\salt=["\']([^"\']*)["\']/i', $tag, $a ) ? html_entity_decode( $a[1], ENT_QUOTES ) : '';
+		$images[] = array(
+			'src' => do_shortcode( $src[1] ), // 本文で [template] ショートコードを使っている場合に対応
+			'alt' => $alt,
+		);
+	}
+	return $images;
+}
+
+/**
+ * 一覧カード用の画像URL。アイキャッチ → 本文の最初の画像 の順で探し、無ければ空文字。
+ */
+function aloha_post_image_url( $post_id = null, $size = 'large' ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( has_post_thumbnail( $post_id ) ) {
+		return get_the_post_thumbnail_url( $post_id, $size );
+	}
+	$images = aloha_content_images( $post_id );
+	return $images ? $images[0]['src'] : '';
+}
+
+/**
+ * 施工事例ギャラリーの画像リスト。
+ * 優先順: ACF ギャラリーフィールド → アイキャッチ＋添付画像 → 本文中の画像。
+ *
+ * @return array{images: array<int, array{src: string, thumb: string, alt: string}>, from_content: bool}
+ */
+function aloha_case_gallery( $post_id = null ) {
 	$post_id = $post_id ? $post_id : get_the_ID();
 	$ids     = array();
 
@@ -195,5 +240,41 @@ function aloha_case_gallery_ids( $post_id = null ) {
 		}
 	}
 
-	return array_values( array_unique( array_filter( $ids ) ) );
+	$images = array();
+	foreach ( array_values( array_unique( array_filter( $ids ) ) ) as $id ) {
+		$src = wp_get_attachment_image_url( $id, 'large' );
+		if ( $src ) {
+			$images[] = array(
+				'src'   => $src,
+				'thumb' => wp_get_attachment_image_url( $id, 'thumbnail' ),
+				'alt'   => (string) get_post_meta( $id, '_wp_attachment_image_alt', true ),
+			);
+		}
+	}
+	if ( $images ) {
+		return array( 'images' => $images, 'from_content' => false );
+	}
+
+	// 既存の施工例は本文に写真を貼っている想定。本文の画像をスライダーに使う。
+	$images = array();
+	foreach ( aloha_content_images( $post_id ) as $img ) {
+		$images[] = array(
+			'src'   => $img['src'],
+			'thumb' => $img['src'],
+			'alt'   => $img['alt'],
+		);
+	}
+	return array( 'images' => $images, 'from_content' => (bool) $images );
+}
+
+/**
+ * 本文HTMLから画像（と画像だけを囲む figure / a / p）を取り除く。
+ * 本文の写真をスライダーに使ったとき、本文側で同じ写真が重複表示されないようにする。
+ */
+function aloha_strip_content_images( $html ) {
+	$html = preg_replace( '#<figure\b[^>]*>.*?</figure>#is', '', $html );
+	$html = preg_replace( '#<a\b[^>]*>\s*<img\b[^>]*>\s*</a>#i', '', $html );
+	$html = preg_replace( '#<img\b[^>]*>#i', '', $html );
+	$html = preg_replace( '#<p\b[^>]*>(\s|&nbsp;|<br\s*/?>)*</p>#i', '', $html );
+	return $html;
 }

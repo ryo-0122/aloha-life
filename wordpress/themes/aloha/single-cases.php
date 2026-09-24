@@ -13,7 +13,8 @@ while ( have_posts() ) :
 	the_post();
 
 	$case_id      = get_the_ID();
-	$gallery_ids  = aloha_case_gallery_ids( $case_id );
+	$gallery      = aloha_case_gallery( $case_id );
+	$slides       = $gallery['images'];
 	$term_groups  = aloha_case_term_groups( $case_id );
 	$archive_link = get_post_type_archive_link( ALOHA_CASES_POST_TYPE );
 	$catalog_link = apply_filters( 'aloha_catalog_url', home_url( '/catalog/' ) );
@@ -40,37 +41,26 @@ while ( have_posts() ) :
 			<?php the_title(); ?>
 		</div>
 
-		<?php if ( $gallery_ids ) : ?>
+		<?php if ( $slides ) : ?>
 			<div class="CaseDetail__slider" data-case-slider>
-				<?php foreach ( $gallery_ids as $index => $image_id ) : ?>
-					<?php
-					echo wp_get_attachment_image(
-						$image_id,
-						'large',
-						false,
-						array(
-							'class'   => 'CaseDetail__slider-slide' . ( 0 === $index ? ' is-active' : '' ),
-							'alt'     => get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : get_the_title() . ' 写真' . ( $index + 1 ),
-							'loading' => 0 === $index ? 'eager' : 'lazy',
-						)
-					);
-					?>
+				<?php foreach ( $slides as $index => $slide ) : ?>
+					<img class="CaseDetail__slider-slide<?php echo 0 === $index ? ' is-active' : ''; ?>" src="<?php echo esc_url( $slide['src'] ); ?>" alt="<?php echo esc_attr( $slide['alt'] ? $slide['alt'] : get_the_title() . ' 写真' . ( $index + 1 ) ); ?>" loading="<?php echo 0 === $index ? 'eager' : 'lazy'; ?>" decoding="async">
 				<?php endforeach; ?>
-				<?php if ( count( $gallery_ids ) > 1 ) : ?>
+				<?php if ( count( $slides ) > 1 ) : ?>
 					<button type="button" class="CaseDetail__slider-arrow CaseDetail__slider-arrow--prev" aria-label="前の写真">&lsaquo;</button>
 					<button type="button" class="CaseDetail__slider-arrow CaseDetail__slider-arrow--next" aria-label="次の写真">&rsaquo;</button>
 					<div class="CaseDetail__slider-dots" aria-hidden="true">
-						<?php foreach ( $gallery_ids as $index => $image_id ) : ?>
+						<?php foreach ( $slides as $index => $slide ) : ?>
 							<i<?php echo 0 === $index ? ' class="is-active"' : ''; ?>></i>
 						<?php endforeach; ?>
 					</div>
 				<?php endif; ?>
 			</div>
-			<?php if ( count( $gallery_ids ) > 1 ) : ?>
+			<?php if ( count( $slides ) > 1 ) : ?>
 				<div class="CaseDetail__thumbs">
-					<?php foreach ( $gallery_ids as $index => $image_id ) : ?>
+					<?php foreach ( $slides as $index => $slide ) : ?>
 						<button type="button" class="CaseDetail__thumb<?php echo 0 === $index ? ' is-active' : ''; ?>" data-index="<?php echo esc_attr( $index ); ?>" aria-label="<?php echo esc_attr( sprintf( '写真%dを表示', $index + 1 ) ); ?>">
-							<?php echo wp_get_attachment_image( $image_id, 'thumbnail', false, array( 'alt' => '' ) ); ?>
+							<img src="<?php echo esc_url( $slide['thumb'] ); ?>" alt="" loading="lazy" decoding="async">
 						</button>
 					<?php endforeach; ?>
 				</div>
@@ -109,7 +99,14 @@ while ( have_posts() ) :
 			<h1 class="CaseDetail__title"><?php the_title(); ?></h1>
 
 			<div class="CaseDetail__lead">
-				<?php the_content(); ?>
+				<?php
+				if ( $gallery['from_content'] ) {
+					// 本文の写真はスライダーに表示済みなので、本文からは除いて文章だけ出す
+					echo aloha_strip_content_images( apply_filters( 'the_content', get_the_content() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				} else {
+					the_content();
+				}
+				?>
 			</div>
 
 			<?php if ( $has_overview ) : ?>
@@ -178,8 +175,9 @@ while ( have_posts() ) :
 				<?php foreach ( $related_ids as $related_id ) : ?>
 					<a href="<?php echo esc_url( get_permalink( $related_id ) ); ?>" class="CaseDetail__related-card">
 						<?php
-						if ( has_post_thumbnail( $related_id ) ) {
-							echo get_the_post_thumbnail( $related_id, 'large', array( 'alt' => get_the_title( $related_id ), 'loading' => 'lazy' ) );
+						$related_img = aloha_post_image_url( $related_id );
+						if ( $related_img ) {
+							printf( '<img src="%s" alt="%s" loading="lazy" decoding="async">', esc_url( $related_img ), esc_attr( get_the_title( $related_id ) ) );
 						} else {
 							echo '<span class="CaseDetail__placeholder-photo"></span>';
 						}
