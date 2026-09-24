@@ -5,7 +5,7 @@
  * スタイル: assets/@scss/components/_home.scss → assets/css/home.css
  * 読み込み・共通関数: inc/redesign.php
  *
- * 並び: ヒーロー → コンセプト → About（住宅プランの5スタイル） → 施工事例 → イベント → VR展示場バナー
+ * 並び: ヒーロー → コンセプト → About（住宅プランの5スタイル） → 施工事例 → イベント
  *   → CONTENTS → お知らせ → リフォームブログ → Facebook → お問い合わせ
  *
  * 既存のまま維持しているもの:
@@ -74,8 +74,8 @@ foreach ( aloha_plan_categories() as $plan_cat ) {
 
 // CONTENTS（最初のプレビューと同じ6項目）。url が空の項目は表示しない。
 $contents = array(
-	array( 'label' => 'ハワイアンドア', 'url' => home_url( '/hawaiian-door/' ), 'img' => array( 'Top_content_02_2.jpg', 'Top_content_02@2x.jpg', 'Top_content_02.jpg' ) ),
 	array( 'label' => 'モデルハウス LOCO-LATTE', 'url' => home_url( '/modelhouse/' ), 'img' => array( 'Top_content_01_2.jpg', 'Top_content_01@2x.jpg', 'Top_content_01.jpg' ) ),
+	array( 'label' => 'VR展示場', 'url' => home_url( '/vr-exhibition/' ), 'img' => array( 'top/banner-vr.jpg' ) ),
 	array( 'label' => 'ハワイの不動産物件', 'url' => home_url( '/hawaii/' ), 'img' => array( 'Top_content_03_2.jpg', 'Top_content_03@2x.jpg', 'Top_content_03.jpg' ) ),
 	// 西部建設のリフォームサイト（リフォームブログの取得元と同じ）
 	array( 'label' => '西部建設リフォーム', 'url' => 'https://iedock.seibukensetu.jp/', 'img' => array( 'top/contents-reform.jpg' ), 'external' => true ),
@@ -83,9 +83,8 @@ $contents = array(
 	array( 'label' => 'LINEお友達追加', 'url' => home_url( '/line/' ), 'img' => array( 'line_bnr_img.png' ) ), // footer.php と同じリンク・画像
 );
 
-// バナー（VR展示場。イベント情報の直後に表示）。url が空の項目は表示しない。
+// バナー（イベント情報の直後に表示）。今は無し（VR展示場は CONTENTS に移動）。url が空の項目は表示しない。
 $banners = array(
-	array( 'tag' => 'VR展示場', 'title' => 'VRで、憧れのハワイアンライフを体感', 'url' => home_url( '/vr-exhibition/' ), 'img' => array( 'top/banner-vr.jpg' ), 'dark' => false ),
 );
 
 // single-cases.php で使っている既存のオンライン相談予約URL
