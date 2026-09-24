@@ -5,7 +5,7 @@
  * functions.php の末尾で読み込む:
  *   require_once get_template_directory() . '/inc/redesign.php';
  *
- * CSS は styles.css とは別ファイル（site-chrome.css / home.css / case-detail.css）にして読み込む。styles.css には Sass に無い直接編集が含まれているため、
+ * CSS は styles.css とは別ファイル（site-chrome.css / home.css / cases.css）にして読み込む。styles.css には Sass に無い直接編集が含まれているため、
  * styles.scss を再コンパイルせずに済むようにしている。
  */
 
@@ -19,11 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * - 全ページ: ヘッダー・フッター（site-chrome.css）と欧文フォント Archivo
  * - トップページ: home.css
- * - 施工例詳細: case-detail.css と case-detail.js
+ * - 施工例（詳細・一覧・スタイル/特徴/ライフスタイル別一覧）: cases.css、詳細のみ case-detail.js
  */
 function aloha_redesign_enqueue() {
 	$is_home = is_front_page();
-	$is_case = is_singular( 'cases' );
+	$is_case = aloha_is_cases_page();
 
 	// 欧文見出し用。読み込めない場合も游ゴシック等で表示される（外部フォントは必須ではない）。
 	// 本文用の Zen Kaku Gothic New はリニューアルしたページだけで読み込む。
@@ -37,7 +37,9 @@ function aloha_redesign_enqueue() {
 		$files['aloha-home'] = 'assets/css/home.css';
 	}
 	if ( $is_case ) {
-		$files['aloha-case-detail'] = 'assets/css/case-detail.css';
+		$files['aloha-cases'] = 'assets/css/cases.css';
+	}
+	if ( is_singular( 'cases' ) ) {
 		wp_enqueue_script( 'aloha-case-detail', get_template_directory_uri() . '/assets/js/case-detail.js', array(), aloha_asset_version( 'assets/js/case-detail.js' ), true );
 	}
 	foreach ( $files as $handle => $path ) {
@@ -45,6 +47,15 @@ function aloha_redesign_enqueue() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'aloha_redesign_enqueue' );
+
+/**
+ * 施工例の詳細・一覧・タクソノミー別一覧のページかどうか。
+ */
+function aloha_is_cases_page() {
+	return is_singular( 'cases' ) || is_post_type_archive( 'cases' ) || is_tax( array_keys( aloha_case_taxonomies() ) );
+}
+
+require_once __DIR__ . '/cases-list.php';
 
 /**
  * ファイル更新日時をバージョンにして、ブラウザキャッシュで古いCSSが残らないようにする。

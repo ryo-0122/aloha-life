@@ -2,7 +2,7 @@
 /**
  * 施工例詳細
  *
- * スタイル: assets/@scss/components/_caseDetail.scss → assets/css/case-detail.css
+ * スタイル: assets/@scss/components/_caseDetail.scss → assets/css/cases.css
  * スライダー: assets/js/case-detail.js
  * 読み込み・共通関数: inc/redesign.php
  *

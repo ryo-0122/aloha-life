@@ -182,16 +182,20 @@ $chrome-bar-h-sp: 50px;
 }
 
 // ---------------------------------------------
-// Footer
+// Footer（明るいグレー）
 // ---------------------------------------------
+$chrome-footer-bg: #f2f2f2;
+$chrome-mute: #8c8c8c;
+
 .Footer {
-  color: #cfcfcf;
+  color: $chrome-ink-soft;
   a:hover {
     opacity: 1;
   }
 }
 .Footer__top {
-  background-color: $chrome-ink;
+  background-color: $chrome-footer-bg;
+  border-top: 1px solid $chrome-line;
   padding: 64px 0 48px;
   @include mobile {
     padding: 48px 0 32px;
@@ -216,7 +220,7 @@ $chrome-bar-h-sp: 50px;
 .Footer__top-block:first-of-type {
   padding: 0;
 }
-// 既存ロゴ画像を、暗い背景で読める白に
+// 既存ロゴ画像を黒で表示（ヘッダーとそろえる）
 .Footer__top .Footer__logo {
   line-height: 0;
   img {
@@ -224,11 +228,11 @@ $chrome-bar-h-sp: 50px;
     max-width: 220px;
     height: auto;
     max-height: 56px;
-    filter: brightness(0) invert(1);
+    filter: brightness(0);
   }
 }
 .Footer__top-address {
-  color: #a8a8a8;
+  color: $chrome-ink-soft;
   font-size: 1.3rem;
   margin: 18px 0 24px;
 }
@@ -245,10 +249,10 @@ $chrome-bar-h-sp: 50px;
   }
 }
 .Footer__top-list a {
-  color: #dcdcdc;
+  color: $chrome-ink-soft;
   font-size: 1.3rem;
   &:hover {
-    color: #fff;
+    color: $chrome-ink;
   }
 }
 // 外部サイトのバナー（styles.css の div.bnr_foot p / img を上書きするため .Footer から指定）
@@ -258,11 +262,7 @@ $chrome-bar-h-sp: 50px;
   gap: 14px;
   margin-top: 28px;
   a {
-    color: #bdbdbd;
-    font-size: 1.1rem;
-    &:hover {
-      color: #fff;
-    }
+    color: $chrome-ink-soft;
   }
   img {
     display: block;
@@ -278,21 +278,21 @@ $chrome-bar-h-sp: 50px;
     margin-top: 6px;
     font-size: 1.2rem;
     line-height: 1.5;
-    color: #bdbdbd;
+    color: $chrome-ink-soft;
     transition: color 0.2s ease;
   }
   a:hover p {
-    color: #fff;
+    color: $chrome-accent;
   }
 }
 // 社長ブログ・スタッフブログ
 .Footer__blog-title {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid #d6d6d6;
   padding: 0 0 12px;
   align-items: baseline;
 }
 .Footer__blog-text {
-  color: #fff;
+  color: $chrome-ink;
 }
 .Footer__blog-text-eng {
   font-family: $chrome-font-en;
@@ -301,7 +301,7 @@ $chrome-bar-h-sp: 50px;
   letter-spacing: 0.01em;
 }
 .Footer__blog-text-jap {
-  color: #a8a8a8;
+  color: $chrome-mute;
   font-size: 1.2rem;
   font-weight: 500;
 }
@@ -331,7 +331,7 @@ $chrome-bar-h-sp: 50px;
   width: auto !important; // style-ms.css の width: 270px !important を解除
   flex: 1;
   min-width: 0;
-  color: #bdbdbd;
+  color: $chrome-ink-soft;
 }
 .Footer__blog-day {
   font-family: $chrome-font-en;
@@ -339,7 +339,7 @@ $chrome-bar-h-sp: 50px;
   font-size: 1.15rem;
 }
 .Footer__blog-lead {
-  color: #fff;
+  color: $chrome-ink;
   font-size: 1.3rem;
   font-weight: 500;
   line-height: 1.5;
@@ -348,13 +348,15 @@ $chrome-bar-h-sp: 50px;
 }
 .Footer__blog-main {
   font-size: 1.15rem;
-  color: #9a9a9a;
+  color: $chrome-mute;
 }
 
 // 画面下の固定バー（資料請求・お問合せ / モデルハウス見学予約）
 .Footer__middle {
   height: $chrome-bar-h;
-  background-color: rgba(20, 20, 20, 0.94);
+  background-color: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid $chrome-line;
+  box-shadow: 0 -6px 20px rgba(20, 20, 20, 0.06);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   @include mobile {
@@ -364,9 +366,6 @@ $chrome-bar-h-sp: 50px;
 .Footer__middle-contact:first-of-type,
 .Footer__middle-contact:last-of-type {
   border: none;
-}
-.Footer__middle-contact:first-of-type a {
-  background-color: $chrome-accent;
 }
 .Footer__middle-contact a {
   display: flex;
@@ -379,10 +378,10 @@ $chrome-bar-h-sp: 50px;
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #fff;
-  transition: background-color 0.2s ease;
+  color: $chrome-ink;
+  transition: background-color 0.2s ease, color 0.2s ease;
   &:hover {
-    background-color: #17827b;
+    background-color: $chrome-footer-bg;
     opacity: 1;
   }
   @include mobile {
@@ -391,8 +390,12 @@ $chrome-bar-h-sp: 50px;
     line-height: 1;
   }
 }
-.Footer__middle-contact:last-of-type a:hover {
-  background-color: #2a2a2a;
+.Footer__middle-contact:first-of-type a {
+  background-color: $chrome-accent;
+  color: #fff;
+  &:hover {
+    background-color: #17827b;
+  }
 }
 .Footer__middle-contact svg {
   font-size: 1.5rem;
@@ -403,23 +406,23 @@ $chrome-bar-h-sp: 50px;
   }
 }
 
-// コピーライト（固定バーの高さ分だけ下に余白をとり、フッターの黒を画面下までつなげる）
+// コピーライト（固定バーの高さ分だけ下に余白をとる）
 .Footer__bottom {
   height: auto;
   margin-bottom: 0;
   padding: 0 0 $chrome-bar-h;
-  background-color: $chrome-ink;
+  background-color: $chrome-footer-bg;
   @include mobile {
     padding-bottom: $chrome-bar-h-sp;
   }
 }
 .Footer__bottom-text {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid #d6d6d6;
   max-width: 1116px;
   margin: 0 auto;
   line-height: 64px;
   font-size: 1.1rem;
-  color: #8f8f8f;
+  color: $chrome-mute;
   @include mobile {
     margin: 0 20px;
     line-height: 52px;
