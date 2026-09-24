@@ -129,6 +129,13 @@ Local のデータベースは本番より古く、施工例の分類（スタ�
 - おすすめ：本番の管理画面に「All-in-One WP Migration」を入れて「エクスポート → ファイル」。Local 側にも同じプラグインを入れて「インポート」。画像・URL の置き換えも自動で行われます。
 - 取り込むとテーマ・プラグイン・ログイン情報も本番と同じになります（Local のログインは本番のユーザー名とパスワードになる）。
 - 取り込んだ後にこのリポジトリのテーマを rsync し直し、下の2つの移行スクリプト（住宅プラン → 施工例）を実行します。
+- テーマフォルダが大きい（約1GB）ため、エクスポート時は「高度なオプション」で「メディアライブラリをエクスポートしない」「テーマをエクスポートしない」にチェックする。
+- 画像は本番から表示する（本番の WordPress は `/wpcms/` にある）。Local の「Open site shell」で：
+  ```
+  wp option update upload_url_path https://aloha-life.jp/wpcms/wp-content/uploads
+  wp search-replace 'http://localhost:10104/wp-content/uploads' 'https://aloha-life.jp/wpcms/wp-content/uploads' --all-tables
+  ```
+  （本番サーバーの直リンク禁止対策として、この設定のときだけ `inc/redesign.php` が Referer を送らないようにしている）
 
 ## 施工例のスタイル再編（本番データ取り込み後に1回だけ実行）
 
