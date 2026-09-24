@@ -5,8 +5,8 @@
  * スタイル: assets/@scss/components/_home.scss → assets/css/home.css
  * 読み込み・共通関数: inc/redesign.php
  *
- * 並び（サイトマップ v2）: ヒーロー → コンセプト → About（住宅プランの5スタイル） → 施工事例 → CONTENTS → イベント
- *   → お問い合わせ → お知らせ → バナー → リフォームブログ → Facebook
+ * 並び: ヒーロー → コンセプト → About（住宅プランの5スタイル） → 施工事例 → イベント → VR展示場バナー
+ *   → CONTENTS → お知らせ → リフォームブログ → Facebook → お問い合わせ
  *
  * 既存のまま維持しているもの:
  * - NEWS & TOPICS はブログ・ニュース投稿（post）の最新6件
@@ -74,19 +74,18 @@ foreach ( aloha_plan_categories() as $plan_cat ) {
 
 // CONTENTS（最初のプレビューと同じ6項目）。url が空の項目は表示しない。
 $contents = array(
-	array( 'label' => '施工例', 'url' => home_url( '/cases/' ), 'img' => array( 'Top_content_04_2.jpg', 'Top_content_04@2x.jpg', 'Top_content_04.jpg' ) ),
+	array( 'label' => 'ハワイアンドア', 'url' => home_url( '/hawaiian-door/' ), 'img' => array( 'Top_content_02_2.jpg', 'Top_content_02@2x.jpg', 'Top_content_02.jpg' ) ),
 	array( 'label' => 'モデルハウス LOCO-LATTE', 'url' => home_url( '/modelhouse/' ), 'img' => array( 'Top_content_01_2.jpg', 'Top_content_01@2x.jpg', 'Top_content_01.jpg' ) ),
 	array( 'label' => 'ハワイの不動産物件', 'url' => home_url( '/hawaii/' ), 'img' => array( 'Top_content_03_2.jpg', 'Top_content_03@2x.jpg', 'Top_content_03.jpg' ) ),
 	// 西部建設のリフォームサイト（リフォームブログの取得元と同じ）
 	array( 'label' => '西部建設リフォーム', 'url' => 'https://iedock.seibukensetu.jp/', 'img' => array( 'top/contents-reform.jpg' ), 'external' => true ),
-	array( 'label' => '県外で建てる（設計施工管理サービス）', 'url' => home_url( '/housedesign/' ), 'img' => array( 'Top_content_05_2.jpg', 'Top_content_05@2x.jpg', 'Top_content_05.jpg' ) ),
+	array( 'label' => '県外で建てる', 'url' => home_url( '/housedesign/' ), 'img' => array( 'Top_content_05_2.jpg', 'Top_content_05@2x.jpg', 'Top_content_05.jpg' ) ),
 	array( 'label' => 'LINEお友達追加', 'url' => home_url( '/line/' ), 'img' => array( 'line_bnr_img.png' ) ), // footer.php と同じリンク・画像
 );
 
-// バナー（最初のプレビューと同じ2つ）。url が空の項目は表示しない。
+// バナー（VR展示場。イベント情報の直後に表示）。url が空の項目は表示しない。
 $banners = array(
 	array( 'tag' => 'VR展示場', 'title' => 'VRで、憧れのハワイアンライフを体感', 'url' => home_url( '/vr-exhibition/' ), 'img' => array( 'top/banner-vr.jpg' ), 'dark' => false ),
-	array( 'tag' => '近隣エリア', 'title' => '施工エリア以外のお客様へ', 'url' => home_url( '/housedesign/' ), 'img' => array( 'top/banner-area.jpg', 'concept/hawaii-sunset.jpg' ), 'dark' => false ),
 );
 
 // single-cases.php で使っている既存のオンライン相談予約URL
@@ -225,6 +224,43 @@ $news_query = new WP_Query(
 		<div class="Home__works-more"><a href="<?php echo esc_url( home_url( '/cases/' ) ); ?>">施工事例の一覧を見る</a></div>
 	</section>
 
+	<!-- EVENTS（ie-miru の外部ウィジェット。表示先の div を先に置いてからスクリプトを読み込む。6件表示） -->
+	<section class="Home__events" aria-labelledby="home-events-heading">
+		<div class="Home__section-head">
+			<h2 id="home-events-heading" class="Home__section-head-en">Event Information</h2>
+			<span class="Home__section-head-jp">イベント情報</span>
+		</div>
+		<div class="Home__events-widget">
+			<div id="js-iemiru-cms-index-page" style="width: 100%; display: block;"></div>
+			<script src="https://www.ie-miru.jp/cms/yoyaku/seibukensetsu.js?limit=6"></script>
+		</div>
+	</section>
+
+	<?php
+	$visible_banners = array_filter(
+		$banners,
+		function ( $banner ) {
+			return '' !== $banner['url'];
+		}
+	);
+	?>
+	<?php if ( $visible_banners ) : ?>
+		<!-- BANNERS -->
+		<section class="Home__banners" aria-label="お知らせバナー">
+			<?php if ( $visible_banners ) : ?>
+				<div class="Home__banner-grid<?php echo 1 === count( $visible_banners ) ? ' Home__banner-grid--single' : ''; ?>">
+					<?php foreach ( $visible_banners as $banner ) : ?>
+						<a href="<?php echo esc_url( $banner['url'] ); ?>" class="Home__banner-tile">
+							<?php aloha_image_tag( aloha_theme_image( $banner['img'] ), '', 'Home__placeholder-photo' ); ?>
+							<span class="Home__banner-tag<?php echo $banner['dark'] ? ' Home__banner-tag--dark' : ''; ?>"><?php echo esc_html( $banner['tag'] ); ?></span>
+							<span class="Home__banner-ttl<?php echo $banner['dark'] ? ' Home__banner-ttl--dark' : ''; ?>"><?php echo esc_html( $banner['title'] ); ?></span>
+						</a>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</section>
+	<?php endif; ?>
+
 	<!-- CONTENTS（家づくりの選択肢・サービス） -->
 	<section class="Home__contents" aria-labelledby="home-contents-heading">
 		<div class="Home__section-head">
@@ -243,32 +279,6 @@ $news_query = new WP_Query(
 					<span class="Home__content-tile-label"><span><?php echo esc_html( $content['label'] ); ?></span></span>
 				</a>
 			<?php endforeach; ?>
-		</div>
-	</section>
-
-	<!-- EVENTS（ie-miru の外部ウィジェット。表示先の div を先に置いてからスクリプトを読み込む。6件表示） -->
-	<section class="Home__events" aria-labelledby="home-events-heading">
-		<div class="Home__section-head">
-			<h2 id="home-events-heading" class="Home__section-head-en">Event Information</h2>
-			<span class="Home__section-head-jp">イベント情報</span>
-		</div>
-		<div class="Home__events-widget">
-			<div id="js-iemiru-cms-index-page" style="width: 100%; display: block;"></div>
-			<script src="https://www.ie-miru.jp/cms/yoyaku/seibukensetsu.js?limit=6"></script>
-		</div>
-	</section>
-
-	<!-- CONTACT -->
-	<section class="Home__contact" aria-labelledby="home-contact-heading">
-		<div class="Home__contact-inner">
-			<div>
-				<h2 id="home-contact-heading" class="Home__contact-en">Contact</h2>
-				<p class="Home__contact-text">家づくりのご相談、モデルハウスの見学、資料のご請求はお気軽にどうぞ。</p>
-			</div>
-			<div class="Home__contact-actions">
-				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="Home__btn">お問い合わせ &rarr;</a>
-				<a href="<?php echo esc_url( $online_consult_url ); ?>" class="Home__btn--outline" target="_blank" rel="noopener">オンライン相談を予約</a>
-			</div>
 		</div>
 	</section>
 
@@ -307,31 +317,6 @@ $news_query = new WP_Query(
 		<?php wp_reset_postdata(); ?>
 	</section>
 
-	<?php
-	$visible_banners = array_filter(
-		$banners,
-		function ( $banner ) {
-			return '' !== $banner['url'];
-		}
-	);
-	?>
-	<?php if ( $visible_banners ) : ?>
-		<!-- BANNERS -->
-		<section class="Home__banners" aria-label="お知らせバナー">
-			<?php if ( $visible_banners ) : ?>
-				<div class="Home__banner-grid<?php echo 1 === count( $visible_banners ) ? ' Home__banner-grid--single' : ''; ?>">
-					<?php foreach ( $visible_banners as $banner ) : ?>
-						<a href="<?php echo esc_url( $banner['url'] ); ?>" class="Home__banner-tile">
-							<?php aloha_image_tag( aloha_theme_image( $banner['img'] ), '', 'Home__placeholder-photo' ); ?>
-							<span class="Home__banner-tag<?php echo $banner['dark'] ? ' Home__banner-tag--dark' : ''; ?>"><?php echo esc_html( $banner['tag'] ); ?></span>
-							<span class="Home__banner-ttl<?php echo $banner['dark'] ? ' Home__banner-ttl--dark' : ''; ?>"><?php echo esc_html( $banner['title'] ); ?></span>
-						</a>
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
-		</section>
-	<?php endif; ?>
-
 	<!-- REFORM BLOG（一覧は footer.php の reformBlogData() が追加） -->
 	<section class="Home__reform js-news-generate" aria-labelledby="home-reform-heading">
 		<div class="Home__section-head">
@@ -349,6 +334,20 @@ $news_query = new WP_Query(
 		<div class="Home__sns-fb" id="fb_page_plugin_area">
 			<div class="fb-page" data-href="https://www.facebook.com/alohaandstyle" data-tabs="timeline" data-width="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
 				<blockquote cite="https://www.facebook.com/alohaandstyle" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/alohaandstyle">ALOHA &amp; STYLE（Facebook）</a></blockquote>
+			</div>
+		</div>
+	</section>
+
+	<!-- CONTACT -->
+	<section class="Home__contact" aria-labelledby="home-contact-heading">
+		<div class="Home__contact-inner">
+			<div>
+				<h2 id="home-contact-heading" class="Home__contact-en">Contact</h2>
+				<p class="Home__contact-text">家づくりのご相談、モデルハウスの見学、資料のご請求はお気軽にどうぞ。</p>
+			</div>
+			<div class="Home__contact-actions">
+				<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="Home__btn">お問い合わせ &rarr;</a>
+				<a href="<?php echo esc_url( $online_consult_url ); ?>" class="Home__btn--outline" target="_blank" rel="noopener">オンライン相談を予約</a>
 			</div>
 		</div>
 	</section>
