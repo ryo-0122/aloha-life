@@ -19,15 +19,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * - 全ページ: ヘッダー・フッター（site-chrome.css）と欧文フォント Archivo
  * - トップページ: home.css
+ * - コンセプト（/concept/）: concept.css
  * - 施工例（詳細・一覧・スタイル/特徴/ライフスタイル別一覧）: cases.css、詳細のみ case-detail.js
  */
 function aloha_redesign_enqueue() {
-	$is_home = is_front_page();
-	$is_case = aloha_is_cases_page();
+	$is_home    = is_front_page();
+	$is_case    = aloha_is_cases_page();
+	$is_concept = is_page( 'concept' );
 
 	// 欧文見出し用。読み込めない場合も游ゴシック等で表示される（外部フォントは必須ではない）。
 	// 本文用の Zen Kaku Gothic New はリニューアルしたページだけで読み込む。
-	$font_url = ( $is_home || $is_case )
+	$font_url = ( $is_home || $is_case || $is_concept )
 		? 'https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap'
 		: 'https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&display=swap';
 	wp_enqueue_style( 'aloha-redesign-fonts', $font_url, array(), null );
@@ -35,6 +37,9 @@ function aloha_redesign_enqueue() {
 	$files = array( 'aloha-site-chrome' => 'assets/css/site-chrome.css' );
 	if ( $is_home ) {
 		$files['aloha-home'] = 'assets/css/home.css';
+	}
+	if ( $is_concept ) {
+		$files['aloha-concept'] = 'assets/css/concept.css';
 	}
 	if ( $is_case ) {
 		$files['aloha-cases'] = 'assets/css/cases.css';

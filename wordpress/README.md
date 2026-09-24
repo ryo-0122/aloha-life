@@ -16,10 +16,13 @@
 | `taxonomy-feature.php` / `taxonomy-life_style.php` | 特徴別・ライフスタイル別の一覧（置き換え） |
 | `taxonomy-cases_category.php` | スタイル別の一覧（**新規**。これまで無く、住宅プラン用の taxonomy.php が使われて空の一覧になっていた） |
 | `inc/cases-list.php` | 施工例一覧の共通出力（新規。上の4テンプレートから呼び出し） |
+| `page-concept.php` | コンセプト `/concept/`（**新規**。カタログの文章・写真で構成。スラッグ concept の固定ページで自動的に使われる） |
+| `assets/images/concept/` | コンセプト用の写真（カタログから書き出し・Web用に圧縮） |
 | `inc/redesign.php` | CSS/JS の読み込み・共通関数（**新規**。functions.php の `require_once` が読み込む） |
 | `assets/@scss/components/_home.scss` | トップページの Sass（新規） |
 | `assets/@scss/components/_caseDetail.scss` | 施工例詳細の Sass（新規） |
 | `assets/@scss/components/_caseList.scss` | 施工例一覧の Sass（新規） |
+| `assets/@scss/components/_concept.scss` / `assets/@scss/concept.scss` / `assets/css/concept.css` | コンセプトの Sass・エントリー・コンパイル済み CSS（新規） |
 | `assets/@scss/components/_siteChrome.scss` | ヘッダー・フッターの Sass（新規・全ページ） |
 | `assets/@scss/home.scss` / `cases.scss` / `site-chrome.scss` | 上記をコンパイルするためのエントリー（新規） |
 | `assets/@scss/mixin/_mixin.scss` | 既存と同じ内容（コンパイルに必要なため同梱） |
