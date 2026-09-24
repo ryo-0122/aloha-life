@@ -6,7 +6,7 @@
  * 読み込み・共通関数: inc/redesign.php
  *
  * 既存のまま維持しているもの:
- * - NEWS & TOPICS の取得条件（post / work / realestate の最新6件）
+ * - NEWS & TOPICS はブログ・ニュース投稿（post）の最新6件
  * - 施工例の写真（ACF cases-main-pic）とタクソノミー
  * - イベント情報（ie-miru の外部ウィジェット）
  * - リフォームブログ（footer.php の reformBlogData() が .js-news-generate-target に一覧を追加）
