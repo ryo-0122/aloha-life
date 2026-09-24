@@ -256,15 +256,15 @@ $news_query = new WP_Query(
 		</div>
 	</section>
 
-	<!-- EVENTS（ie-miru の外部ウィジェット。既存と同じ読み込み方） -->
+	<!-- EVENTS（ie-miru の外部ウィジェット。表示先の div を先に置いてからスクリプトを読み込む。6件表示） -->
 	<section class="Home__events" aria-labelledby="home-events-heading">
 		<div class="Home__section-head">
 			<h2 id="home-events-heading" class="Home__section-head-en">Event Information</h2>
 			<span class="Home__section-head-jp">イベント情報</span>
 		</div>
 		<div class="Home__events-widget">
-			<script src="https://www.ie-miru.jp/cms/yoyaku/seibukensetsu.js?limit=4"></script>
 			<div id="js-iemiru-cms-index-page" style="width: 100%; display: block;"></div>
+			<script src="https://www.ie-miru.jp/cms/yoyaku/seibukensetsu.js?limit=6"></script>
 		</div>
 	</section>
 
