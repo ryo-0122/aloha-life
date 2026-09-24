@@ -800,6 +800,9 @@
     grid-template-columns: 1fr;
   }
 }
+.Home__banner-grid--single {
+  grid-template-columns: 1fr;
+}
 .Home__banner-tile {
   position: relative;
   height: 140px;
@@ -809,9 +812,20 @@
 }
 .Home__banner-tile img {
   height: 100%;
+  transition: transform 0.5s ease;
+}
+.Home__banner-tile:hover img {
+  transform: scale(1.04);
+}
+.Home__banner-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(43, 38, 36, 0.62) 0%, rgba(43, 38, 36, 0.25) 55%, rgba(43, 38, 36, 0) 100%);
 }
 .Home__banner-tag {
   position: absolute;
+  z-index: 1;
   top: 14px;
   left: 18px;
   font-family: "Archivo", "Zen Kaku Gothic New", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
@@ -827,8 +841,12 @@
   color: var(--home-ink);
   border-color: rgba(43, 38, 36, 0.5);
 }
+.Home__banner-tag {
+  font-weight: 700;
+}
 .Home__banner-ttl {
   position: absolute;
+  z-index: 1;
   left: 18px;
   bottom: 14px;
   right: 18px;

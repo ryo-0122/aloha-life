@@ -46,24 +46,23 @@ $pillars = array(
 	array( 'name' => 'WORKS', 'jp' => '施工事例', 'url' => home_url( '/cases/' ), 'img' => array( 'Top_menu_04_3.jpg', 'Top_menu_04@2x.jpg', 'Top_menu_04.jpg' ) ),
 );
 
-// CONTENTS。url が空の項目は表示しない（URLが決まったら入れる）。
+// CONTENTS（最初のプレビューと同じ6項目）。url が空の項目は表示しない。
 $contents = array(
 	array( 'label' => '施工例', 'url' => home_url( '/cases/' ), 'img' => array( 'Top_content_04_2.jpg', 'Top_content_04@2x.jpg', 'Top_content_04.jpg' ) ),
-	array( 'label' => 'モデルハウス', 'url' => home_url( '/modelhouse/' ), 'img' => array( 'Top_content_01_2.jpg', 'Top_content_01@2x.jpg', 'Top_content_01.jpg' ) ),
-	array( 'label' => 'ハワイアンドア', 'url' => home_url( '/hawaiian-door/' ), 'img' => array( 'Top_content_02_2.jpg', 'Top_content_02@2x.jpg', 'Top_content_02.jpg' ) ),
+	array( 'label' => 'モデルハウス LOCO-LATTE', 'url' => home_url( '/modelhouse/' ), 'img' => array( 'Top_content_01_2.jpg', 'Top_content_01@2x.jpg', 'Top_content_01.jpg' ) ),
 	array( 'label' => 'ハワイの不動産物件', 'url' => home_url( '/hawaii/' ), 'img' => array( 'Top_content_03_2.jpg', 'Top_content_03@2x.jpg', 'Top_content_03.jpg' ) ),
-	array( 'label' => '設計施工管理サービス', 'url' => home_url( '/housedesign/' ), 'img' => array( 'Top_content_05_2.jpg', 'Top_content_05@2x.jpg', 'Top_content_05.jpg' ) ),
-	array( 'label' => 'マンション', 'url' => '', 'img' => array() ),
-	array( 'label' => 'リフォーム', 'url' => '', 'img' => array() ),
+	// 要確認：リフォームブログの取得元（iedock.seibukensetu.jp）をリフォームサイトとしてリンク
+	array( 'label' => '西部建設リフォーム', 'url' => 'https://iedock.seibukensetu.jp/', 'img' => array( 'top/contents-reform.jpg' ), 'external' => true ),
+	array( 'label' => '県外で建てる（設計施工管理サービス）', 'url' => home_url( '/housedesign/' ), 'img' => array( 'Top_content_05_2.jpg', 'Top_content_05@2x.jpg', 'Top_content_05.jpg' ) ),
 	array( 'label' => 'LINEお友達追加', 'url' => home_url( '/line/' ), 'img' => array( 'line_bnr_img.png' ) ), // footer.php と同じリンク・画像
 );
 
-// バナー。url が空の項目は表示しない（URLと画像が決まったら入れる）。
+// バナー（最初のプレビューと同じ2つ＋キャンペーン）。url が空の項目は表示しない。
 $banners = array(
-	array( 'tag' => 'VR展示場', 'title' => 'VRで、憧れのハワイアンライフを体感', 'url' => '', 'img' => array(), 'dark' => false ),
-	array( 'tag' => '近隣エリア', 'title' => '施工エリア以外のお客様へ', 'url' => '', 'img' => array(), 'dark' => true ),
+	array( 'tag' => 'VR展示場', 'title' => 'VRで、憧れのハワイアンライフを体感', 'url' => '', 'img' => array( 'top/banner-vr.jpg' ), 'dark' => false ), // 要確認：VR展示場のURL
+	array( 'tag' => '近隣エリア', 'title' => '施工エリア以外のお客様へ', 'url' => home_url( '/housedesign/' ), 'img' => array( 'top/banner-area.jpg', 'concept/hawaii-sunset.jpg' ), 'dark' => false ),
 );
-$campaign = array( 'label' => '住宅省エネキャンペーン', 'url' => '' );
+$campaign = array( 'label' => '住宅省エネ2024キャンペーン', 'url' => '' ); // 要確認：キャンペーンのURL（年度も）
 
 // single-cases.php で使っている既存のオンライン相談予約URL
 $online_consult_url = 'https://www.ie-miru.jp/cms/yoyaku/seibukensetsu/events/19642';
@@ -236,7 +235,7 @@ $news_query = new WP_Query(
 					continue;
 				}
 				?>
-				<a href="<?php echo esc_url( $content['url'] ); ?>" class="Home__content-tile">
+				<a href="<?php echo esc_url( $content['url'] ); ?>" class="Home__content-tile"<?php echo ! empty( $content['external'] ) ? ' target="_blank" rel="noopener"' : ''; ?>>
 					<?php aloha_image_tag( aloha_theme_image( $content['img'] ), '', 'Home__placeholder-photo' ); ?>
 					<span class="Home__content-tile-label"><span><?php echo esc_html( $content['label'] ); ?></span></span>
 				</a>
@@ -291,7 +290,7 @@ $news_query = new WP_Query(
 		<!-- BANNERS -->
 		<section class="Home__banners" aria-label="お知らせバナー">
 			<?php if ( $visible_banners ) : ?>
-				<div class="Home__banner-grid">
+				<div class="Home__banner-grid<?php echo 1 === count( $visible_banners ) ? ' Home__banner-grid--single' : ''; ?>">
 					<?php foreach ( $visible_banners as $banner ) : ?>
 						<a href="<?php echo esc_url( $banner['url'] ); ?>" class="Home__banner-tile">
 							<?php aloha_image_tag( aloha_theme_image( $banner['img'] ), '', 'Home__placeholder-photo' ); ?>
