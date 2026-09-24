@@ -5,7 +5,7 @@
  * スタイル: assets/@scss/components/_home.scss → assets/css/home.css
  * 読み込み・共通関数: inc/redesign.php
  *
- * 並び（サイトマップ v2）: ヒーロー → About（住宅プランの5スタイル） → 施工事例 → コンセプト → CONTENTS → イベント
+ * 並び（サイトマップ v2）: ヒーロー → コンセプト → About（住宅プランの5スタイル） → 施工事例 → CONTENTS → イベント
  *   → お問い合わせ → お知らせ → バナー → リフォームブログ → Facebook
  *
  * 既存のまま維持しているもの:
@@ -128,6 +128,47 @@ $news_query = new WP_Query(
 		</div>
 	</section>
 
+	<!-- CONCEPT（ブランドメッセージと3つのこだわり） -->
+	<section class="Home__lifestyle" aria-labelledby="home-lifestyle-heading">
+		<div class="Home__lifestyle-inner">
+			<div class="Home__lifestyle-photo">
+				<?php aloha_image_tag( aloha_theme_image( array( 'top/lifestyle.jpg', 'concept/hero-terrace.jpg', 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) ), 'ALOHA&STYLEが手がけた住まいの、ハワイの風を感じるテラス', 'Home__placeholder-photo' ); ?>
+			</div>
+			<div class="Home__lifestyle-text">
+				<p class="Home__lifestyle-en">It's not just a house, It's a lifestyle.</p>
+				<h2 id="home-lifestyle-heading">家は、ただ住むだけの<br>箱じゃない。</h2>
+				<p>
+					家族と笑い、仲間と集い、<br>
+					時には一人で静かに過ごす、<br>
+					かけがえのない時間を育む場所。<br>
+					私たちが届けたいのは、<br>
+					そんな「暮らしの楽しさ」そのものです。
+				</p>
+				<div class="Home__lifestyle-links">
+					<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEのコンセプト</a>
+					<a href="<?php echo esc_url( home_url( '/flow/' ) ); ?>" class="Home__btn--outline">家づくりの流れ</a>
+				</div>
+			</div>
+		</div>
+		<ol class="Home__points">
+			<li>
+				<span class="Home__points-num">01</span>
+				<strong>プランテーションハウス</strong>
+				<p>深い軒（ラナイ）が内と外をつなぐ、飾りすぎず暮らして気持ちのいい家。</p>
+			</li>
+			<li>
+				<span class="Home__points-num">02</span>
+				<strong>リゾートモダン＆ミッドセンチュリー</strong>
+				<p>大きな開口で光と風を取り込み、素材の質感とフォルムで彩る家。</p>
+			</li>
+			<li>
+				<span class="Home__points-num">03</span>
+				<strong>ハワイの暮らしを、日本で</strong>
+				<p>住まいの設計・施工に加え、イベントや雑貨・インテリアまで、ハワイの暮らしをご提案。</p>
+			</li>
+		</ol>
+	</section>
+
 	<!-- ABOUT / PLAN（紹介文＋住宅プランの5スタイル） -->
 	<section class="Home__about" aria-labelledby="home-about-heading">
 		<div class="Home__about-grid">
@@ -182,47 +223,6 @@ $news_query = new WP_Query(
 		<?php endif; ?>
 		<?php wp_reset_postdata(); ?>
 		<div class="Home__works-more"><a href="<?php echo esc_url( home_url( '/cases/' ) ); ?>">施工事例の一覧を見る</a></div>
-	</section>
-
-	<!-- CONCEPT（ブランドメッセージと3つのこだわり） -->
-	<section class="Home__lifestyle" aria-labelledby="home-lifestyle-heading">
-		<div class="Home__lifestyle-inner">
-			<div class="Home__lifestyle-photo">
-				<?php aloha_image_tag( aloha_theme_image( array( 'top/lifestyle.jpg', 'concept/hero-terrace.jpg', 'Aloha_main.jpg', 'HeroImage_bg.jpg' ) ), 'ALOHA&STYLEが手がけた住まいの、ハワイの風を感じるテラス', 'Home__placeholder-photo' ); ?>
-			</div>
-			<div class="Home__lifestyle-text">
-				<p class="Home__lifestyle-en">It's not just a house, It's a lifestyle.</p>
-				<h2 id="home-lifestyle-heading">家は、ただ住むだけの<br>箱じゃない。</h2>
-				<p>
-					家族と笑い、仲間と集い、<br>
-					時には一人で静かに過ごす、<br>
-					かけがえのない時間を育む場所。<br>
-					私たちが届けたいのは、<br>
-					そんな「暮らしの楽しさ」そのものです。
-				</p>
-				<div class="Home__lifestyle-links">
-					<a href="<?php echo esc_url( home_url( '/concept/' ) ); ?>" class="Home__btn--outline">ALOHA&amp;STYLEのコンセプト</a>
-					<a href="<?php echo esc_url( home_url( '/flow/' ) ); ?>" class="Home__btn--outline">家づくりの流れ</a>
-				</div>
-			</div>
-		</div>
-		<ol class="Home__points">
-			<li>
-				<span class="Home__points-num">01</span>
-				<strong>プランテーションハウス</strong>
-				<p>深い軒（ラナイ）が内と外をつなぐ、飾りすぎず暮らして気持ちのいい家。</p>
-			</li>
-			<li>
-				<span class="Home__points-num">02</span>
-				<strong>リゾートモダン＆ミッドセンチュリー</strong>
-				<p>大きな開口で光と風を取り込み、素材の質感とフォルムで彩る家。</p>
-			</li>
-			<li>
-				<span class="Home__points-num">03</span>
-				<strong>ハワイの暮らしを、日本で</strong>
-				<p>住まいの設計・施工に加え、イベントや雑貨・インテリアまで、ハワイの暮らしをご提案。</p>
-			</li>
-		</ol>
 	</section>
 
 	<!-- CONTENTS（家づくりの選択肢・サービス） -->
