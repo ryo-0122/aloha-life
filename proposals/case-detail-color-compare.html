@@ -390,6 +390,18 @@ html[data-palette="c"]{
   --header-bg:rgba(250,250,248,.92);
   --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
 }
+html[data-palette="c1"]{
+  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
+  --accent:#15766E; --brand:#5E5755; --logo-amp:#15766E; --heading:#2B2624; --btn:#5E5755; --btn-hover:#15766E; --chip:#5E5755; --mark:#15766E;
+  --header-bg:rgba(250,250,248,.92);
+  --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
+}
+html[data-palette="c2"]{
+  --ink:#2B2624; --ink-soft:#4A4441; --mute:#6B645F; --line:#E4E0DC; --paper:#FAFAF8; --shade:#F1EFEC;
+  --accent:#3E7651; --brand:#5E5755; --logo-amp:#3E7651; --heading:#2B2624; --btn:#5E5755; --btn-hover:#3E7651; --chip:#5E5755; --mark:#3E7651;
+  --header-bg:rgba(250,250,248,.92);
+  --footer-bg:#F1EFEC; --footer-text:#4A4441; --footer-logo:#5E5755; --footer-mute:#6B645F; --footer-line:#DEDAD5;
+}
 html{transition:background .3s}
 body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group-tags span{transition:background-color .3s,color .3s,border-color .3s}
 
@@ -403,11 +415,11 @@ body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group
 .Switcher i{display:flex}
 .Switcher i b{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.12);margin-left:-3px}
 .Switcher i b:first-child{margin-left:0}
-@media (max-width:600px){.Switcher button{padding:8px 11px;font-size:11.5px}.Switcher .lbl{display:none}}
+@media (max-width:760px){.Switcher{left:12px;right:12px;transform:none}.Switcher button{padding:8px 11px;font-size:11.5px}.Switcher .lbl{display:none}}
 </style>
 </head>
 <body>
-<div class="PreviewNote">配色の比較用ページです。画面下のボタン（またはキーボードの 1〜4）で「現在」と案 A・B・C を切り替えられます。写真はプレースホルダーです。</div>
+<div class="PreviewNote">配色の比較用ページです。画面下のボタン（またはキーボードの 1〜6）で「現在」・案 A・B・C・C＋緑（2種）を切り替えられます。写真はプレースホルダーです。</div>
 
 <header class="SiteHeader">
   <div class="SiteHeader__inner">
@@ -545,17 +557,19 @@ body,.SiteHeader,.SiteFooter,.CaseDetail,.CaseDetail__btn,.CaseDetail__tag-group
   <button type="button" data-p="a"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>A<span class="lbl"> Stone &amp; Sea</span></button>
   <button type="button" data-p="b"><i><b style="background:#5E5755"></b><b style="background:#A85A33"></b></i>B<span class="lbl"> Stone &amp; Sand</span></button>
   <button type="button" data-p="c"><i><b style="background:#5E5755"></b><b style="background:#B9B1AB"></b></i>C<span class="lbl"> Monotone</span></button>
+  <button type="button" data-p="c1"><i><b style="background:#5E5755"></b><b style="background:#15766E"></b></i>C＋海の緑</button>
+  <button type="button" data-p="c2"><i><b style="background:#5E5755"></b><b style="background:#3E7651"></b></i>C＋葉の緑</button>
 </nav>
 <script>
 (function(){
-  var btns=document.querySelectorAll('.Switcher button'), keys=['now','a','b','c'];
+  var btns=document.querySelectorAll('.Switcher button'), keys=['now','a','b','c','c1','c2'];
   function set(p){ document.documentElement.setAttribute('data-palette',p);
     btns.forEach(function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-p')===p ? 'true':'false'); });
     try{ localStorage.setItem('aloha-palette',p); }catch(e){} }
   btns.forEach(function(b){ b.addEventListener('click',function(){ set(b.getAttribute('data-p')); }); });
-  document.addEventListener('keydown',function(e){ var i=parseInt(e.key,10); if(i>=1&&i<=4) set(keys[i-1]); });
+  document.addEventListener('keydown',function(e){ var i=parseInt(e.key,10); if(i>=1&&i<=6) set(keys[i-1]); });
   var saved=null; try{ saved=localStorage.getItem('aloha-palette'); }catch(e){}
-  set(keys.indexOf(saved)>=0 ? saved : 'a');
+  set('c1');
 })();
 </script>
 
