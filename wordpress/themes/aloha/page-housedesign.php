@@ -208,7 +208,7 @@ $rm_faq = array(
 			<div class="Remote__price-card">
 				<div class="Remote__price-main">
 					<span class="Remote__price-label">設計・管理サービス費用</span>
-					<p class="Remote__price-num">300<small>万円</small></p>
+					<p class="Remote__price-num">300<small>万円（税別）</small></p>
 					<p class="Remote__note">戸建て住宅（60坪程度まで）の場合。大きな建物や集合・複合住宅はご相談ください。</p>
 					<p class="Remote__price-split">お支払い：ご契約時 30% ／ 設計・申請完了時 40% ／ 完成時 30%（応相談）</p>
 				</div>
