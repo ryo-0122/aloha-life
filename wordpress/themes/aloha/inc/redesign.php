@@ -57,7 +57,7 @@ add_action( 'wp_enqueue_scripts', 'aloha_redesign_enqueue' );
  * 施工例の詳細・一覧・タクソノミー別一覧のページかどうか。
  */
 function aloha_is_cases_page() {
-	return is_singular( 'cases' ) || is_post_type_archive( 'cases' ) || is_tax( array_keys( aloha_case_taxonomies() ) );
+	return is_singular( 'cases' ) || is_post_type_archive( 'cases' ) || is_tax( array_keys( aloha_case_taxonomies() ) ) || is_page_template( 'page-cases.php' );
 }
 
 require_once __DIR__ . '/cases-list.php';
@@ -155,7 +155,7 @@ function aloha_case_terms( $post_id = null ) {
 		}
 		$terms = get_the_terms( $post_id, $taxonomy );
 		if ( $terms && ! is_wp_error( $terms ) ) {
-			$groups[ $taxonomy ] = $terms;
+			$groups[ $taxonomy ] = 'cases_category' === $taxonomy ? aloha_sort_case_styles( $terms ) : $terms;
 		}
 	}
 	return $groups;
@@ -369,3 +369,106 @@ function aloha_register_case_taxonomies() {
 	}
 }
 add_action( 'init', 'aloha_register_case_taxonomies', 20 );
+
+/**
+ * 施工例のスタイル（cases_category）。住宅プランと同じ並び＋店舗・事業用。
+ * スラッグは本番サイトの URL（/cases/cases_category/◯◯/）に合わせている。
+ * 整理は wordpress/scripts/migrate-case-categories.php で行う。
+ *
+ * @return array スラッグ => array( en, ja, desc )
+ */
+function aloha_case_styles() {
+	return array(
+		'surfershouse' => array(
+			'en'   => "SURFER'S HOUSE",
+			'ja'   => 'サーファーズハウス',
+			'desc' => 'ハワイの美しさと懐かしさを色濃く残すプランテーションハウス。それを日本で再現したALOHA&STYLEならではの住まい。',
+		),
+		'resort'       => array(
+			'en'   => 'RESORT MODERN',
+			'ja'   => 'リゾートモダン',
+			'desc' => 'リゾート感あふれるデザインと、自由な間取りの快適空間。施主様のご要望にお応えした注文住宅。',
+		),
+		'midcentury'   => array(
+			'en'   => 'MID-CENTURY MODERN',
+			'ja'   => 'ミッドセンチュリーモダン',
+			'desc' => 'ヴィンテージ感のある素材と、都会的で開放感のあるデザイン。家族の暮らしを大切にまとめた住まい。',
+		),
+		'renovation'   => array(
+			'en'   => 'RENOVATION',
+			'ja'   => 'リノベーション',
+			'desc' => '住まいの思い出を活かしながら、新しい暮らしをより楽しく変えていく空間づくり。',
+		),
+		'apart'        => array(
+			'en'   => 'APARTMENT',
+			'ja'   => 'アパート',
+			'desc' => '入居者に選ばれる、ALOHA&STYLEらしいデザインの賃貸住宅。',
+		),
+		'business'     => array(
+			'en'   => 'SHOP & BUSINESS',
+			'ja'   => '店舗・事業用',
+			'desc' => '店舗併用住宅、サロン、オフィス、工場など。訪れる人の気持ちを高める空間をご提案します。',
+		),
+	);
+}
+
+/**
+ * スタイルのタームを aloha_case_styles() の順に並べる（一覧にないものは後ろ）。
+ *
+ * @param WP_Term[] $terms タームの配列。
+ * @return WP_Term[]
+ */
+function aloha_sort_case_styles( $terms ) {
+	$order = array_flip( array_keys( aloha_case_styles() ) );
+	usort(
+		$terms,
+		function ( $a, $b ) use ( $order ) {
+			$pa = isset( $order[ $a->slug ] ) ? $order[ $a->slug ] : 99;
+			$pb = isset( $order[ $b->slug ] ) ? $order[ $b->slug ] : 99;
+			return $pa - $pb;
+		}
+	);
+	return $terms;
+}
+
+/**
+ * 整理前のスタイル URL を新しい URL へ 301 転送する。
+ *   /cases/cases_category/hawaiian/ → サーファーズハウス、stylish → ミッドセンチュリーモダン、
+ *   shop / industry / manufacturing / commercial → 店舗・事業用、hawaii / aloha → 特徴「ハワイアンスタイル」
+ *   旧テンプレートの /cases-category/?term_slug=◯◯ も同じ転送先へ。
+ */
+function aloha_case_style_redirect_target( $old_slug ) {
+	$map = array(
+		'hawaiian'      => 'surfershouse',
+		'stylish'       => 'midcentury',
+		'smart'         => 'midcentury',
+		'shop'          => 'business',
+		'industry'      => 'business',
+		'manufacturing' => 'business',
+		'commercial'    => 'business',
+	);
+	$term = false;
+	if ( in_array( $old_slug, array( 'hawaii', 'aloha' ), true ) ) {
+		$term = get_term_by( 'name', 'ハワイアンスタイル', 'feature' );
+	} else {
+		$slug = isset( $map[ $old_slug ] ) ? $map[ $old_slug ] : $old_slug;
+		$term = get_term_by( 'slug', $slug, 'cases_category' );
+	}
+	$link = $term ? get_term_link( $term ) : '';
+	return $link && ! is_wp_error( $link ) ? $link : '';
+}
+
+function aloha_redirect_old_case_styles() {
+	if ( ! is_404() ) {
+		return;
+	}
+	$path = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( preg_match( '#cases_category[/=]([a-z0-9_-]+)#', $path, $m ) ) {
+		$link = aloha_case_style_redirect_target( $m[1] );
+		if ( $link ) {
+			wp_safe_redirect( $link, 301 );
+			exit;
+		}
+	}
+}
+add_action( 'template_redirect', 'aloha_redirect_old_case_styles' );

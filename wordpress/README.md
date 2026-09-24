@@ -121,3 +121,29 @@ npx sass --no-source-map "assets/@scss/site-chrome.scss" assets/css/site-chrome.
 - プランの URL（`/plan/stylish-modern-no-1` など）は変わりません。
 - 旧カテゴリの URL（`/plan/plan_category/hawaiian_house/` など）は新しいカテゴリへ自動転送されます（`inc/redesign.php`）。
 - 手順：テーマのファイルを反映 → データベースをバックアップ → お試し実行 → 本番実行。元に戻すときはバックアップを読み込みます。
+
+## 本番データの取り込み（Local を本番と同じ状態にする）
+
+Local のデータベースは本番より古く、施工例の分類（スタイル・特徴・ライフスタイル）が入っていないため、本番のデータを取り込みます。
+
+- おすすめ：本番の管理画面に「All-in-One WP Migration」を入れて「エクスポート → ファイル」。Local 側にも同じプラグインを入れて「インポート」。画像・URL の置き換えも自動で行われます。
+- 取り込むとテーマ・プラグイン・ログイン情報も本番と同じになります（Local のログインは本番のユーザー名とパスワードになる）。
+- 取り込んだ後にこのリポジトリのテーマを rsync し直し、下の2つの移行スクリプト（住宅プラン → 施工例）を実行します。
+
+## 施工例のスタイル再編（本番データ取り込み後に1回だけ実行）
+
+`wordpress/scripts/migrate-case-categories.php` で、施工例のスタイル（cases_category）を住宅プランと同じ並びに整理します。
+
+| 整理後のスタイル（URL） | 元のスタイル |
+| --- | --- |
+| サーファーズハウス（surfershouse） | サーファーズハウス・ハワイアンハウス |
+| リゾートモダン（resort） | リゾートモダン |
+| ミッドセンチュリーモダン（midcentury） | スタイリッシュモダン |
+| リノベーション（renovation） | リノベーション |
+| アパート（apart） | アパート |
+| 店舗・事業用（business） | 店舗付き住宅・工場・製造業・商業建築 |
+
+- 「ハワイ」「ALOHA」はスタイルから外し、特徴「ハワイアンスタイル」に移します。
+- タイトルと合っていない施工例（7826・9643・4710・4733）のスタイルも直します。
+- 旧 URL（`/cases/cases_category/hawaiian/`、`/cases-category/?term_slug=stylish` など）は新しい URL へ自動転送されます（`inc/redesign.php`・`page-cases.php`）。
+- 手順は住宅プランと同じ：バックアップ → お試し実行 → `apply` → 「設定 → パーマリンク」で「変更を保存」。

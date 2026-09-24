@@ -86,6 +86,9 @@ function aloha_render_cases_list( $term = null ) {
 				if ( ! $terms || is_wp_error( $terms ) ) {
 					continue;
 				}
+				if ( 'cases_category' === $taxonomy ) {
+					$terms = aloha_sort_case_styles( $terms );
+				}
 				?>
 				<div class="CaseList__filter-group">
 					<span class="CaseList__filter-label"><?php echo esc_html( $label ); ?></span>
@@ -115,13 +118,14 @@ function aloha_render_cases_list( $term = null ) {
 				while ( $query->have_posts() ) :
 					$query->the_post();
 					$styles = get_the_terms( get_the_ID(), 'cases_category' );
+					$styles = $styles && ! is_wp_error( $styles ) ? aloha_sort_case_styles( $styles ) : array();
 					?>
 					<li>
 						<a href="<?php the_permalink(); ?>" class="CaseList__card">
 							<span class="CaseList__card-pic">
 								<?php aloha_image_tag( aloha_case_main_pic(), get_the_title() . 'の写真', 'CaseDetail__placeholder-photo' ); ?>
 							</span>
-							<?php if ( $styles && ! is_wp_error( $styles ) ) : ?>
+							<?php if ( $styles ) : ?>
 								<span class="CaseList__card-tags">
 									<?php foreach ( $styles as $style ) : ?>
 										<span><?php echo esc_html( $style->name ); ?></span>
